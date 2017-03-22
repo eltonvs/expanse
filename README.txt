@@ -5,25 +5,19 @@ Getting Started
 ---------------
 
 - Change directory into your newly created project.
-
-    cd expanse
+  cd expanse
 
 - Create a Python virtual environment.
+  virtualenv expanse --> Python2
 
-    python3 -m venv env
+- Activate your env
+  source $PATH_TO_YOUR_ENV/bin/activate
 
 - Upgrade packaging tools.
-
-    env/bin/pip install --upgrade pip setuptools
+  (env)$ pip install --upgrade pip setuptools
 
 - Install the project in editable mode with its testing requirements.
-
-    env/bin/pip install -e ".[testing]"
-
-- Run your project's tests.
-
-    env/bin/pytest
+  (env)$ pip install -e ".[testing]"
 
 - Run your project.
-
-    env/bin/pserve development.ini
+  (env)$ pserve development.ini --reload
