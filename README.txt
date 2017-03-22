@@ -13,6 +13,9 @@ Getting Started
 - Activate your env
   source $PATH_TO_YOUR_ENV/bin/activate
 
+- Install requirements:
+  (env)$ pip install -r requirements.txt
+
 - Upgrade packaging tools.
   (env)$ pip install --upgrade pip setuptools
 
