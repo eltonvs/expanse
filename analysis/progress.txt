@@ -1,0 +1,6 @@
+-- O que foi feito na iteração:
+* Diagrama de Classes por Yuri Alessandro, Elton Viana e Pedro Arthur
+* Modelo de camadas por Yuri Alessandro e Elton Viana
+
+
+-- O que não foi feito na iteração:
