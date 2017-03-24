@@ -41,5 +41,5 @@ $ source $PATH_TO_YOUR_ENV$/bin/activate
 
 or, if you're lazy, just run this script (on project folder, of course):
 ```Shell
-$ sh install_project.sh
+$ ./install_project.sh
 ```
