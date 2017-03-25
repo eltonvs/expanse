@@ -18,6 +18,23 @@ class ExpanseViews(object):
 
     @view_config(route_name='signup', renderer='templates/signup.jinja2')
     def signup(self):
+
+
+        prs = self.request.POST
+
+        _return = {
+            'title': 'Register User'
+        }
+
+        user_controller = UserController()
+        users = user_controller.getUsers()
+
+        if users:
+            _return['users'] = users
+
+        if not prs:
+            return _return
+
         params = self.request.params
 
         user_first_name = params.get('first-name', '')
@@ -29,19 +46,13 @@ class ExpanseViews(object):
         user_name = user_first_name + " " + user_last_name
         user_username = (user_name.lower()).replace(" ", "")
 
-        user_controller = UserController()
-
         user = user_controller.signup(user_username, user_name, user_password, user_email, user_address)
 
         if user:
-            return {
-                'title': 'Register User',
-                "success": True,
-                "user": user,
-            }
+            _return['success'] = True
+            _return['user'] = user
 
         else:
-            return {
-                'title': 'Register User',
-                "success": False,
-            }
+            _return['success'] = False
+
+        return _return
