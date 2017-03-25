@@ -9,6 +9,6 @@
 def includeme(config):
     # Routes:
     config.add_route('index', '/')
-    config.add_route('register_user', '/register_user')
+    config.add_route('signup', '/signup')
 
     config.scan()
