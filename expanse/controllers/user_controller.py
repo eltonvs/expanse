@@ -1,4 +1,5 @@
 from expanse.models.user.user import User
+from expanse.dao.user_dao import UserDAO
 
 class UserController(object):
 
@@ -10,7 +11,8 @@ class UserController(object):
         if username != '' and name != '' and password != '' and address != '' and email != '':
             user = User(name, username, email, password, address)
 
-            ## Save user on db
+            user_dao = UserDAO()
+            user_dao.insertUser(user)
 
             return user
 
