@@ -17,3 +17,9 @@ class UserController(object):
 
         else:
             return None
+
+    def getUsers(self):
+        user_dao = UserDAOMongo()
+        users = user_dao.listUsers()
+
+        return users

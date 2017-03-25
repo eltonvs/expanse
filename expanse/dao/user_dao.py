@@ -61,6 +61,9 @@ class UserDAOMongo(Singleton, UserDAO):
         print "Not implemented yet"
         return
 
-    def listUsers(self, user):
-        print "Not implemented yet"
-        return
+    def listUsers(self):
+        db = self.db
+
+        users = list(db.users.find({}))
+
+        return users
