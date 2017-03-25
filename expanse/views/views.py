@@ -18,6 +18,14 @@ class ExpanseViews(object):
 
     @view_config(route_name='signup', renderer='templates/signup.jinja2')
     def signup(self):
+
+        prs = self.request.POST
+
+        if not prs:
+            return {
+                'title': 'Register User',
+            }
+
         params = self.request.params
 
         user_first_name = params.get('first-name', '')

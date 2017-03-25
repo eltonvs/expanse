@@ -13,7 +13,7 @@
 
   {% if success %}
     {{ user }} added
-  {% else %}
+  {% elif not success %}
     Something went wrong. Try again.
   {% endif %}
 
