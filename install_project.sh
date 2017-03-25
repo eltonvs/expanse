@@ -21,3 +21,7 @@ echo -e "Install dependencies\n"
 install -r requirements.txt
 pip install --upgrade pip setuptools
 pip install -e ".[testing]"
+
+# Create db
+echo -e "Creating database\n"
+python initdb.py
