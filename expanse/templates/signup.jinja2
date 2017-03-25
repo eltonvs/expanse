@@ -3,18 +3,19 @@
 {% block content %}
 <div class="content">
   <form accept-charset="utf-8" method="POST">
-    <input type="text" name="username" placeholder="Create new user" />
+    <input type="text" name="first-name" placeholder="User first name" />
+    <input type="text" name="last-name" placeholder="User last name" />
+    <input type="text" name="email" placeholder="Email" />
+    <input type="text" name="password" placeholder="Password" />
+    <input type="text" name="address" placeholder="Address" />
     <input type="submit" name="submit-user">
   </form>
 
   {% if success %}
-    {{ username }} added
+    {{ user }} added
+  {% else %}
+    Something went wrong. Try againg.
   {% endif %}
 
-  <br>
-
-  {% for user in users %}
-    {{ user }} |
-  {% endfor %}
 </div>
 {% endblock content %}
