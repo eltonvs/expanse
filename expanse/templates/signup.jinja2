@@ -14,7 +14,14 @@
   <br>
 
   {% for user in users %}
-    {{ user }} |
+    <dl>
+      <dt>Name:</dt>
+      <dd>{{ user.name }}</dd>
+      <dt>Username:</dt>
+      <dd>{{ user.username }}</dd>
+      <dt>Password:</dt>
+      <dd>{{ user.password }}</dd>
+    </dl>
   {% endfor %}
 </div>
 {% endblock content %}
