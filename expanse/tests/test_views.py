@@ -1,6 +1,6 @@
 import unittest
-
 from pyramid import testing
+
 
 class ViewTests(unittest.TestCase):
     def setUp(self):
@@ -15,4 +15,4 @@ class ViewTests(unittest.TestCase):
         request = testing.DummyRequest()
         inst = ExpanseViews(request)
         res = inst.index()
-        self.assertEqual('expanse', res['title'])
+        self.assertEqual('Home', res['page_title'])
