@@ -29,8 +29,6 @@ class Team(object):
     def lines(self):
         return self._lines
 
-    def append_lines(self,value):
-        self._lines.append(value)
-
-    def extend_lines(self,value):
-        self._lines.extend(value)
+    @lines.setter
+    def lines(self, value):
+        self._lines = value

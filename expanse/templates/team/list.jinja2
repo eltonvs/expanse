@@ -1,0 +1,11 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  {% for team in teams %}
+    {% if team.name != 'admin' %}
+      Name: {{ team.name }} | TeamManager: {{team.team_manager}} <br>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}
