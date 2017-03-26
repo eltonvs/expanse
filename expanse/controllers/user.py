@@ -1,4 +1,4 @@
-from expanse.dao.user_dao import UserDAOMongo
+from ..dao.user import UserDAOMongo
 
 
 class UserController(object):

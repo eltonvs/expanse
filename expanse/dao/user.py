@@ -1,40 +1,38 @@
-import abc
-
-from pymongo import MongoClient
-from expanse.design_pattern.patterns import Singleton
+from abc import ABCMeta, abstractmethod
+from ..models.database import MongoDatabase
 
 
 class UserDAO():
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
-    @abc.abstractmethod
+    @abstractmethod
     def insertUser(self, user):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def removeUser(self, user):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def updateUser(self, user):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def getUser(self, user):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def listUsers(self, user):
         pass
 
 
-class UserDAOMongo(Singleton, UserDAO):
+class UserDAOMongo(UserDAO):
+    """User Data Access Object implementing Borg Pattern"""
+    __shared_state = {}
 
     def __init__(self):
-        client = MongoClient()
-        db = client.expanse
-
-        self.db = db
+        self.__dict__ = self.__shared_state
+        self.db = MongoDatabase().instance()
 
     def insertUser(self, user):
         user_to_insert = {
@@ -61,6 +59,5 @@ class UserDAOMongo(Singleton, UserDAO):
         pass
 
     def listUsers(self):
-        users = list(self.db.users.find({}))
-
+        users = list(self.db.users.find())
         return users
