@@ -1,32 +1,8 @@
-from abc import ABCMeta, abstractmethod
 from ..models.database import MongoDatabase
+from .generic import GenericDAO
 
 
-class UserDAO():
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def insertUser(self, user):
-        pass
-
-    @abstractmethod
-    def removeUser(self, user):
-        pass
-
-    @abstractmethod
-    def updateUser(self, user):
-        pass
-
-    @abstractmethod
-    def getUser(self, user):
-        pass
-
-    @abstractmethod
-    def listUsers(self, user):
-        pass
-
-
-class UserDAOMongo(UserDAO):
+class UserDAO(GenericDAO):
     """User Data Access Object implementing Borg Pattern"""
     __shared_state = {}
 
@@ -34,7 +10,7 @@ class UserDAOMongo(UserDAO):
         self.__dict__ = self.__shared_state
         self.db = MongoDatabase().instance()
 
-    def insertUser(self, user):
+    def insert(self, user):
         user_to_insert = {
             "username": user.username,
             "name": user.name,
@@ -46,18 +22,18 @@ class UserDAOMongo(UserDAO):
 
         return {}
 
-    def removeUser(self, user):
+    def remove(self, user):
         print("Not implemented yet")
         pass
 
-    def updateUser(self, user):
+    def update(self, user):
         print("Not implemented yet")
         pass
 
-    def getUser(self, user):
+    def get(self, user):
         print("Not implemented yet")
         pass
 
-    def listUsers(self):
+    def list(self):
         users = list(self.db.users.find())
         return users

@@ -1,16 +1,16 @@
-from ..dao.team import TeamDAOMongo
+from ..dao.team import TeamDAO
 
 
 class TeamController(object):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-         self.team_dao = TeamDAOMongo()
+         self.team_dao = TeamDAO()
 
     def register(self, team):
         err = self.validate(team)
         if not err:
-            err = self.team_dao.insertTeam(team)
+            err = self.team_dao.insert(team)
         return err
 
     def validate(self, team):
@@ -25,4 +25,4 @@ class TeamController(object):
         return err
 
     def getTeams(self):
-        return self.team_dao.listTeams()
+        return self.team_dao.list()

@@ -1,29 +1,8 @@
-from abc import ABCMeta, abstractmethod
 from ..models.database import MongoDatabase
+from .generic import GenericDAO
 
 
-class TeamDAO():
-    @abstractmethod
-    def insertTeam(self, user):
-        pass
-
-    @abstractmethod
-    def removeTeam(self, user):
-        pass
-
-    @abstractmethod
-    def updateTeam(self, user):
-        pass
-
-    @abstractmethod
-    def getTeam(self, user):
-        pass
-
-    @abstractmethod
-    def listUsers(self, user):
-        pass
-
-class TeamDAOMongo(TeamDAO):
+class TeamDAO(GenericDAO):
     """Team Data Access Object implementing Borg Pattern"""
     _shared_state = {}
 
@@ -31,7 +10,7 @@ class TeamDAOMongo(TeamDAO):
         self.__dict__ = self.__shared_state
         self.db = MongoDatabase().instance()
 
-    def insertTeam(self, team):
+    def insert(self, team):
         team_to_insert = {
             "name": team.name,
             "team_manager": team.team_manager,
@@ -42,18 +21,18 @@ class TeamDAOMongo(TeamDAO):
         return{}
 
 
-    def removeTeam(self, user):
+    def remove(self, user):
         print("Not implemented yet")
         pass
 
-    def updateTeam(self, user):
+    def update(self, user):
         print("Not implemented yet")
         pass
 
-    def getTeam(self, user):
+    def get(self, user):
         print("Not implemented yet")
         pass
 
-    def listTeams(self, user):
+    def list(self, user):
         teams = list(self.db.teams.find())
         pass
