@@ -1,16 +1,16 @@
-from ..dao.user import UserDAOMongo
+from ..dao.user import UserDAO
 
 
 class UserController(object):
     """Controller Layer for User Object"""
 
     def __init__(self):
-        self.user_dao = UserDAOMongo()
+        self.user_dao = UserDAO()
 
     def register(self, user):
         err = self.validate(user)
         if not err:
-            err = self.user_dao.insertUser(user)
+            err = self.user_dao.insert(user)
         return err
 
     def validate(self, user):
@@ -29,4 +29,4 @@ class UserController(object):
         return err
 
     def getUsers(self):
-        return self.user_dao.listUsers()
+        return self.user_dao.list()
