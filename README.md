@@ -1,4 +1,5 @@
 # expanse
+[![Build Status](https://travis-ci.com/eltonvs/expanse.svg?token=f1nxqqLHu6zFfuGYdqAM&branch=master)](https://travis-ci.com/eltonvs/expanse)
 
 ## Getting Started
 
@@ -11,7 +12,7 @@ $ cd expanse
 
 2 - Create a Python virtual environment.
 ```Shell
-$ virtualenv expanse --> Python2
+$ virtualenv expanse # Python2.7
 ```
 
 3 - Activate your env
