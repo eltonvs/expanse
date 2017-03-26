@@ -15,4 +15,8 @@ def includeme(config):
     config.add_route('list_users', '/users')
     config.add_route('register_user', '/users/register')
 
+    #TeamViews Routes
+    config.add_route('list_teams', '/teams')
+    config.add_route('register_team', '/teams/register')
+
     config.scan()

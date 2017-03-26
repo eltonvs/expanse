@@ -19,10 +19,14 @@ class TeamController(object):
             err['empty_name'] = True
         if not team.team_manager:
             err['empty_team_manager'] = True
-        if team.lines == []:
-            err['empty_lines'] = True
 
         return err
 
     def getTeams(self):
         return self.team_dao.listTeams()
+        
+    def append_lines(self,value):
+        self.team_dao.lines.append(value)
+
+    def extend_lines(self,value):
+        self.team_dao.lines.extend(value)

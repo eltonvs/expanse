@@ -3,6 +3,8 @@ from ..models.database import MongoDatabase
 
 
 class TeamDAO():
+    __metaclass__ = ABCMeta
+
     @abstractmethod
     def insertTeam(self, user):
         pass
@@ -20,12 +22,12 @@ class TeamDAO():
         pass
 
     @abstractmethod
-    def listUsers(self, user):
+    def listTeams(self, user):
         pass
 
 class TeamDAOMongo(TeamDAO):
     """Team Data Access Object implementing Borg Pattern"""
-    _shared_state = {}
+    __shared_state = {}
 
     def __init__(self):
         self.__dict__ = self.__shared_state
@@ -54,6 +56,6 @@ class TeamDAOMongo(TeamDAO):
         print("Not implemented yet")
         pass
 
-    def listTeams(self, user):
+    def listTeams(self):
         teams = list(self.db.teams.find())
-        pass
+        return teams
