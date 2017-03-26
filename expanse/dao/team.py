@@ -1,5 +1,5 @@
-from abc import ABCMeta, abstractmethod
 from ..models.database import MongoDatabase
+from .generic import GenericDAO
 
 
 class TeamDAO():
@@ -33,7 +33,7 @@ class TeamDAOMongo(TeamDAO):
         self.__dict__ = self.__shared_state
         self.db = MongoDatabase().instance()
 
-    def insertTeam(self, team):
+    def insert(self, team):
         team_to_insert = {
             "name": team.name,
             "team_manager": team.team_manager,
@@ -44,15 +44,15 @@ class TeamDAOMongo(TeamDAO):
         return{}
 
 
-    def removeTeam(self, user):
+    def remove(self, user):
         print("Not implemented yet")
         pass
 
-    def updateTeam(self, user):
+    def update(self, user):
         print("Not implemented yet")
         pass
 
-    def getTeam(self, user):
+    def get(self, user):
         print("Not implemented yet")
         pass
 
