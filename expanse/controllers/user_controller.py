@@ -1,25 +1,32 @@
-from expanse.models.user.user import User
 from expanse.dao.user_dao import UserDAOMongo
 
+
 class UserController(object):
+    """Controller Layer for User Object"""
 
     def __init__(self):
-        pass
+        self.user_dao = UserDAOMongo()
 
-    def signup(self, username, name, password, email, address):
-        if username != '' and name != '' and password != '' and address != '' and email != '':
-            user = User(name, username, email, password, address)
+    def register(self, user):
+        err = self.validate(user)
+        if not err:
+            err = self.user_dao.insertUser(user)
+        return err
 
-            user_dao = UserDAOMongo()
-            user_dao.insertUser(user)
+    def validate(self, user):
+        err = {}
+        if not user.name:
+            err['empty_name'] = True
+        if not user.username:
+            err['empty_username'] = True
+        if not user.email:
+            err['empty_email'] = True
+        if not user.password:
+            err['empty_password'] = True
+        if not user.locale:
+            err['empty_locale'] = True
 
-            return user
-
-        else:
-            return None
+        return err
 
     def getUsers(self):
-        user_dao = UserDAOMongo()
-        users = user_dao.listUsers()
-
-        return users
+        return self.user_dao.listUsers()
