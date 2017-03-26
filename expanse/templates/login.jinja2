@@ -1,0 +1,15 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  {% if errors %}
+    <span>{{ errors }}</span>
+  {% endif %}
+  <form accept-charset="utf-8" action="{{ request.current_route_url() }}" method="POST">
+    <input type="text" name="email" placeholder="Email" value="{% if email %}{{ email }}{% endif %}">
+    <input type="password" name="password" placeholder="Password">
+    <input type="submit" name="form.submitted" value="Log in">
+  </form>
+</div>
+
+{% endblock content %}
