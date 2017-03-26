@@ -14,7 +14,7 @@ before_script:
   - python initdb.py
 
 # command to run tests
-script: pytest
+script: py.test
 
 # run mongodb
 services:
