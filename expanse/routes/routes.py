@@ -8,8 +8,10 @@
 
 
 def includeme(config):
-    # Routes:
+    # ExpanseViews Routes
     config.add_route('index', '/')
+
+    # UserViews Routes
     config.add_route('list_users', '/users')
     config.add_route('register_user', '/users/register')
 
