@@ -21,7 +21,7 @@ def main(global_config, **settings):
     config.add_jinja2_search_path('templates/')
 
     # Add new routes file
-    config.include('expanse.views.routes')
+    config.include('expanse.routes.routes')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 
