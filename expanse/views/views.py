@@ -1,58 +1,61 @@
 from pyramid.view import view_config, view_defaults
 
 from expanse.controllers.user_controller import UserController
+from expanse.models.user import User
 
 
-@view_defaults(route_name='site')
+@view_defaults(route_name='index')
 class ExpanseViews(object):
+
     def __init__(self, request):
         self.request = request
         self.view_name = 'ExpanseViews'
 
-    @view_config(route_name='index', renderer='templates/index.jinja2')
+    @view_config(renderer='index.jinja2')
     def index(self):
-        # Do something
-
-        # Return aways a dict:
-        return {'title': 'expanse'}
-
-    @view_config(route_name='signup', renderer='templates/signup.jinja2')
-    def signup(self):
+        return {'page_title': 'Home'}
 
 
-        prs = self.request.POST
+@view_defaults(route_name='list_users')
+class UserViews(object):
 
-        _return = {
-            'title': 'Register User'
+    def __init__(self, request):
+        self.user_controller = UserController()
+        self.request = request
+        self.view_name = 'UserViews'
+
+    @view_config(renderer='user/list.jinja2')
+    def list_users(self):
+        return {
+            'page_title': 'List Users',
+            'users': self.user_controller.getUsers()
         }
 
-        user_controller = UserController()
-        users = user_controller.getUsers()
+    @view_config(
+        route_name='register_user',
+        renderer='user/register.jinja2')
+    def signup(self):
+        return {'page_title': 'Sign up'}
 
-        if users:
-            _return['users'] = users
-
-        if not prs:
-            return _return
-
+    @view_config(
+        route_name='register_user',
+        request_method='POST',
+        renderer='user/register_confirmation.jinja2')
+    def register_user(self):
         params = self.request.params
 
-        user_first_name = params.get('first-name', '')
-        user_last_name = params.get('last-name', '')
-        user_email = params.get('email', '')
-        user_password = params.get('password', '')
-        user_address = params.get('address', '')
+        in_name = params.get('name', '')
+        in_username = params.get('username', '')
+        in_email = params.get('email', '')
+        in_password = params.get('password', '')
+        in_locale = params.get('locale', '')
 
-        user_name = user_first_name + " " + user_last_name
-        user_username = (user_name.lower()).replace(" ", "")
+        user = User(in_name, in_username, in_email, in_password, in_locale)
 
-        user = user_controller.signup(user_username, user_name, user_password, user_email, user_address)
+        register_user = self.user_controller.register(user)
 
-        if user:
-            _return['success'] = True
-            _return['user'] = user
-
-        else:
-            _return['success'] = False
-
-        return _return
+        return {
+            'page_title': 'Registered User',
+            'errors': register_user,
+            'user': user
+        }

@@ -1,0 +1,11 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  {% for user in users %}
+    {% if user.username != 'admin' %}
+      Username: {{ user.username }} | Name: {{user.name}} <br>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}

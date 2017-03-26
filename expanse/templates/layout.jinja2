@@ -8,7 +8,7 @@
     <meta name="author" content="expanse">
     <link rel="shortcut icon" href="{{request.static_url('expanse:static/img/pyramid-16x16.png')}}">
 
-    <title>expanse</title>
+    <title>{% if page_title %}{{ page_title }} - {% endif %}expanse</title>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -25,7 +25,7 @@
 
   <body>
     <nav>
-      expanse  
+      expanse
     </nav>
 
     {% block content %}

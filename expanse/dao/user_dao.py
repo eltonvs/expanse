@@ -3,28 +3,29 @@ import abc
 from pymongo import MongoClient
 from expanse.design_pattern.patterns import Singleton
 
+
 class UserDAO():
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def insertUser(self, user):
-        return
+        pass
 
     @abc.abstractmethod
     def removeUser(self, user):
-        return
+        pass
 
     @abc.abstractmethod
     def updateUser(self, user):
-        return
+        pass
 
     @abc.abstractmethod
     def getUser(self, user):
-        return
+        pass
 
     @abc.abstractmethod
     def listUsers(self, user):
-        return
+        pass
 
 
 class UserDAOMongo(Singleton, UserDAO):
@@ -36,8 +37,6 @@ class UserDAOMongo(Singleton, UserDAO):
         self.db = db
 
     def insertUser(self, user):
-        db = self.db
-
         user_to_insert = {
             "username": user.username,
             "name": user.name,
@@ -45,25 +44,23 @@ class UserDAOMongo(Singleton, UserDAO):
             "email": user.email,
             "locale": user.locale,
         }
+        self.db.users.insert(user_to_insert)
 
-        print db.users.insert(user_to_insert)
-        return True
+        return {}
 
     def removeUser(self, user):
-        print "Not implemented yet"
-        return
+        print("Not implemented yet")
+        pass
 
     def updateUser(self, user):
-        print "Not implemented yet"
-        return
+        print("Not implemented yet")
+        pass
 
     def getUser(self, user):
-        print "Not implemented yet"
-        return
+        print("Not implemented yet")
+        pass
 
     def listUsers(self):
-        db = self.db
-
-        users = list(db.users.find({}))
+        users = list(self.db.users.find({}))
 
         return users

@@ -9,12 +9,16 @@ users.insert_many([
     {
         "name": "Administrator",
         "username": "admin",
-        "password": "admin"
+        "email": "admin@example.com",
+        "password": "admin",
+        "locale": "Locale"
     },
     {
         "name": "User",
         "username": "user",
-        "password": "user"
+        "email": "user@example.com",
+        "password": "user",
+        "locale": "Locale"
     }
 ])
 print users.inserted_ids
