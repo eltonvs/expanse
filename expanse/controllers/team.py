@@ -5,7 +5,7 @@ class TeamController(object):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-         self.team_dao = TeamDAO()
+        self.team_dao = TeamDAO()
 
     def register(self, team):
         err = self.validate(team)
@@ -23,8 +23,8 @@ class TeamController(object):
         return err
 
     def getTeams(self):
-        return self.team_dao.listTeams()
-        
+        return self.team_dao.list()
+
     def append_lines(self,value):
         self.team_dao.lines.append(value)
 

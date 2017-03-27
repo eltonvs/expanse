@@ -2,30 +2,7 @@ from ..models.database import MongoDatabase
 from .generic import GenericDAO
 
 
-class TeamDAO():
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def insertTeam(self, user):
-        pass
-
-    @abstractmethod
-    def removeTeam(self, user):
-        pass
-
-    @abstractmethod
-    def updateTeam(self, user):
-        pass
-
-    @abstractmethod
-    def getTeam(self, user):
-        pass
-
-    @abstractmethod
-    def listTeams(self, user):
-        pass
-
-class TeamDAOMongo(TeamDAO):
+class TeamDAO(GenericDAO):
     """Team Data Access Object implementing Borg Pattern"""
     __shared_state = {}
 
@@ -56,6 +33,6 @@ class TeamDAOMongo(TeamDAO):
         print("Not implemented yet")
         pass
 
-    def listTeams(self):
+    def list(self):
         teams = list(self.db.teams.find())
         return teams

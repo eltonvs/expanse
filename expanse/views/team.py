@@ -11,7 +11,7 @@ class TeamViews(object):
         self.team_controller = TeamController()
         self.request = request
         self.view_config = "TeamViews"
-    
+
     @view_config(renderer='team/list.jinja2')
     def list_teams(self):
         return {
