@@ -1,15 +1,18 @@
 from ..dao.user import UserDAO
+from ..utils.security import SecurityTools
 
 
 class UserController(object):
     """Controller Layer for User Object"""
 
     def __init__(self):
+        self.security_tools = SecurityTools()
         self.user_dao = UserDAO()
 
     def register(self, user):
         err = self.validate(user)
         if not err:
+            user.password = self.security_tools.hash_password(user.password)
             err = self.user_dao.insert(user)
         return err
 
