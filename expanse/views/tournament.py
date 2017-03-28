@@ -3,6 +3,7 @@ from pyramid.view import view_config, view_defaults
 from ..controllers.tournament import TournamentController
 from ..models.tournament import Tournament
 
+
 @view_defaults(route_name='list_tournaments')
 class TournamentViews(object):
 
@@ -21,7 +22,7 @@ class TournamentViews(object):
     @view_config(
         route_name='register_tournament',
         renderer='tournament/register.jinja2')
-    def register(self):
+    def register_tournament(self):
         return {
             'page_title': 'Register Tournament'
         }
@@ -30,7 +31,7 @@ class TournamentViews(object):
         route_name='register_tournament',
         request_method='POST',
         renderer='tournament/register_confirmation.jinja2')
-    def register_tournament(self):
+    def register_tournament_request(self):
         params = self.request.params
 
         name = params.get('name', '')
@@ -44,4 +45,3 @@ class TournamentViews(object):
             'errors': register_tournament,
             'tournament': tournament,
         }
-

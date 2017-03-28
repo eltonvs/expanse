@@ -22,14 +22,14 @@ class UserViews(object):
     @view_config(
         route_name='register_user',
         renderer='user/register.jinja2')
-    def signup(self):
+    def register_user(self):
         return {'page_title': 'Sign up'}
 
     @view_config(
         route_name='register_user',
         request_method='POST',
         renderer='user/register_confirmation.jinja2')
-    def register_user(self):
+    def register_user_request(self):
         params = self.request.params
 
         in_name = params.get('name', '')
