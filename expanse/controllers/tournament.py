@@ -25,4 +25,5 @@ class TournamentController(object):
             teams.append(team)
             tournamet.teams = teams
 
-
+    def getTournaments(self):
+        return self.tournament_dao.list()

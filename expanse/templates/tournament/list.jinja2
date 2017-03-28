@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="content">
-  Tournaments here
+    {% for tournament in tournaments %}
+        {{ tournament.name }} <br>
+    {% endfor %}
 </div>
 {% endblock content %}

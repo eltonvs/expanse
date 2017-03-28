@@ -3,6 +3,7 @@ class Tournament(object):
 
     def __init__(self, name):
         self._name = name
+        #create the teammanager here
         self._teams = []
 
     def __str__(self):

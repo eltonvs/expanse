@@ -8,33 +8,33 @@ class TournamentDAO(GenericDAO):
         self.__dict__ = self.__shared_state
         self.db = MongoDatabase().instance()
 
-    def insert(self, tournamet):
-        tournamet_to_insert = {
-            "name": tournamet.name,
+    def insert(self, tournament):
+        tournament_to_insert = {
+            "name": tournament.name,
             "teams": [],
             #"tournament_organizer_id": tournament_organizer
         }
-        self.db.tournamets.insert(tournamet_to_insert)
+        self.db.tournaments.insert(tournament_to_insert)
 
-    def remove(self, tournamet):
+    def remove(self, tournament):
         print("Not implemented yet")
         pass
 
-    def update(self, tournamet):
+    def update(self, tournament):
         print("Not implemented yet")
         pass
 
-    def add_team(self, team, tournamet):
+    def add_team(self, team, tournament):
         # add new team to a tournamet
         # need to find the _id of the current tournament
         # insert team_id in the list of teams in db
         print("Not implented yet")
         pass
 
-    def get(self, tournamet):
+    def get(self, tournament):
         print("Not implemented yet")
         pass
 
     def list(self):
-        tournamets = list(self.db.tournamets.find())
-        return tournamets
+        tournaments = list(self.db.tournaments.find())
+        return tournaments
