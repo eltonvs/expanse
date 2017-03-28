@@ -35,6 +35,6 @@ class TournamentDAO(GenericDAO):
         print("Not implemented yet")
         pass
 
-     def list(self):
+    def list(self):
         tournamets = list(self.db.tournamets.find())
         return tournamets
