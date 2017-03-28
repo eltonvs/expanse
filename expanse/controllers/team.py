@@ -1,6 +1,5 @@
 from ..dao.team import TeamDAO
 
-
 class TeamController(object):
     """Controller Layer for Team Object"""
 
@@ -31,3 +30,11 @@ class TeamController(object):
     def extend_lines(self,value):
         self.team_dao.lines.extend(value)
 
+class TeamManagerController(object):
+    """Controller Layer for Team Object"""
+
+    def __init__(self):
+         self.team_manager_dao = TeamManagerDAO()
+
+    def getTeamManager(self):
+        return self.team_manager_dao.list()

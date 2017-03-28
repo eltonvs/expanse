@@ -33,9 +33,8 @@ class TeamViews(object):
         params = self.request.params
 
         in_name = params.get('name', '')
-        in_team_manager = params.get('team_manager', '')
 
-        team = Team(in_name, in_team_manager)
+        team = Team(in_name)
 
         register_team = self.team_controller.register(team)
 
