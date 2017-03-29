@@ -32,8 +32,8 @@ class UserDAO(GenericDAO):
         pass
 
     def get(self, query):
-        users = self.db.users.find(query)
-        return list(users)
+        user = self.db.users.find_one(query)
+        return user
 
     def get_user_from_email(self, email):
         usr = self.db.users.find_one({"email": email})

@@ -1,4 +1,5 @@
 from ..dao.team import TeamDAO, TeamManagerDAO
+from ..dao.user import UserDAO
 
 
 class TeamController(object):
@@ -24,7 +25,18 @@ class TeamController(object):
         return err
 
     def getTeams(self):
-        return self.team_dao.list()
+        teams = self.team_dao.list()
+        user_dao = UserDAO()
+
+        for team in teams:
+            team_manager = user_dao.get({"_id": team['team_manager_id']})
+            print team_manager
+            team['team_manager'] = team_manager['name']
+
+        return teams
+
+    def getUserTeams(self, user):
+        return self.team_dao.get({"team_manager_id": user})
 
     def append_lines(self, value):
         self.team_dao.lines.append(value)
