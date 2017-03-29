@@ -14,12 +14,6 @@ class TournamentViews(object):
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'TournamentViews'
 
-        # Just for debugging purposes
-        print(self.view_name)
-        print(self.request.authenticated_userid)
-        print(self.request.unauthenticated_userid)
-        print(self.request.logged_user)
-
     @view_config(renderer='tournament/list.jinja2')
     def list_tournaments(self):
         # Redirect to Index if the user isn't logged in

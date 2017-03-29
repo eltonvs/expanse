@@ -14,12 +14,6 @@ class ExpanseViews(object):
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'ExpanseViews'
 
-        # Just for debugging purposes
-        print(self.view_name)
-        print(self.request.authenticated_userid)
-        print(self.request.unauthenticated_userid)
-        print(self.request.logged_user)
-
     @view_config(renderer='index.jinja2')
     def index(self):
         return {'page_title': 'Home'}

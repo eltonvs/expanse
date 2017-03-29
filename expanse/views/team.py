@@ -14,12 +14,6 @@ class TeamViews(object):
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = "TeamViews"
 
-        # Just for debugging purposes
-        print(self.view_name)
-        print(self.request.authenticated_userid)
-        print(self.request.unauthenticated_userid)
-        print(self.request.logged_user)
-
     @view_config(renderer='team/list.jinja2')
     def list_teams(self):
         # Redirect to Index if the user isn't logged in
