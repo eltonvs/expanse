@@ -33,3 +33,6 @@ class TournamentController(object):
 
     def getTournaments(self):
         return self.tournament_dao.list()
+
+    def getUserTournaments(self, user):
+        return self.tournament_dao.get({"organizer_id": user})

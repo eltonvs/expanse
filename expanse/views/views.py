@@ -4,6 +4,7 @@ from pyramid.view import view_config, view_defaults
 
 from ..controllers.expanse import ExpanseController
 from ..controllers.team import TeamController
+from ..controllers.tournament import TournamentController
 
 
 @view_defaults(route_name='index')
@@ -18,13 +19,20 @@ class ExpanseViews(object):
     @view_config(renderer='index.jinja2')
     def index(self):
         logged_user = self.request.authenticated_userid
+        return_dict = {'page_title': 'Home'}
         if logged_user:
             team_controller = TeamController(self.request)
             user_teams = team_controller.getUserTeams(logged_user)
             if user_teams:
-                return {'page_title': 'Home', 'user_teams': user_teams}
+                return_dict['user_teams'] = user_teams
 
-        return {'page_title': 'Home'}
+            tournament_controller = TournamentController(self.request)
+            user_tournaments = tournament_controller.getUserTournaments(logged_user)
+            if user_tournaments:
+                return_dict['user_tournaments'] = user_tournaments
+
+
+        return return_dict
 
     @view_config(route_name='login', renderer='login.jinja2')
     def login(self):

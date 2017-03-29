@@ -19,4 +19,11 @@
 {% endfor %}
 </ul>
 
+{% if user_tournaments %} Tournaments: <br>{%endif%}
+<ul>
+{%for tournament in user_tournaments %}
+    <li> <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament._id)}}">{{tournament.name}}</a>
+{%endfor%}
+</ul>
+
 {% endblock content %}

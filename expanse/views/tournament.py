@@ -52,7 +52,6 @@ class TournamentViews(object):
         params = self.request.params
 
         name = params.get('name', '')
-
         tournament = Tournament(name, self.request.authenticated_userid)
 
         register_tournament = self.tournament_controller.register(tournament)
@@ -62,3 +61,7 @@ class TournamentViews(object):
             'errors': register_tournament,
             'tournament': tournament,
         }
+
+    @view_config(route_name='dashboard_tournament', renderer="json")
+    def dashboard(self):
+        return {'page_title': 'Dashboard'}
