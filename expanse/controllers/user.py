@@ -33,3 +33,9 @@ class UserController(object):
 
     def getUsers(self):
         return self.user_dao.list()
+
+    def get_user_from_email(self, email):
+        return self.user_dao.get_user_from_email(email)
+
+    def get_user_id_from_email(self, email):
+        return self.user_dao.get_user_id_from_email(email)

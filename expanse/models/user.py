@@ -2,8 +2,8 @@ class User(object):
     """User Model to store user data in runtime"""
 
     def __init__(self, name, username, email, password, locale):
-        self._username = username
         self._name = name
+        self._username = username
         self._email = email
         self._password = password
         self._locale = locale

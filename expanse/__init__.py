@@ -1,5 +1,3 @@
-from pyramid.authentication import AuthTktAuthenticationPolicy
-from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 
 
@@ -9,12 +7,7 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
 
     # Security Policies
-    authn_policy = AuthTktAuthenticationPolicy(
-        settings['expanse.secret'],
-        hashalg='sha512')
-    authz_policy = ACLAuthorizationPolicy()
-    config.set_authentication_policy(authn_policy)
-    config.set_authorization_policy(authz_policy)
+    config.include('.utils.auth')
 
     # Jinja Settings
     config.include('pyramid_jinja2')

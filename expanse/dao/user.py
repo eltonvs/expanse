@@ -1,4 +1,5 @@
 from ..models.database import MongoDatabase
+from ..models.user import User
 from .generic import GenericDAO
 
 
@@ -35,8 +36,19 @@ class UserDAO(GenericDAO):
         pass
 
     def get_user_from_email(self, email):
-        user = self.db.users.find_one({"email": email})
+        usr = self.db.users.find_one({"email": email})
+        user = User(
+            usr['name'],
+            usr['username'],
+            usr['email'],
+            usr['password'],
+            usr['locale'])
         return user
+
+    def get_user_id_from_email(self, email):
+        usr = self.db.users.find_one({"email": email})
+        if usr is not None:
+            return usr['_id']
 
     def list(self):
         users = list(self.db.users.find())
