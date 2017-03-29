@@ -6,7 +6,6 @@ class Notification(object):
         self._title = title
         self._message = message
 
-
     def __str__(self):
         return '[' + self._user_id + '] - ' + self._title + ': ' + self._message
 

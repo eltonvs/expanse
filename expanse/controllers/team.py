@@ -24,7 +24,7 @@ class TeamController(object):
 
         return err
 
-    def getTeams(self):
+    def get_teams(self):
         teams = self.team_dao.list()
         user_dao = UserDAO()
 
@@ -34,7 +34,7 @@ class TeamController(object):
 
         return teams
 
-    def getUserTeams(self, user):
+    def get_user_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
 
     def append_lines(self, value):
@@ -50,5 +50,5 @@ class TeamManagerController(object):
     def __init__(self):
         self.team_manager_dao = TeamManagerDAO()
 
-    def getTeamManager(self):
+    def get_team_manager(self):
         return self.team_manager_dao.list()

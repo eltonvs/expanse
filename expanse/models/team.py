@@ -1,5 +1,4 @@
-from ..models.user import User
-from ..dao.user import UserDAO
+from .user import User
 
 
 class Team(object):
@@ -37,10 +36,13 @@ class Team(object):
     def lines(self, value):
         self._lines = value
 
+
 class TeamManager(User):
     """User Model to store team manager data in runtime"""
+
     def __init__(self, user, team):
-        # Will save just de logged user's '_id', because we need just this information
+        # Will save just de logged user's '_id', because we need just this
+        # information
         self._user_id = user
         self._team = team
 

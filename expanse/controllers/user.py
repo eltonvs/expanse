@@ -34,7 +34,7 @@ class UserController(object):
 
         return err
 
-    def getUsers(self):
+    def get_users(self):
         return self.user_dao.list()
 
     def get_user_from_email(self, email):

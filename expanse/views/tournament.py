@@ -24,7 +24,7 @@ class TournamentViews(object):
 
         return {
             'page_title': 'List Tournaments',
-            'tournaments': self.tournament_controller.getTournaments(),
+            'tournaments': self.tournament_controller.get_tournaments(),
         }
 
     @view_config(
@@ -63,14 +63,16 @@ class TournamentViews(object):
             'tournament': tournament,
         }
 
-    @view_config(route_name='dashboard_tournament', renderer='tournament/dashboard.jinja2')
+    @view_config(
+        route_name='dashboard_tournament',
+        renderer='tournament/dashboard.jinja2')
     def dashboard(self):
         logged_user = self.request.authenticated_userid
         return_dict = {'page_title': 'Home'}
 
         if logged_user:
             team_controller = TeamController(self.request)
-            teams = team_controller.getTeams()
+            teams = team_controller.get_teams()
             if teams:
                 return_dict['teams'] = teams
 
@@ -86,6 +88,6 @@ class TournamentViews(object):
         tournament_id = self.request.matchdict['tournament_id']
         team_id = params.get('team', '')
 
-        self.tournament_controller.addTeam(tournament_id, team_id)
+        self.tournament_controller.add_team(tournament_id, team_id)
 
         return {'page_title': 'Dashboard'}
