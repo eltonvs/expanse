@@ -5,7 +5,8 @@ from ..utils.security import SecurityTools
 class UserController(object):
     """Controller Layer for User Object"""
 
-    def __init__(self):
+    def __init__(self, request):
+        self.request = request
         self.security_tools = SecurityTools()
         self.user_dao = UserDAO()
 
@@ -33,3 +34,9 @@ class UserController(object):
 
     def getUsers(self):
         return self.user_dao.list()
+
+    def get_user_from_email(self, email):
+        return self.user_dao.get_user_from_email(email)
+
+    def get_user_id_from_email(self, email):
+        return self.user_dao.get_user_id_from_email(email)
