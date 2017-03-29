@@ -1,6 +1,7 @@
 from bson import ObjectId
 
 from ..dao.tournament import TournamentDAO
+from ..dao.team import TeamDAO
 
 
 class TournamentController(object):
@@ -42,4 +43,23 @@ class TournamentController(object):
         return self.tournament_dao.list()
 
     def get_user_tournaments(self, user):
-        return self.tournament_dao.get({"organizer_id": user})
+        tournament = self.tournament_dao.get({"organizer_id": user})
+        _return = tournament if tournament else {}
+        return _return
+        # return tournament
+
+    def get_tournament_teams(self, tournament_id):
+        tournament = self.tournament_dao.get({"_id": ObjectId(tournament_id)})
+        tournament_teams = tournament.get('teams')
+        
+        if tournament_teams:
+            team_dao = TeamDAO()
+            teams = []
+            
+            for team_id in tournament_teams:
+                team = team_dao.get({"_id": team_id})
+                if team:
+                    teams.append(team)
+
+            return teams
+        return {}

@@ -31,9 +31,9 @@ class TournamentDAO(GenericDAO):
         print("Not implented yet")
         pass
 
-    def get(self, querry):
-        tournaments = list(self.db.tournaments.find(querry))
-        return tournaments
+    def get(self, query):
+        tournament = self.db.tournaments.find_one(query)
+        return tournament
 
     def list(self):
         tournaments = list(self.db.tournaments.find())

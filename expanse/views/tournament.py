@@ -68,15 +68,19 @@ class TournamentViews(object):
         renderer='tournament/dashboard.jinja2')
     def dashboard(self):
         logged_user = self.request.authenticated_userid
-        return_dict = {'page_title': 'Home'}
+        _return = {'page_title': 'Home'}
 
         if logged_user:
             team_controller = TeamController(self.request)
             teams = team_controller.get_teams()
-            if teams:
-                return_dict['teams'] = teams
+            _return['teams'] = teams
 
-        return return_dict
+            tournament_id = self.request.matchdict['tournament_id']
+            tournament_teams = self.tournament_controller.get_tournament_teams(tournament_id)
+            _return['tournament_teams'] = tournament_teams
+
+
+        return _return
 
     @view_config(
         route_name='dashboard_tournament',

@@ -10,5 +10,13 @@
     </select>
     <input type="submit" value="Add">
   </form>
+
+  
+  <h3>Teams in this Tournament:</h3>
+
+  {% for team in tournament_teams %}
+  	{{ team.name }} <br>
+  {% endfor %}
+
 </div>
 {% endblock content %}
