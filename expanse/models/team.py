@@ -5,11 +5,9 @@ from ..dao.user import UserDAO
 class Team(object):
     """Team Model to store user data in runtime"""
 
-    def __init__(self, name):
+    def __init__(self, name, user):
         self._name = name
-        #logged_user = get_logged_user()
-        logged_user = UserDAO().get_user_from_email("admin@example.com") # temporary
-        self._team_manager = TeamManager(logged_user, self)
+        self._team_manager = TeamManager(user, self)
         self._lines = []
 
     def __str__(self):
@@ -43,7 +41,7 @@ class TeamManager(User):
     """User Model to store team manager data in runtime"""
     def __init__(self, user, team):
         # Will save just de logged user's '_id', because we need just this information
-        self._user_id = user.get('_id')
+        self._user_id = user
         self._team = team
 
     @property
