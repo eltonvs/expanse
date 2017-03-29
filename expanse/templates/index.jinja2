@@ -7,7 +7,7 @@
     <li><a href="{{ request.route_url('register_user') }}">Register a new User</a></li>
     <li><a href="{{ request.route_url('list_teams') }}">List Registered Teams</a></li>
     <li><a href="{{ request.route_url('register_team') }}">Register a new Team</a></li>
-    <li><a href="{{ request.route_url('list_tournaments') }}">Lit Registered Tournaments</a></li>
+    <li><a href="{{ request.route_url('list_tournaments') }}">List Registered Tournaments</a></li>
     <li><a href="{{ request.route_url('register_tournament') }}">Create a new Tournament</a></li>
   </ul>
 </div>
@@ -18,4 +18,5 @@
     <li> {{ team.name }} </li>
 {% endfor %}
 </ul>
+
 {% endblock content %}
