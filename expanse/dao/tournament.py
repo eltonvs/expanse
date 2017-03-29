@@ -13,6 +13,7 @@ class TournamentDAO(GenericDAO):
         tournament_to_insert = {
             "name": tournament.name,
             "teams": [],
+            "locale": tournament.locale,
             "organizer_id": tournament.organizer
         }
         self.db.tournaments.insert(tournament_to_insert)
