@@ -4,6 +4,8 @@ from pyramid.view import view_config, view_defaults
 
 from ..controllers.expanse import ExpanseController
 from ..controllers.team import TeamController
+from ..controllers.tournament import TournamentController
+
 from ..controllers.notification import NotificationController
 
 
@@ -20,11 +22,17 @@ class ExpanseViews(object):
     def index(self):
         _return = {'page_title': 'Home'}
         logged_user = self.request.authenticated_userid
+
         if logged_user:
             # List user teams
             team_controller = TeamController(self.request)
             user_teams = team_controller.getUserTeams(logged_user)
             _return['user_teams'] = user_teams
+
+            # List user tournaments
+            tournament_controller = TournamentController(self.request)
+            user_tournaments = tournament_controller.getUserTournaments(logged_user)
+            _return['user_tournaments'] = user_tournaments
 
             # List user notifications
             notification_controller = NotificationController(self.request)

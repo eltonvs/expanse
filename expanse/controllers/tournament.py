@@ -1,3 +1,5 @@
+from bson import ObjectId
+
 from ..dao.tournament import TournamentDAO
 
 
@@ -25,11 +27,19 @@ class TournamentController(object):
 
         return err
 
-    def addTeam(self, tournament, team):
-        if tournament and team:
-            teams = tournament.teams
-            teams.append(team)
-            tournament.teams = teams
+    def addTeam(self, tournament_id, team_id):
+        if tournament_id and team_id:
+            querry = {'_id': ObjectId(tournament_id)}
+            update = {'$addToSet': {'teams': ObjectId(team_id)}}
+
+            self.tournament_dao.update(querry, update)
+
+            #team = tournament.team
+            #team.append(team_id)
+            #tournament.team = team
 
     def getTournaments(self):
         return self.tournament_dao.list()
+
+    def getUserTournaments(self, user):
+        return self.tournament_dao.get({"organizer_id": user})

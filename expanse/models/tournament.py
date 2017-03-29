@@ -22,7 +22,7 @@ class Tournament(object):
         return self._organizer
 
     @organizer.setter
-    def name(self, value):
+    def organizer(self, value):
         self._organizer = value
 
     @property
