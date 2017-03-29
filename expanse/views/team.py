@@ -23,7 +23,7 @@ class TeamViews(object):
 
         return {
             'page_title': 'List Users',
-            'teams': self.team_controller.getTeams()
+            'teams': self.team_controller.get_teams()
         }
 
     @view_config(

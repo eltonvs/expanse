@@ -26,17 +26,19 @@ class ExpanseViews(object):
         if logged_user:
             # List user teams
             team_controller = TeamController(self.request)
-            user_teams = team_controller.getUserTeams(logged_user)
+            user_teams = team_controller.get_user_teams(logged_user)
             _return['user_teams'] = user_teams
 
             # List user tournaments
             tournament_controller = TournamentController(self.request)
-            user_tournaments = tournament_controller.getUserTournaments(logged_user)
+            user_tournaments = tournament_controller.get_user_tournaments(
+                logged_user)
             _return['user_tournaments'] = user_tournaments
 
             # List user notifications
             notification_controller = NotificationController(self.request)
-            user_notifications = notification_controller.get_notifications(logged_user)
+            user_notifications = notification_controller.get_notifications(
+                logged_user)
             _return['user_notifications'] = user_notifications
 
         return _return
