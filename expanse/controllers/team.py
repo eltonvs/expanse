@@ -1,9 +1,11 @@
-from ..dao.team import TeamDAO
+from ..dao.team import TeamDAO, TeamManagerDAO
+
 
 class TeamController(object):
     """Controller Layer for Team Object"""
 
-    def __init__(self):
+    def __init__(self, request):
+        self.request = request
         self.team_dao = TeamDAO()
 
     def register(self, team):
@@ -24,17 +26,18 @@ class TeamController(object):
     def getTeams(self):
         return self.team_dao.list()
 
-    def append_lines(self,value):
+    def append_lines(self, value):
         self.team_dao.lines.append(value)
 
-    def extend_lines(self,value):
+    def extend_lines(self, value):
         self.team_dao.lines.extend(value)
+
 
 class TeamManagerController(object):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-         self.team_manager_dao = TeamManagerDAO()
+        self.team_manager_dao = TeamManagerDAO()
 
     def getTeamManager(self):
         return self.team_manager_dao.list()
