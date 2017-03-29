@@ -25,6 +25,8 @@ class UserController(object):
             err['empty_username'] = True
         if not user.email:
             err['empty_email'] = True
+        elif self.get_user_id_from_email(user.email) is not None:
+            err['duplicate_email'] = True
         if not user.password:
             err['empty_password'] = True
         if not user.locale:
