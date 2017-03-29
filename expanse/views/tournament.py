@@ -2,6 +2,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
 from ..controllers.tournament import TournamentController
+from ..controllers.team import TeamController
 from ..models.tournament import Tournament
 
 
@@ -62,6 +63,29 @@ class TournamentViews(object):
             'tournament': tournament,
         }
 
-    @view_config(route_name='dashboard_tournament', renderer="json")
+    @view_config(route_name='dashboard_tournament', renderer='tournament/dashboard.jinja2')
     def dashboard(self):
+        logged_user = self.request.authenticated_userid
+        return_dict = {'page_title': 'Home'}
+
+        if logged_user:
+            team_controller = TeamController(self.request)
+            teams = team_controller.getTeams()
+            if teams:
+                return_dict['teams'] = teams
+
+        return return_dict
+
+    @view_config(
+        route_name='dashboard_tournament',
+        renderer='tournament/dashboard.jinja2',
+        request_method='POST')
+    def dashboard_request(self):
+        params = self.request.params
+
+        tournament_id = self.request.matchdict['tournament_id']
+        team_id = params.get('team', '')
+
+        self.tournament_controller.addTeam(tournament_id, team_id)
+
         return {'page_title': 'Dashboard'}

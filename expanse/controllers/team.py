@@ -30,7 +30,6 @@ class TeamController(object):
 
         for team in teams:
             team_manager = user_dao.get({"_id": team['team_manager_id']})
-            print team_manager
             team['team_manager'] = team_manager['name']
 
         return teams

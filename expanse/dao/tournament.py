@@ -21,9 +21,8 @@ class TournamentDAO(GenericDAO):
         print("Not implemented yet")
         pass
 
-    def update(self, tournament):
-        print("Not implemented yet")
-        pass
+    def update(self, querry, update):
+        print "update", self.db.tournaments.update(querry, update)
 
     def add_team(self, team, tournament):
         # add new team to a tournamet
