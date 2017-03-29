@@ -22,7 +22,7 @@ class TournamentDAO(GenericDAO):
         pass
 
     def update(self, querry, update):
-        print "update", self.db.tournaments.update(querry, update)
+        print("update", self.db.tournaments.update(querry, update))
 
     def add_team(self, team, tournament):
         # add new team to a tournamet

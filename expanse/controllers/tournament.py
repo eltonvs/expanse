@@ -27,19 +27,19 @@ class TournamentController(object):
 
         return err
 
-    def addTeam(self, tournament_id, team_id):
+    def add_team(self, tournament_id, team_id):
         if tournament_id and team_id:
             querry = {'_id': ObjectId(tournament_id)}
             update = {'$addToSet': {'teams': ObjectId(team_id)}}
 
             self.tournament_dao.update(querry, update)
 
-            #team = tournament.team
-            #team.append(team_id)
-            #tournament.team = team
+            # team = tournament.team
+            # team.append(team_id)
+            # tournament.team = team
 
-    def getTournaments(self):
+    def get_tournaments(self):
         return self.tournament_dao.list()
 
-    def getUserTournaments(self, user):
+    def get_user_tournaments(self, user):
         return self.tournament_dao.get({"organizer_id": user})

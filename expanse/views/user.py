@@ -23,7 +23,7 @@ class UserViews(object):
 
         return {
             'page_title': 'List Users',
-            'users': self.user_controller.getUsers()
+            'users': self.user_controller.get_users()
         }
 
     @view_config(
