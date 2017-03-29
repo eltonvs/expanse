@@ -1,9 +1,9 @@
 class Tournament(object):
     """Tournament model to store tournament data in runtime"""
 
-    def __init__(self, name):
+    def __init__(self, name, organizer):
         self._name = name
-        #create the teammanager here
+        self._organizer = organizer
         self._teams = []
 
     def __str__(self):
@@ -16,6 +16,14 @@ class Tournament(object):
     @name.setter
     def name(self, value):
         self._name = value
+
+    @property
+    def organizer(self):
+        return self._organizer
+
+    @organizer.setter
+    def name(self, value):
+        self._organizer = value
 
     @property
     def teams(self):

@@ -1,6 +1,7 @@
 from ..models.database import MongoDatabase
 from .generic import GenericDAO
 
+
 class TournamentDAO(GenericDAO):
     __shared_state = {}
 
@@ -12,7 +13,7 @@ class TournamentDAO(GenericDAO):
         tournament_to_insert = {
             "name": tournament.name,
             "teams": [],
-            #"tournament_organizer_id": tournament_organizer
+            "organizer_id": tournament.organizer
         }
         self.db.tournaments.insert(tournament_to_insert)
 
