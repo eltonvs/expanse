@@ -51,6 +51,10 @@ class UserDAO(GenericDAO):
         if usr is not None:
             return usr['_id']
 
+    def get_users_from_locale(self, location):
+        users = list(self.db.users.find({"locale": location}))
+        return users
+
     def list(self):
         users = list(self.db.users.find())
         return users

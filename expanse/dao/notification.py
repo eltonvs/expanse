@@ -12,8 +12,12 @@ class NotificationDAO(GenericDAO):
         self.db = MongoDatabase().instance()
 
     def insert(self, notification):
-        print("Not implemented yet")
-        pass
+        notification_to_insert = {
+            "user_id": notification.user_id,
+            "title": notification.title,
+            "message": notification.message,
+        }
+        self.db.notifications.insert(notification_to_insert)
 
     def remove(self, notification):
         print("Not implemented yet")
