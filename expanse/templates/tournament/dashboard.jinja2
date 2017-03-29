@@ -1,0 +1,14 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
+    <select name="team">
+        {% for team in teams %}
+            <option value="{{team._id}}">{{team.name}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Add">
+  </form>
+</div>
+{% endblock content %}
