@@ -11,4 +11,12 @@
     <li><a href="{{ request.route_url('register_tournament') }}">Create a new Tournament</a></li>
   </ul>
 </div>
+
+{% if user_teams %} User teams: <br>{% endif %}
+<ul>
+{% for team in user_teams %}
+    <li> {{ team.name }} </li>
+{% endfor %}
+</ul>
+
 {% endblock content %}

@@ -29,9 +29,9 @@ class TeamDAO(GenericDAO):
         print("Not implemented yet")
         pass
 
-    def get(self, user):
-        print("Not implemented yet")
-        pass
+    def get(self, search):
+        teams = list(self.db.teams.find(search))
+        return teams
 
     def list(self):
         teams = list(self.db.teams.find())
