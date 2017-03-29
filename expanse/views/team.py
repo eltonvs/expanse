@@ -50,8 +50,9 @@ class TeamViews(object):
         params = self.request.params
 
         in_name = params.get('name', '')
+        logged_user = self.request.authenticated_userid
 
-        team = Team(in_name)
+        team = Team(in_name, logged_user)
 
         register_team = self.team_controller.register(team)
 
