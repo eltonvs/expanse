@@ -6,6 +6,8 @@ from ..controllers.expanse import ExpanseController
 from ..controllers.team import TeamController
 from ..controllers.tournament import TournamentController
 
+from ..controllers.notification import NotificationController
+
 
 @view_defaults(route_name='index')
 class ExpanseViews(object):
@@ -18,21 +20,26 @@ class ExpanseViews(object):
 
     @view_config(renderer='index.jinja2')
     def index(self):
+        _return = {'page_title': 'Home'}
         logged_user = self.request.authenticated_userid
-        return_dict = {'page_title': 'Home'}
+
         if logged_user:
+            # List user teams
             team_controller = TeamController(self.request)
             user_teams = team_controller.getUserTeams(logged_user)
-            if user_teams:
-                return_dict['user_teams'] = user_teams
+            _return['user_teams'] = user_teams
 
+            # List user tournaments
             tournament_controller = TournamentController(self.request)
             user_tournaments = tournament_controller.getUserTournaments(logged_user)
-            if user_tournaments:
-                return_dict['user_tournaments'] = user_tournaments
+            _return['user_tournaments'] = user_tournaments
 
+            # List user notifications
+            notification_controller = NotificationController(self.request)
+            user_notifications = notification_controller.get_notifications(logged_user)
+            _return['user_notifications'] = user_notifications
 
-        return return_dict
+        return _return
 
     @view_config(route_name='login', renderer='login.jinja2')
     def login(self):

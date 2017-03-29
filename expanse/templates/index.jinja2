@@ -12,12 +12,23 @@
   </ul>
 </div>
 
-{% if user_teams %} User teams: <br>{% endif %}
-<ul>
-{% for team in user_teams %}
-    <li> {{ team.name }} </li>
-{% endfor %}
-</ul>
+{% if user_teams %}
+    <h2>User teams:</h2>
+    <ul>
+    {% for team in user_teams %}
+        <li>{{ team.name }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if user_notifications %}
+    <h2>User teams:</h2>
+    <ul>
+    {% for notification in user_notifications %}
+        <li>{{ notification.title }}: {{ notification.message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
 
 {% if user_tournaments %} Tournaments: <br>{%endif%}
 <ul>
