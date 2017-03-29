@@ -1,3 +1,4 @@
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
 from ..controllers.team import TeamController
@@ -8,12 +9,24 @@ from ..models.team import Team
 class TeamViews(object):
 
     def __init__(self, request):
-        self.team_controller = TeamController()
+        self.team_controller = TeamController(request)
         self.request = request
-        self.view_config = "TeamViews"
+        self.is_logged_in = request.authenticated_userid is not None
+        self.view_name = "TeamViews"
+
+        # Just for debugging purposes
+        print(self.view_name)
+        print(self.request.authenticated_userid)
+        print(self.request.unauthenticated_userid)
+        print(self.request.logged_user)
 
     @view_config(renderer='team/list.jinja2')
     def list_teams(self):
+        # Redirect to Index if the user isn't logged in
+        if not self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         return {
             'page_title': 'List Users',
             'teams': self.team_controller.getTeams()
@@ -23,6 +36,11 @@ class TeamViews(object):
         route_name='register_team',
         renderer='team/register.jinja2')
     def register_team(self):
+        # Redirect to Index if the user isn't logged in
+        if not self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         return {'page_title': 'Sign up'}
 
     @view_config(
@@ -30,6 +48,11 @@ class TeamViews(object):
         request_method='POST',
         renderer='team/register_confirmation.jinja2')
     def register_team_request(self):
+        # Redirect to Index if the user isn't logged in
+        if not self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         params = self.request.params
 
         in_name = params.get('name', '')

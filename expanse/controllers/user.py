@@ -5,7 +5,8 @@ from ..utils.security import SecurityTools
 class UserController(object):
     """Controller Layer for User Object"""
 
-    def __init__(self):
+    def __init__(self, request):
+        self.request = request
         self.security_tools = SecurityTools()
         self.user_dao = UserDAO()
 

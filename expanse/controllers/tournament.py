@@ -1,9 +1,11 @@
 from ..dao.tournament import TournamentDAO
 
+
 class TournamentController(object):
     """Controller layer for Tournament object"""
 
-    def __init__(self):
+    def __init__(self, request):
+        self.request = request
         self.tournament_dao = TournamentDAO()
 
     def register(self, tournament):

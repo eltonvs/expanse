@@ -2,11 +2,6 @@
 
 {% block content %}
 <div class="content">
-  {% if view.logged_in %}
-    <a href="{{ request.application_url }}/logout">Logout</a>
-  {% else %}
-    <a href="{{ request.application_url }}/login">Log in</a>
-  {% endif %}
   <ul>
     <li><a href="{{ request.route_url('list_users') }}">List Registered Users</a></li>
     <li><a href="{{ request.route_url('register_user') }}">Register a new User</a></li>

@@ -9,10 +9,16 @@ from ..controllers.expanse import ExpanseController
 class ExpanseViews(object):
 
     def __init__(self, request):
+        self.expanse_controller = ExpanseController(request)
         self.request = request
-        self.expanse_controller = ExpanseController()
-        self.logged_in = request.authenticated_userid
+        self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'ExpanseViews'
+
+        # Just for debugging purposes
+        print(self.view_name)
+        print(self.request.authenticated_userid)
+        print(self.request.unauthenticated_userid)
+        print(self.request.logged_user)
 
     @view_config(renderer='index.jinja2')
     def index(self):
@@ -20,6 +26,11 @@ class ExpanseViews(object):
 
     @view_config(route_name='login', renderer='login.jinja2')
     def login(self):
+        # Redirect to Index if the user is already logged in
+        if self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         return {
             'page_title': 'Login',
         }
@@ -29,6 +40,11 @@ class ExpanseViews(object):
         request_method='POST',
         renderer='login.jinja2')
     def login_request(self):
+        # Redirect to Index if the user is already logged in
+        if self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         request = self.request
         params = request.params
 

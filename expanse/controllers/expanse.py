@@ -5,7 +5,8 @@ from ..dao.user import UserDAO
 class ExpanseController(object):
     """Controller Layer for User Object"""
 
-    def __init__(self):
+    def __init__(self, request):
+        self.request = request
         self.user_dao = UserDAO()
         self.security_tools = SecurityTools()
 
@@ -28,5 +29,4 @@ class ExpanseController(object):
     def get_password_from_email(self, email):
         user = self.user_dao.get_user_from_email(email)
         if user:
-            return user['password']
-        return None
+            return user.password

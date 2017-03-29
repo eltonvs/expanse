@@ -31,19 +31,20 @@ class UserDAO(GenericDAO):
         print("Not implemented yet")
         pass
 
-    def get(self, user):
-        print("Not implemented yet")
-        pass
+    def get(self, query):
+        users = self.db.users.find(query)
+        return list(users)
 
     def get_user_from_email(self, email):
         usr = self.db.users.find_one({"email": email})
-        user = User(
-            usr['name'],
-            usr['username'],
-            usr['email'],
-            usr['password'],
-            usr['locale'])
-        return user
+        if usr is not None:
+            user = User(
+                usr['name'],
+                usr['username'],
+                usr['email'],
+                usr['password'],
+                usr['locale'])
+            return user
 
     def get_user_id_from_email(self, email):
         usr = self.db.users.find_one({"email": email})

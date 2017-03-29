@@ -1,3 +1,4 @@
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
 from ..controllers.user import UserController
@@ -8,12 +9,24 @@ from ..models.user import User
 class UserViews(object):
 
     def __init__(self, request):
-        self.user_controller = UserController()
+        self.user_controller = UserController(request)
         self.request = request
+        self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'UserViews'
+
+        # Just for debugging purposes
+        print(self.view_name)
+        print(self.request.authenticated_userid)
+        print(self.request.unauthenticated_userid)
+        print(self.request.logged_user)
 
     @view_config(renderer='user/list.jinja2')
     def list_users(self):
+        # Redirect to Index if the user isn't logged in
+        if not self.is_logged_in:
+            url = self.request.route_url('index')
+            return HTTPFound(location=url)
+
         return {
             'page_title': 'List Users',
             'users': self.user_controller.getUsers()
