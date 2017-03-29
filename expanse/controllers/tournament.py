@@ -9,23 +9,27 @@ class TournamentController(object):
         self.tournament_dao = TournamentDAO()
 
     def register(self, tournament):
-        err = self.validade(tournament)
+        err = self.validate(tournament)
         if not err:
             err = self.tournament_dao.insert(tournament)
         return err
 
-    def validade(self, tournament):
+    def validate(self, tournament):
         err = {}
         if not tournament.name:
             err['empty_name'] = True
+        if not tournament.organizer:
+            err['empty_organizer'] = True
+        elif tournament.organizer != self.request.authenticated_userid:
+            err['invalid_organizer'] = True
 
         return err
 
-    def addTeam(self, tournamet, team):
-        if tournamet and team:
-            teams = tournamet.teams
+    def addTeam(self, tournament, team):
+        if tournament and team:
+            teams = tournament.teams
             teams.append(team)
-            tournamet.teams = teams
+            tournament.teams = teams
 
     def getTournaments(self):
         return self.tournament_dao.list()

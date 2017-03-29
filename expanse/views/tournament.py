@@ -53,7 +53,7 @@ class TournamentViews(object):
 
         name = params.get('name', '')
 
-        tournament = Tournament(name)
+        tournament = Tournament(name, self.request.authenticated_userid)
 
         register_tournament = self.tournament_controller.register(tournament)
 
