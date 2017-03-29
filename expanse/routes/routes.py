@@ -21,4 +21,8 @@ def includeme(config):
     config.add_route('list_teams', '/teams')
     config.add_route('register_team', '/teams/register')
 
+    # Tournament Rotues
+    config.add_route('list_tournaments', '/tournaments')
+    config.add_route('register_tournament', '/tournaments/register')
+
     config.scan()

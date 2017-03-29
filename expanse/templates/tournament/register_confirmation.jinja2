@@ -1,0 +1,11 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  {% if errors %}
+    {{ errors }}
+  {% elif tournament %}
+    {{ tournament }} added with success
+  {% endif %}
+</div>
+{% endblock content %}

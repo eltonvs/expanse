@@ -22,14 +22,14 @@ class TeamViews(object):
     @view_config(
         route_name='register_team',
         renderer='team/register.jinja2')
-    def signup(self):
+    def register_team(self):
         return {'page_title': 'Sign up'}
 
     @view_config(
         route_name='register_team',
         request_method='POST',
         renderer='team/register_confirmation.jinja2')
-    def register_user(self):
+    def register_team_request(self):
         params = self.request.params
 
         in_name = params.get('name', '')

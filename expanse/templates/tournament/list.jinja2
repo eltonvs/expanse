@@ -1,0 +1,9 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+    {% for tournament in tournaments %}
+        {{ tournament.name }} <br>
+    {% endfor %}
+</div>
+{% endblock content %}
