@@ -3,6 +3,7 @@ from pyramid.security import remember, forget
 from pyramid.view import view_config, view_defaults
 
 from ..controllers.expanse import ExpanseController
+from ..controllers.team import TeamController
 
 
 @view_defaults(route_name='index')
@@ -16,6 +17,13 @@ class ExpanseViews(object):
 
     @view_config(renderer='index.jinja2')
     def index(self):
+        logged_user = self.request.authenticated_userid
+        if logged_user:
+            team_controller = TeamController(self.request)
+            user_teams = team_controller.getUserTeams(logged_user)
+            if user_teams:
+                return {'page_title': 'Home', 'user_teams': user_teams}
+
         return {'page_title': 'Home'}
 
     @view_config(route_name='login', renderer='login.jinja2')

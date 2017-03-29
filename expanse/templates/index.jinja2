@@ -12,4 +12,10 @@
   </ul>
 </div>
 
+{% if user_teams %} User teams: <br>{% endif %}
+<ul>
+{% for team in user_teams %}
+    <li> {{ team.name }} </li>
+{% endfor %}
+</ul>
 {% endblock content %}
