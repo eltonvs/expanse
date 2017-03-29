@@ -24,6 +24,8 @@ class TournamentController(object):
             err['empty_organizer'] = True
         elif tournament.organizer != self.request.authenticated_userid:
             err['invalid_organizer'] = True
+        if not tournament.locale:
+            err['empty_locale'] = True
 
         return err
 
