@@ -12,8 +12,12 @@ class NotificationDAO(GenericDAO):
         self.db = MongoDatabase().instance()
 
     def insert(self, notification):
-        print("Not implemented yet")
-        pass
+        notification_to_insert = {
+            "user_id": notification.user_id,
+            "title": notification.title,
+            "message": notification.message,
+        }
+        self.db.notifications.insert(notification_to_insert)
 
     def remove(self, notification):
         print("Not implemented yet")
@@ -24,8 +28,8 @@ class NotificationDAO(GenericDAO):
         pass
 
     def get(self, query):
-        notification = self.db.users.find(query)
-        return notification
+        notifications = self.db.notifications.find(query)
+        return list(notifications)
 
     def get_notifications_from_user(self, user_id):
         notifications = self.get({"user_id": user_id})
@@ -37,5 +41,4 @@ class NotificationDAO(GenericDAO):
             return notifications_list
 
     def list(self):
-        notifications = list(self.db.notifications.find())
-        return notifications
+        return self.get({})
