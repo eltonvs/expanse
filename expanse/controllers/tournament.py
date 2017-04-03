@@ -65,7 +65,6 @@ class TournamentController(object):
         tournament = self.tournament_dao.get({"organizer_id": user})
         _return = tournament if tournament else {}
         return _return
-        # return tournament
 
     def get_tournament_teams(self, tournament_id):
         tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})

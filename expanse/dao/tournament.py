@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 from ..models.database import MongoDatabase
 from .generic import GenericDAO
 
+
 class TournamentDAO(GenericDAO):
     __metaclass__ = ABCMeta
 

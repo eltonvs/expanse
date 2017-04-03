@@ -2,8 +2,6 @@ from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo, TeamManagerDAOMongo
 from ..dao.user import UserDAOMongo
-from ..models.team import Team
-
 
 
 class TeamController(object):

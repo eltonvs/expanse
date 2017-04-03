@@ -22,7 +22,7 @@ class Notification(object):
         return self._title
 
     @title.setter
-    def user_id(self, value):
+    def title(self, value):
         self._title = value
 
     @property
@@ -30,5 +30,5 @@ class Notification(object):
         return self._message
 
     @message.setter
-    def user_id(self, value):
+    def message(self, value):
         self._message = value
