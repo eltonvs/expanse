@@ -1,9 +1,22 @@
+from abc import ABCMeta, abstractmethod
+
 from ..models.database import MongoDatabase
 from ..models.user import User
 from .generic import GenericDAO
 
 
 class UserDAO(GenericDAO):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def get_user_from_email(self, email):
+        pass
+
+    @abstractmethod     
+    def get_user_id_from_email(self, email):
+        pass
+
+class UserDAOMongo(UserDAO):
     """User Data Access Object implementing Borg Pattern"""
     __shared_state = {}
 
@@ -32,6 +45,10 @@ class UserDAO(GenericDAO):
         pass
 
     def get(self, query):
+        users = list(self.db.users.find(query))
+        return users
+
+    def get_one(self, query):
         user = self.db.users.find_one(query)
         return user
 
@@ -56,5 +73,4 @@ class UserDAO(GenericDAO):
         return users
 
     def list(self):
-        users = list(self.db.users.find())
-        return users
+        return self.get({})

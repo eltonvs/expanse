@@ -1,6 +1,8 @@
 from bson import ObjectId
 
-from ..dao.tournament import TournamentDAO
+from ..dao.tournament import TournamentDAOMongo
+from ..dao.team import TeamDAOMongo
+
 from ..dao.user import UserDAO
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
@@ -11,7 +13,7 @@ class TournamentController(object):
 
     def __init__(self, request):
         self.request = request
-        self.tournament_dao = TournamentDAO()
+        self.tournament_dao = TournamentDAOMongo()
 
     def register(self, tournament):
         err = self.validate(tournament)
@@ -63,4 +65,23 @@ class TournamentController(object):
         return self.tournament_dao.list()
 
     def get_user_tournaments(self, user):
-        return self.tournament_dao.get({"organizer_id": user})
+        tournament = self.tournament_dao.get({"organizer_id": user})
+        _return = tournament if tournament else {}
+        return _return
+        # return tournament
+
+    def get_tournament_teams(self, tournament_id):
+        tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})
+        tournament_teams = tournament.get('teams')
+        
+        if tournament_teams:
+            team_dao = TeamDAOMongo()
+            teams = []
+            
+            for team_id in tournament_teams:
+                team = team_dao.get_one({"_id": team_id})
+                if team:
+                    teams.append(team)
+
+            return teams
+        return {}

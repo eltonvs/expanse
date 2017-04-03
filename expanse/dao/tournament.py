@@ -1,8 +1,16 @@
+from abc import ABCMeta, abstractmethod
+
 from ..models.database import MongoDatabase
 from .generic import GenericDAO
 
-
 class TournamentDAO(GenericDAO):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def add_team(self, team, tournament):
+        pass
+
+class TournamentDAOMongo(TournamentDAO):
     __shared_state = {}
 
     def __init__(self):
@@ -32,10 +40,14 @@ class TournamentDAO(GenericDAO):
         print("Not implented yet")
         pass
 
-    def get(self, querry):
-        tournaments = list(self.db.tournaments.find(querry))
-        return tournaments
+    def get(self, query):
+        tournament = list(self.db.tournaments.find(query))
+        return tournament
+
+    def get_one(self, query):
+        tournament =  self.db.tournaments.find_one(query)
+        return tournament
+
 
     def list(self):
-        tournaments = list(self.db.tournaments.find())
-        return tournaments
+        return self.get({})

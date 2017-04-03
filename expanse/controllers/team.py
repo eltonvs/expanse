@@ -1,5 +1,9 @@
-from ..dao.team import TeamDAO, TeamManagerDAO
-from ..dao.user import UserDAO
+from bson import ObjectId
+
+from ..dao.team import TeamDAOMongo, TeamManagerDAOMongo
+from ..dao.user import UserDAOMongo
+from ..models.team import Team
+
 
 
 class TeamController(object):
@@ -7,7 +11,7 @@ class TeamController(object):
 
     def __init__(self, request):
         self.request = request
-        self.team_dao = TeamDAO()
+        self.team_dao = TeamDAOMongo()
 
     def register(self, team):
         err = self.validate(team)
@@ -26,13 +30,14 @@ class TeamController(object):
 
     def get_teams(self):
         teams = self.team_dao.list()
-        user_dao = UserDAO()
+        user_dao = UserDAOMongo()
 
         for team in teams:
-            team_manager = user_dao.get({"_id": team['team_manager_id']})
+            team_manager = user_dao.get_one({"_id": ObjectId(team['team_manager_id'])})
             team['team_manager'] = team_manager['name']
 
         return teams
+
 
     def get_user_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
@@ -48,7 +53,7 @@ class TeamManagerController(object):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-        self.team_manager_dao = TeamManagerDAO()
+        self.team_manager_dao = TeamManagerDAOMongo()
 
     def get_team_manager(self):
         return self.team_manager_dao.list()
