@@ -5,6 +5,7 @@ from ..dao.user import UserDAOMongo
 from ..models.team import Team
 
 
+from bson import ObjectId
 
 class TeamController(object):
     """Controller Layer for Team Object"""
@@ -47,6 +48,11 @@ class TeamController(object):
 
     def extend_lines(self, value):
         self.team_dao.lines.extend(value)
+
+    def add_player(self, team_id, player):
+        query = {'_id': ObjectId(team_id)}
+        update = {'$addToSet': {'players': player}}
+        self.team_dao.update(query, update)
 
 
 class TeamManagerController(object):

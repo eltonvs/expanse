@@ -31,9 +31,8 @@ class TeamDAOMongo(TeamDAO):
         print("Not implemented yet")
         pass
 
-    def update(self, user):
-        print("Not implemented yet")
-        pass
+    def update(self, query, update):
+        print query, update, self.db.teams.update(query, update)
 
     def get(self, query):
         teams = list(self.db.teams.find(query))

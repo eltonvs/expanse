@@ -2,8 +2,10 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
 from ..controllers.team import TeamController
+from ..controllers.user import UserController
 from ..models.team import Team
 
+from bson import ObjectId
 
 @view_defaults(route_name='list_teams')
 class TeamViews(object):
@@ -61,3 +63,37 @@ class TeamViews(object):
             'errors': register_team,
             'team': team
         }
+
+    @view_config(
+        route_name='dashboard_team',
+        renderer='team/dashboard.jinja2')
+    def dashboard(self):
+        print 'A'
+        user_controller = UserController(self.request)
+        users = user_controller.get_users()
+        _return = {'page_title': 'Team Dashboard'}
+
+        if users:
+            _return['users'] = users
+
+        return _return
+
+    @view_config(
+        route_name='dashboard_team',
+        request_method='POST',
+        renderer='team/dashboard.jinja2')
+    def dashboard_insert_player(self):
+        print 'B'
+        params = self.request.params
+        team_id = self.request.matchdict['team_id']
+
+        if params.get('expanse_users'):
+            user = params.get('expanse_users')
+            user = ObjectId(user)
+
+        else:
+            user = params.get('ne-user')
+
+        self.team_controller.add_player(team_id, user)
+
+        return {'page_title': 'Team Dashboard', 'inserted': True}
