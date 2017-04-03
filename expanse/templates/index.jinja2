@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if user_notifications %}
-    <h2>User teams:</h2>
+    <h2>User notifications:</h2>
     <ul>
     {% for notification in user_notifications %}
         <li>{{ notification.title }}: {{ notification.message }}</li>

@@ -2,7 +2,7 @@ from bson import ObjectId
 
 from ..dao.tournament import TournamentDAOMongo
 from ..dao.team import TeamDAOMongo
-from ..dao.user import UserDAO
+from ..dao.user import UserDAOMongo
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
@@ -29,23 +29,25 @@ class TournamentController(object):
             err['empty_organizer'] = True
         elif tournament.organizer != self.request.authenticated_userid:
             err['invalid_organizer'] = True
+        if not tournament.locale:
+            err['empty_locale'] = True
 
         return err
 
-        def notify_near_users(self, tournament):
-           print("notification")
-           user_dao = UserDAO()
-           notification_controller = NotificationController(self.request)
-           nearest_users = user_dao.get_users_from_locale(tournament.locale)
-           for nu in nearest_users:
-               usr_id = nu['_id']
-               if usr_id == self.request.authenticated_userid:
-                   continue
-                   notification = Notification(
-                       usr_id,
-                       "Near Tournament",
-                       "\"" + tournament.name + "\" is near from you!")
-                   notification_controller.add(notification)
+    def notify_near_users(self, tournament):
+        print("notification")
+        user_dao = UserDAOMongo()
+        notification_controller = NotificationController(self.request)
+        nearest_users = user_dao.get_users_from_locale(tournament.locale)
+        for nu in nearest_users:
+            usr_id = nu['_id']
+            if usr_id == self.request.authenticated_userid:
+                continue
+            notification = Notification(
+                usr_id,
+                "Near Tournament",
+                "\"" + tournament.name + "\" is near from you!")
+            notification_controller.add(notification)
 
     def add_team(self, tournament_id, team_id):
         if tournament_id and team_id:
