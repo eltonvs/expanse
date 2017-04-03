@@ -36,7 +36,6 @@ class UserController(object):
 
     def get_users(self):
         users = self.user_dao.list()
-        print users
         return users
 
     def get_user_from_email(self, email):

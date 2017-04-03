@@ -2,26 +2,30 @@
 
 {% block content %}
 <div class="content">
-    Add player:<br>
-    <form id="new_player">
-        <input class="user_type" type="radio" name="user_type" value="user" checked> expanse User<br>
-        <input class="user_type" type="radio" name="user_type" value="not_user"> Not user<br>
+    {% if not inserted %}
+        Add player:<br>
+        <form id="new_player" method="POST">
+            <input class="user_type" type="radio" name="user_type" value="user" checked> expanse User<br>
+            <input class="user_type" type="radio" name="user_type" value="not_user"> Not user<br>
 
-        <select id='expanse_users' name="expanse_users">
-            {% for user in users %}
-                <option value="{{user._id}}">{{ user.name }}</option>
-            {% endfor %}
-        </select>
+            <select id='expanse_users' name="expanse_users">
+                {% for user in users %}
+                    <option value="{{user._id}}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
 
-        <br>
+            <br>
 
-        <input id="player_name" type="text" name="ne-user" placeholder="Player Name" disabled=""><br>
-        <input type="submit" name="submit" value="Adicionar">
+            <input id="player_name" type="text" name="ne-user" placeholder="Player Name" disabled=""><br>
+            <input type="submit" name="submit" value="Adicionar">
 
-    </form>
+        </form>
 
     <hr>
     <h3> Players in this team: </h3>
+    {%else%}
+        Success!
+    {%endif%}
 </div>
 
 <script type="text/javascript">

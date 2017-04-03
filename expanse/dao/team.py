@@ -24,9 +24,8 @@ class TeamDAO(GenericDAO):
         print("Not implemented yet")
         pass
 
-    def update(self, user):
-        print("Not implemented yet")
-        pass
+    def update(self, query, update):
+        print query, update, self.db.teams.update(query, update)
 
     def get(self, search):
         teams = list(self.db.teams.find(search))
