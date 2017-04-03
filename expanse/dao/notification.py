@@ -44,6 +44,7 @@ class NotificationDAOMongo(NotificationDAO):
         notification = self.db.teams.find_one(query)
         return notification
 
+
     def get_notifications_from_user(self, user_id):
         notifications = self.get({"user_id": user_id})
         if notifications is not None:
