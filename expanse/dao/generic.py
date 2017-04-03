@@ -21,5 +21,9 @@ class GenericDAO():
         pass
 
     @abstractmethod
+    def get_one(self, thing):
+        pass
+
+    @abstractmethod
     def list(self, thing):
         pass

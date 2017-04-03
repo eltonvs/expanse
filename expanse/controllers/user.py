@@ -1,4 +1,4 @@
-from ..dao.user import UserDAO
+from ..dao.user import UserDAOMongo
 from ..utils.security import SecurityTools
 
 
@@ -8,7 +8,7 @@ class UserController(object):
     def __init__(self, request):
         self.request = request
         self.security_tools = SecurityTools()
-        self.user_dao = UserDAO()
+        self.user_dao = UserDAOMongo()
 
     def register(self, user):
         err = self.validate(user)

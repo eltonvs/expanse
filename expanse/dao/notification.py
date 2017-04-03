@@ -1,9 +1,18 @@
+from abc import ABCMeta, abstractmethod
+
 from ..models.database import MongoDatabase
 from ..models.notification import Notification
 from .generic import GenericDAO
 
 
 class NotificationDAO(GenericDAO):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def get_notifications_from_user(self, user_id):
+        pass
+
+class NotificationDAOMongo(NotificationDAO):
     """Notification Data Access Object implementing Borg Pattern"""
     __shared_state = {}
 
@@ -12,8 +21,12 @@ class NotificationDAO(GenericDAO):
         self.db = MongoDatabase().instance()
 
     def insert(self, notification):
-        print("Not implemented yet")
-        pass
+        notification_to_insert = {
+            "user_id": notification.user_id,
+            "title": notification.title,
+            "message": notification.message,
+        }
+        self.db.notifications.insert(notification_to_insert)
 
     def remove(self, notification):
         print("Not implemented yet")
@@ -24,7 +37,11 @@ class NotificationDAO(GenericDAO):
         pass
 
     def get(self, query):
-        notification = self.db.users.find(query)
+        notifications = list(self.db.notifications.find(query))
+        return notifications
+
+    def get_one(self, query):
+        notification = self.db.teams.find_one(query)
         return notification
 
     def get_notifications_from_user(self, user_id):
@@ -37,5 +54,4 @@ class NotificationDAO(GenericDAO):
             return notifications_list
 
     def list(self):
-        notifications = list(self.db.notifications.find())
-        return notifications
+        return self.get({})

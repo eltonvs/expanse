@@ -1,5 +1,5 @@
 from ..utils.security import SecurityTools
-from ..dao.user import UserDAO
+from ..dao.user import UserDAOMongo
 
 
 class ExpanseController(object):
@@ -7,7 +7,7 @@ class ExpanseController(object):
 
     def __init__(self, request):
         self.request = request
-        self.user_dao = UserDAO()
+        self.user_dao = UserDAOMongo()
         self.security_tools = SecurityTools()
 
     def login(self, email, password):

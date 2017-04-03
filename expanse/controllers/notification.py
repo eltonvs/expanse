@@ -1,4 +1,4 @@
-from ..dao.notification import NotificationDAO
+from ..dao.notification import NotificationDAOMongo
 from ..utils.security import SecurityTools
 
 
@@ -8,7 +8,7 @@ class NotificationController(object):
     def __init__(self, request):
         self.request = request
         self.security_tools = SecurityTools()
-        self.notification_dao = NotificationDAO()
+        self.notification_dao = NotificationDAOMongo()
 
     def add(self, notification):
         err = self.validate(notification)
