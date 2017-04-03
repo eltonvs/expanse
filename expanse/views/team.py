@@ -61,3 +61,9 @@ class TeamViews(object):
             'errors': register_team,
             'team': team
         }
+
+    @view_config(
+        route_name='dashboard_team',
+        renderer='team/dashboard.jinja2')
+    def dashboard(self):
+        return {'success': True}
