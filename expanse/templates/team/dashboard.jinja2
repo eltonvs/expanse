@@ -2,5 +2,35 @@
 
 {% block content %}
 <div class="content">
+    Add player:<br>
+    <form id="new_player">
+        <input class="user_type" type="radio" name="user_type" value="user" checked> expanse User<br>
+        <input class="user_type" type="radio" name="user_type" value="not_user"> Not user<br>
+
+        <select id='expanse_users' name="expanse_users">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+
+        <br>
+
+        <input id="player_name" type="text" name="ne-user" placeholder="Player Name" disabled=""><br>
+
+    </form>
 </div>
+
+<script type="text/javascript">
+    $('#new_player input').on('change', function() {
+        var checked = $('input[name=user_type]:checked', '#new_player').val();
+        if (checked == "not_user"){
+            $("#expanse_users").prop('disabled', 'disabled');
+            $("#player_name").prop('disabled', false);
+        }else{
+            $("#expanse_users").prop('disabled', false);
+            $("#player_name").prop('disabled', 'disabled');
+        }
+    });
+</script>
+
 {% endblock content %}

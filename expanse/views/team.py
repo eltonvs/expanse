@@ -66,4 +66,14 @@ class TeamViews(object):
         route_name='dashboard_team',
         renderer='team/dashboard.jinja2')
     def dashboard(self):
-        return {'success': True}
+        return {'page_title': 'Team Dashboard'}
+
+    @view_config(
+        route_name='dashboard_team',
+        request_method='POST',
+        renderer='team/dashboard.jinja2')
+    def dashboard(self):
+        params = self.request.params
+        team_id = self.request.matchdict['team_id']
+
+        return {'page_title': 'Team Dashboard'}
