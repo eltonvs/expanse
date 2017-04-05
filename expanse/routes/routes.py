@@ -20,6 +20,7 @@ def includeme(config):
     # TeamViews Routes
     config.add_route('list_teams', '/teams')
     config.add_route('register_team', '/teams/register')
+    config.add_route('dashboard_team', '/teams/dashboard/{team_id}')
 
     # Tournament Routes
     config.add_route('list_tournaments', '/tournaments')

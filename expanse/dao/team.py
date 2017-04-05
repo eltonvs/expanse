@@ -33,9 +33,8 @@ class TeamDAOMongo(TeamDAO):
         print("Not implemented yet")
         pass
 
-    def update(self, user):
-        print("Not implemented yet")
-        pass
+    def update(self, query, update):
+        print query, update, self.db.teams.update(query, update)
 
     def get(self, query):
         teams = list(self.db.teams.find(query))
@@ -44,7 +43,6 @@ class TeamDAOMongo(TeamDAO):
     def get_one(self, query):
         team = self.db.teams.find_one(query)
         if team:
-            print team
             new_team = Team(
                 team['name'],
                 team['team_manager_id'])

@@ -16,7 +16,7 @@
     <h2>User teams:</h2>
     <ul>
     {% for team in user_teams %}
-        <li>{{ team.name }}</li>
+        <li><a href="{{ request.route_url('dashboard_team', team_id=team._id) }}">{{ team.name }}</a></li>
     {% endfor %}
     </ul>
 {% endif %}
