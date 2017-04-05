@@ -2,8 +2,7 @@ from bson import ObjectId
 
 from ..dao.tournament import TournamentDAOMongo
 from ..dao.team import TeamDAOMongo
-
-from ..dao.user import UserDAO
+from ..dao.user import UserDAOMongo
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
@@ -37,7 +36,7 @@ class TournamentController(object):
 
     def notify_near_users(self, tournament):
         print("notification")
-        user_dao = UserDAO()
+        user_dao = UserDAOMongo()
         notification_controller = NotificationController(self.request)
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
@@ -68,11 +67,10 @@ class TournamentController(object):
         tournament = self.tournament_dao.get({"organizer_id": user})
         _return = tournament if tournament else {}
         return _return
-        # return tournament
 
     def get_tournament_teams(self, tournament_id):
         tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})
-        tournament_teams = tournament.get('teams')
+        tournament_teams = tournament.teams
         
         if tournament_teams:
             team_dao = TeamDAOMongo()

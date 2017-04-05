@@ -42,8 +42,12 @@ class NotificationDAOMongo(NotificationDAO):
 
     def get_one(self, query):
         notification = self.db.teams.find_one(query)
-        return notification
-
+        if notification:
+            new_notification = Notification(
+                notification['user_id'],
+                notification['title'],
+                notification['message'])
+            return new_notification
 
     def get_notifications_from_user(self, user_id):
         notifications = self.get({"user_id": user_id})

@@ -2,8 +2,6 @@ from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo, TeamManagerDAOMongo
 from ..dao.user import UserDAOMongo
-from ..models.team import Team
-
 
 from bson import ObjectId
 
@@ -35,7 +33,7 @@ class TeamController(object):
 
         for team in teams:
             team_manager = user_dao.get_one({"_id": ObjectId(team['team_manager_id'])})
-            team['team_manager'] = team_manager['name']
+            team['team_manager'] = team_manager.name
 
         return teams
 

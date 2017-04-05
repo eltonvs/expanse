@@ -2,6 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 from ..models.database import MongoDatabase
 from .generic import GenericDAO
+from ..models.team import Team
+
 
 class TeamDAO(GenericDAO):
     __metaclass__ = ABCMeta
@@ -40,7 +42,12 @@ class TeamDAOMongo(TeamDAO):
 
     def get_one(self, query):
         team = self.db.teams.find_one(query)
-        return team
+        if team:
+            new_team = Team(
+                team['name'],
+                team['team_manager_id'])
+            new_team.lines = team['lines']
+            return new_team
 
     def list(self):
         return self.get({})

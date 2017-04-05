@@ -1,7 +1,9 @@
 from abc import ABCMeta, abstractmethod
 
 from ..models.database import MongoDatabase
+from ..models.tournament import Tournament
 from .generic import GenericDAO
+
 
 class TournamentDAO(GenericDAO):
     __metaclass__ = ABCMeta
@@ -46,8 +48,13 @@ class TournamentDAOMongo(TournamentDAO):
 
     def get_one(self, query):
         tournament =  self.db.tournaments.find_one(query)
-        return tournament
-
+        if tournament:
+            new_tournamant = Tournament(
+                tournament['name'],
+                tournament['organizer_id'],
+                tournament.get('locale',''))
+            new_tournamant.teams = tournament['teams']
+            return new_tournamant
 
     def list(self):
         return self.get({})
