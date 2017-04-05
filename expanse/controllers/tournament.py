@@ -70,7 +70,7 @@ class TournamentController(object):
 
     def get_tournament_teams(self, tournament_id):
         tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})
-        tournament_teams = tournament.get('teams')
+        tournament_teams = tournament.teams
         
         if tournament_teams:
             team_dao = TeamDAOMongo()

@@ -32,7 +32,7 @@ class TeamController(object):
 
         for team in teams:
             team_manager = user_dao.get_one({"_id": ObjectId(team['team_manager_id'])})
-            team['team_manager'] = team_manager['name']
+            team['team_manager'] = team_manager.name
 
         return teams
 

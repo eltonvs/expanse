@@ -49,8 +49,15 @@ class UserDAOMongo(UserDAO):
         return users
 
     def get_one(self, query):
-        user = self.db.users.find_one(query)
-        return user
+        usr = self.db.users.find_one(query)
+        if usr is not None:
+            user = User(
+                usr['name'],
+                usr['username'],
+                usr['email'],
+                usr['password'],
+                usr['locale'])
+            return user
 
     def get_user_from_email(self, email):
         usr = self.db.users.find_one({"email": email})
