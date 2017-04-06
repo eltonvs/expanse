@@ -28,14 +28,7 @@ class TeamController(object):
         return err
 
     def get_teams(self):
-        teams = self.team_dao.list()
-        user_dao = UserDAOMongo()
-
-        # for team in teams:
-            # team_manager = user_dao.get_one({"_id": team.team_manager})
-            # team.team_manager = team_manager.name
-
-        return teams
+        return self.team_dao.list()
 
 
     def get_user_teams(self, user):

@@ -1,3 +1,5 @@
+from .team import Team
+
 class Tournament(object):
     """Tournament model to store tournament data in runtime"""
 
@@ -6,6 +8,7 @@ class Tournament(object):
         self._organizer = organizer
         self._locale = locale
         self._teams = []
+        self._matches = []
         self._my_id = None
 
     def __str__(self):
@@ -44,9 +47,62 @@ class Tournament(object):
         self._teams = value
 
     @property
+    def matches(self):
+        return self._matches
+
+    @matches.setter
+    def matches(self, value):
+        self._matches = value
+
+    @property
     def my_id(self):
         return self._my_id
 
     @my_id.setter
     def my_id(self, value):
         self._my_id = value
+
+
+class Match(object):
+    """Mach Model to store user data in runtime"""
+    def __init__(self):
+        self._teams = []
+        self._score = [0, 0]
+        self._time = None
+        self._my_id = None
+
+    def __str__(self):
+        return (self._name)
+
+    @property
+    def teams(self):
+        return self._teams
+
+    @teams.setter
+    def teams(self, team1, team2):
+        self._teams = [team1, team2]
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, score):
+        self._score = score
+
+    @property
+    def time(self):
+        return self._time
+
+    @time.setter
+    def time(self, time):
+        self._time = time
+
+    @property
+    def my_id(self):
+        return self._my_id
+
+    @my_id.setter
+    def my_id(self, value):
+        self._my_id = value
+
