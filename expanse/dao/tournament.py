@@ -52,6 +52,7 @@ class TournamentDAOMongo(TournamentDAO):
                     tournament['organizer_id'],
                     tournament.get('locale',''))
                 new_tournamant.teams = tournament['teams']
+                new_tournamant.my_id = tournament['_id']
                 tournament_list.append(new_tournamant)
             return tournament_list
 
@@ -63,6 +64,7 @@ class TournamentDAOMongo(TournamentDAO):
                 tournament['organizer_id'],
                 tournament.get('locale',''))
             new_tournamant.teams = tournament['teams']
+            new_tournamant.my_id = tournament['_id']
             return new_tournamant
 
     def list(self):

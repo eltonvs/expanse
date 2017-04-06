@@ -41,8 +41,12 @@ class NotificationDAOMongo(NotificationDAO):
         if notifications:
             notifications_list = []
             for n in notifications:
-                notifications_list.append(
-                    Notification(n['user_id'], n['title'], n['message']))
+                new_notification =  Notification(
+                    n['user_id'],
+                    n['title'],
+                    n['message'])
+                new_notification.my_id = n['id']
+                notifications_list.append(new_notification)
             return notifications_list
 
     def get_one(self, query):
@@ -52,6 +56,7 @@ class NotificationDAOMongo(NotificationDAO):
                 notification['user_id'],
                 notification['title'],
                 notification['message'])
+            new_notification.my_id = notification['id']
             return new_notification
 
     def get_notifications_from_user(self, user_id):
@@ -59,8 +64,12 @@ class NotificationDAOMongo(NotificationDAO):
         if notifications:
             notifications_list = []
             for n in notifications:
-                notifications_list.append(
-                    Notification(n['user_id'], n['title'], n['message']))
+                new_notification =  Notification(
+                    n['user_id'],
+                    n['title'],
+                    n['message'])
+                new_notification.my_id = n['id']
+                notifications_list.append(new_notification)
             return notifications_list
 
     def list(self):
