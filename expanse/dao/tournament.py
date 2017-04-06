@@ -43,8 +43,17 @@ class TournamentDAOMongo(TournamentDAO):
         pass
 
     def get(self, query):
-        tournament = list(self.db.tournaments.find(query))
-        return tournament
+        tournaments = list(self.db.tournaments.find(query))
+        if tournaments:
+            tournament_list = []
+            for tournament in tournaments:
+                new_tournamant = Tournament(
+                    tournament['name'],
+                    tournament['organizer_id'],
+                    tournament.get('locale',''))
+                new_tournamant.teams = tournament['teams']
+                tournament_list.append(new_tournamant)
+            return tournament_list
 
     def get_one(self, query):
         tournament =  self.db.tournaments.find_one(query)

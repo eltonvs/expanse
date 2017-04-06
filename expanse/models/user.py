@@ -9,11 +9,11 @@ class User(object):
         self._locale = locale
 
     def __str__(self):
-        return (self.username)
+        return (self._name)
 
     @property
     def username(self):
-        return self._username
+        return self._name
 
     @username.setter
     def username(self, value):

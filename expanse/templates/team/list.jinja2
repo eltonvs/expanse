@@ -4,7 +4,8 @@
 <div class="content">
   {% for team in teams %}
     {% if team.name != 'admin' %}
-      Name: {{ team.name }} | TeamManager: {{team.team_manager}} <br>
+      Name: {{ team.name }} |
+      TeamManager: {{team.team_manager}} <br>
     {% endif %}
   {% endfor %}
 </div>

@@ -38,7 +38,12 @@ class NotificationDAOMongo(NotificationDAO):
 
     def get(self, query):
         notifications = list(self.db.notifications.find(query))
-        return notifications
+        if notifications:
+            notifications_list = []
+            for n in notifications:
+                notifications_list.append(
+                    Notification(n['user_id'], n['title'], n['message']))
+            return notifications_list
 
     def get_one(self, query):
         notification = self.db.teams.find_one(query)
@@ -51,7 +56,7 @@ class NotificationDAOMongo(NotificationDAO):
 
     def get_notifications_from_user(self, user_id):
         notifications = self.get({"user_id": user_id})
-        if notifications is not None:
+        if notifications:
             notifications_list = []
             for n in notifications:
                 notifications_list.append(

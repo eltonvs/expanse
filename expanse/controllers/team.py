@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from ..dao.team import TeamDAOMongo, TeamManagerDAOMongo
+from ..dao.team import TeamDAOMongo
 from ..dao.user import UserDAOMongo
 
 from bson import ObjectId
@@ -31,9 +31,9 @@ class TeamController(object):
         teams = self.team_dao.list()
         user_dao = UserDAOMongo()
 
-        for team in teams:
-            team_manager = user_dao.get_one({"_id": ObjectId(team['team_manager_id'])})
-            team['team_manager'] = team_manager.name
+        # for team in teams:
+            # team_manager = user_dao.get_one({"_id": team.team_manager})
+            # team.team_manager = team_manager.name
 
         return teams
 
@@ -51,13 +51,3 @@ class TeamController(object):
         query = {'_id': ObjectId(team_id)}
         update = {'$addToSet': {'players': player}}
         self.team_dao.update(query, update)
-
-
-class TeamManagerController(object):
-    """Controller Layer for Team Object"""
-
-    def __init__(self):
-        self.team_manager_dao = TeamManagerDAOMongo()
-
-    def get_team_manager(self):
-        return self.team_manager_dao.list()

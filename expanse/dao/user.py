@@ -46,7 +46,16 @@ class UserDAOMongo(UserDAO):
 
     def get(self, query):
         users = list(self.db.users.find(query))
-        return users
+        if users:
+            user_list = []
+            for user in users:
+                user_list.append(User(
+                    user['name'],
+                    user['username'],
+                    user['email'],
+                    user['password'],
+                    user['locale']))
+            return user_list
 
     def get_one(self, query):
         usr = self.db.users.find_one(query)
