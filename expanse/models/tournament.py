@@ -6,6 +6,7 @@ class Tournament(object):
         self._organizer = organizer
         self._locale = locale
         self._teams = []
+        self._matches = []
         self._my_id = None
 
     def __str__(self):
@@ -42,6 +43,14 @@ class Tournament(object):
     @teams.setter
     def teams(self, value):
         self._teams = value
+
+    @property
+    def matches(self):
+        return self._matches
+
+    @matches.setter
+    def matches(self, value):
+        self._matches = value
 
     @property
     def my_id(self):

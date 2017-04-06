@@ -24,7 +24,8 @@ class TournamentDAOMongo(TournamentDAO):
             "name": tournament.name,
             "teams": [],
             "locale": tournament.locale,
-            "organizer_id": tournament.organizer
+            "organizer_id": tournament.organizer,
+            'matches':[]
         }
         self.db.tournaments.insert(tournament_to_insert)
 
@@ -52,6 +53,7 @@ class TournamentDAOMongo(TournamentDAO):
                     tournament['organizer_id'],
                     tournament.get('locale',''))
                 new_tournamant.teams = tournament['teams']
+                new_tournamant.matches = tournament['matches']
                 new_tournamant.my_id = tournament['_id']
                 tournament_list.append(new_tournamant)
             return tournament_list
@@ -64,6 +66,7 @@ class TournamentDAOMongo(TournamentDAO):
                 tournament['organizer_id'],
                 tournament.get('locale',''))
             new_tournamant.teams = tournament['teams']
+            new_tournamant.matches = tournament['matches']
             new_tournamant.my_id = tournament['_id']
             return new_tournamant
 
