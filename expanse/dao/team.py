@@ -45,9 +45,6 @@ class TeamDAOMongo(TeamDAO):
                     team['team_manager_id'])
                 new_team.lines = team['lines']
                 new_team.my_id = team['_id']
-
-                print(team['_id'])
-                
                 teams_list.append(new_team)
             return teams_list
 
