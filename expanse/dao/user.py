@@ -48,40 +48,44 @@ class UserDAOMongo(UserDAO):
         users = list(self.db.users.find(query))
         if users:
             user_list = []
-            for user in users:
-                user_list.append(User(
-                    user['name'],
-                    user['username'],
-                    user['email'],
-                    user['password'],
-                    user['locale']))
+            for usr in users:
+                user = User(
+                    usr['name'],
+                    usr['username'],
+                    usr['email'],
+                    usr['password'],
+                    usr['locale'])
+                user.my_id = usr['_id']
+                user_list.append(user)
             return user_list
 
     def get_one(self, query):
         usr = self.db.users.find_one(query)
-        if usr is not None:
+        if usr:
             user = User(
                 usr['name'],
                 usr['username'],
                 usr['email'],
                 usr['password'],
                 usr['locale'])
+            user.my_id = usr['_id']
             return user
 
     def get_user_from_email(self, email):
         usr = self.db.users.find_one({"email": email})
-        if usr is not None:
+        if usr:
             user = User(
                 usr['name'],
                 usr['username'],
                 usr['email'],
                 usr['password'],
                 usr['locale'])
+            user.my_id = usr['_id']
             return user
 
     def get_user_id_from_email(self, email):
         usr = self.db.users.find_one({"email": email})
-        if usr is not None:
+        if usr:
             return usr['_id']
 
     def get_users_from_locale(self, location):

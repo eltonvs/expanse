@@ -5,6 +5,7 @@ class Notification(object):
         self._user_id = user_id
         self._title = title
         self._message = message
+        self._my_id = None
 
     def __str__(self):
         return '[' + self._user_id + '] - ' + self._title + ': ' + self._message
@@ -32,3 +33,11 @@ class Notification(object):
     @message.setter
     def message(self, value):
         self._message = value
+
+    @property
+    def my_id(self):
+        return self._my_id
+
+    @my_id.setter
+    def my_id(self, value):
+        self._my_id = value

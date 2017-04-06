@@ -16,7 +16,7 @@
     <h2>User teams:</h2>
     <ul>
     {% for team in user_teams %}
-        <li><a href="{{ request.route_url('dashboard_team', team_id=team._id) }}">{{ team.name }}</a></li>
+        <li><a href="{{ request.route_url('dashboard_team', team_id=team.my_id) }}">{{ team.name }}</a></li>
     {% endfor %}
     </ul>
 {% endif %}
@@ -33,7 +33,7 @@
 {% if user_tournaments %} Tournaments: <br>{%endif%}
 <ul>
 {%for tournament in user_tournaments %}
-    <li> <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament._id)}}">{{tournament.name}}</a>
+    <li> <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament.my_id)}}">{{tournament.name}}</a>
 {%endfor%}
 </ul>
 

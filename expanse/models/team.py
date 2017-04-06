@@ -8,6 +8,7 @@ class Team(object):
         self._name = name
         self._team_manager = user
         self._lines = []
+        self._my_id = None
 
     def __str__(self):
         return (self._name)
@@ -35,3 +36,11 @@ class Team(object):
     @lines.setter
     def lines(self, value):
         self._lines = value
+
+    @property
+    def my_id(self):
+        return self._my_id
+
+    @my_id.setter
+    def my_id(self, value):
+        self._my_id = value

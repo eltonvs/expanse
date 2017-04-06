@@ -7,6 +7,7 @@ class User(object):
         self._email = email
         self._password = password
         self._locale = locale
+        self._my_id = None
 
     def __str__(self):
         return (self._name)
@@ -50,3 +51,11 @@ class User(object):
     @locale.setter
     def locale(self, value):
         self._locale = value
+
+    @property
+    def my_id(self):
+        return self._my_id
+
+    @my_id.setter
+    def my_id(self, value):
+        self._my_id = value
