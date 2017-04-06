@@ -1,15 +1,14 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
 from ..models.database import MongoDatabase
 from .generic import GenericDAO
 from ..models.team import Team
+from ..dao.user import UserDAOMongo
 
 
 class TeamDAO(GenericDAO):
     __metaclass__ = ABCMeta
 
-class TeamManagerDAO(GenericDAO):
-    __metaclass__ = ABCMeta
 
 class TeamDAOMongo(TeamDAO):
     """Team Data Access Object implementing Borg Pattern"""
@@ -34,11 +33,19 @@ class TeamDAOMongo(TeamDAO):
         pass
 
     def update(self, query, update):
-        print query, update, self.db.teams.update(query, update)
+        print(query, update, self.db.teams.update(query, update))
 
     def get(self, query):
         teams = list(self.db.teams.find(query))
-        return teams
+        if teams:
+            teams_list = []
+            for team in teams:
+                new_team = Team(
+                    team['name'],
+                    team['team_manager_id'])
+                new_team.lines = team['lines']
+                teams_list.append(new_team)
+            return teams_list
 
     def get_one(self, query):
         team = self.db.teams.find_one(query)
@@ -50,47 +57,14 @@ class TeamDAOMongo(TeamDAO):
             return new_team
 
     def list(self):
-        return self.get({})
-
-
-class TeamManagerDAOMongo(TeamManagerDAO):
-    """Team Data Access Object implementing Borg Pattern"""
-    __shared_state = {}
-
-    def __init__(self):
-        self.__dict__ = self.__shared_state
-        self.db = MongoDatabase().instance()
-
-    def insert(self, team):
-        print("Not implemented yet")
-        pass
-        '''
-        team_manager_to_insert = {
-            "username": team_manager.username,
-            "name": team_manager.name,
-            "password": team_manager.password,
-            "email": team_manager.email,
-            "locale": team_manager.locale,
-            "teams": team_manager.teams,
-        }
-        self.db.teams.insert(team_manager_to_insert)
-        '''
-
-    def remove(self, user):
-        print("Not implemented yet")
-        pass
-
-    def update(self, user):
-        print("Not implemented yet")
-        pass
-
-    def get(self, user):
-        print("Not implemented yet")
-        pass
-
-    def get_one(self, user):
-        print("Not implemented yet")
-        pass 
-
-    def list(self):
-        return self.get({})
+        teams = list(self.db.teams.find())
+        if teams:
+            teams_list = []
+            user_dao = UserDAOMongo()
+            for team in teams:
+                team_manager = user_dao.get_one(
+                    {"_id": team["team_manager_id"]})
+                new_team = Team(team['name'], team_manager)
+                new_team.lines = team['lines']
+                teams_list.append(new_team)
+            return teams_list
