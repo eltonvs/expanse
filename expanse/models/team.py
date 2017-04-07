@@ -1,17 +1,22 @@
-from .user import User
-
-
 class Team(object):
     """Team Model to store user data in runtime"""
 
     def __init__(self, name, user):
+        self._id = None
         self._name = name
         self._team_manager = user
         self._lines = []
-        self._my_id = None
 
     def __str__(self):
         return (self._name)
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
 
     @property
     def name(self):
@@ -36,11 +41,3 @@ class Team(object):
     @lines.setter
     def lines(self, value):
         self._lines = value
-
-    @property
-    def my_id(self):
-        return self._my_id
-
-    @my_id.setter
-    def my_id(self, value):
-        self._my_id = value

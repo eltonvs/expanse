@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
-from ..models.database import MongoDatabase
 from .generic import GenericDAO
+from ..models.database import MongoDatabase
 from ..models.team import Team
 from ..dao.user import UserDAOMongo
 
@@ -39,35 +39,24 @@ class TeamDAOMongo(TeamDAO):
         teams = list(self.db.teams.find(query))
         if teams:
             teams_list = []
-            for team in teams:
-                new_team = Team(
-                    team['name'],
-                    team['team_manager_id'])
-                new_team.lines = team['lines']
-                new_team.my_id = team['_id']
-                teams_list.append(new_team)
+            user_dao = UserDAOMongo()
+            for t in teams:
+                team_manager = user_dao.get_one({"_id": t["team_manager_id"]})
+                team = Team(t['name'], team_manager)
+                team.id = t['_id']
+                team.lines = t['lines']
+                teams_list.append(team)
             return teams_list
 
     def get_one(self, query):
         team = self.db.teams.find_one(query)
         if team:
-            new_team = Team(
+            team_obj = Team(
                 team['name'],
                 team['team_manager_id'])
-            new_team.lines = team['lines']
-            new_team.my_id = team['_id']
-            return new_team
+            team_obj.id = team['_id']
+            team_obj.lines = team['lines']
+            return team_obj
 
     def list(self):
-        teams = list(self.db.teams.find())
-        if teams:
-            teams_list = []
-            user_dao = UserDAOMongo()
-            for team in teams:
-                team_manager = user_dao.get_one(
-                    {"_id": team["team_manager_id"]})
-                new_team = Team(team['name'], team_manager)
-                new_team.lines = team['lines']
-                new_team.my_id = team['_id']
-                teams_list.append(new_team)
-            return teams_list
+        return self.get({})
