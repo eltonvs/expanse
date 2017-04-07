@@ -1,18 +1,24 @@
-from .team import Team
-
 class Tournament(object):
     """Tournament model to store tournament data in runtime"""
 
     def __init__(self, name, organizer, locale):
+        self._id = None
         self._name = name
         self._organizer = organizer
         self._locale = locale
         self._teams = []
         self._matches = []
-        self._my_id = None
 
     def __str__(self):
         return (self._name)
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
 
     @property
     def name(self):
@@ -54,25 +60,26 @@ class Tournament(object):
     def matches(self, value):
         self._matches = value
 
-    @property
-    def my_id(self):
-        return self._my_id
-
-    @my_id.setter
-    def my_id(self, value):
-        self._my_id = value
-
 
 class Match(object):
     """Mach Model to store user data in runtime"""
+
     def __init__(self):
+        self._id = None
         self._teams = []
         self._score = [0, 0]
         self._time = None
-        self._my_id = None
 
     def __str__(self):
         return (self._name)
+
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = value
 
     @property
     def teams(self):
@@ -97,12 +104,3 @@ class Match(object):
     @time.setter
     def time(self, time):
         self._time = time
-
-    @property
-    def my_id(self):
-        return self._my_id
-
-    @my_id.setter
-    def my_id(self, value):
-        self._my_id = value
-

@@ -12,9 +12,10 @@ class UserDAO(GenericDAO):
     def get_user_from_email(self, email):
         pass
 
-    @abstractmethod     
+    @abstractmethod
     def get_user_id_from_email(self, email):
         pass
+
 
 class UserDAOMongo(UserDAO):
     """User Data Access Object implementing Borg Pattern"""
@@ -48,49 +49,39 @@ class UserDAOMongo(UserDAO):
         users = list(self.db.users.find(query))
         if users:
             user_list = []
-            for usr in users:
+            for u in users:
                 user = User(
-                    usr['name'],
-                    usr['username'],
-                    usr['email'],
-                    usr['password'],
-                    usr['locale'])
-                user.my_id = usr['_id']
+                    u['name'],
+                    u['username'],
+                    u['email'],
+                    u['password'],
+                    u['locale'])
+                user.id = u['_id']
                 user_list.append(user)
             return user_list
 
     def get_one(self, query):
-        usr = self.db.users.find_one(query)
-        if usr:
-            user = User(
-                usr['name'],
-                usr['username'],
-                usr['email'],
-                usr['password'],
-                usr['locale'])
-            user.my_id = usr['_id']
-            return user
+        user = self.db.users.find_one(query)
+        if user:
+            user_obj = User(
+                user['name'],
+                user['username'],
+                user['email'],
+                user['password'],
+                user['locale'])
+            user_obj.id = user['_id']
+            return user_obj
 
     def get_user_from_email(self, email):
-        usr = self.db.users.find_one({"email": email})
-        if usr:
-            user = User(
-                usr['name'],
-                usr['username'],
-                usr['email'],
-                usr['password'],
-                usr['locale'])
-            user.my_id = usr['_id']
-            return user
+        return self.get_one({"email": email})
 
     def get_user_id_from_email(self, email):
-        usr = self.db.users.find_one({"email": email})
-        if usr:
-            return usr['_id']
+        user = self.get_one({"email": email})
+        if user:
+            return user.id
 
-    def get_users_from_locale(self, location):
-        users = list(self.db.users.find({"locale": location}))
-        return users
+    def get_users_from_locale(self, locale):
+        return self.get({"locale": r"/^{0}$/i".format(locale)})
 
     def list(self):
         return self.get({})

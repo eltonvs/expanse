@@ -1,9 +1,7 @@
 from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
-from ..dao.user import UserDAOMongo
 
-from bson import ObjectId
 
 class TeamController(object):
     """Controller Layer for Team Object"""
@@ -29,7 +27,6 @@ class TeamController(object):
 
     def get_teams(self):
         return self.team_dao.list()
-
 
     def get_user_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})

@@ -1,7 +1,7 @@
 from bson import ObjectId
 
-from ..dao.tournament import TournamentDAOMongo
 from ..dao.team import TeamDAOMongo
+from ..dao.tournament import TournamentDAOMongo, MatchDAOMongo
 from ..dao.user import UserDAOMongo
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
@@ -76,13 +76,14 @@ class TournamentController(object):
         return _return
 
     def get_tournament_teams(self, tournament_id):
-        tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})
+        tournament = self.tournament_dao.get_one(
+            {"_id": ObjectId(tournament_id)})
         tournament_teams = tournament.teams
-        
+
         if tournament_teams:
             team_dao = TeamDAOMongo()
             teams = []
-            
+
             for team_id in tournament_teams:
                 team = team_dao.get_one({"_id": team_id})
                 if team:
@@ -92,13 +93,14 @@ class TournamentController(object):
         return {}
 
     def get_tournament_matches(self, tournament_id):
-        tournament = self.tournament_dao.get_one({"_id": ObjectId(tournament_id)})
+        tournament = self.tournament_dao.get_one(
+            {"_id": ObjectId(tournament_id)})
         tournament_matches = tournament.matches
-        
+
         if tournament_matches:
             match_dao = TeamDAOMongo()
             matches = []
-            
+
             for match_id in tournament_matches:
                 match = match_dao.get_one({"_id": match_id})
                 if match:
@@ -109,12 +111,12 @@ class TournamentController(object):
 
 
 class MatchController(object):
-    
+
     def __init__(self, request):
         self.request = request
         self.match_dao = MatchDAOMongo()
 
-    def register(self):
+    def register(self, match):
         self.match_dao.insert(match)
 
     def set_match_teams(self, match, team1, team2):
@@ -125,7 +127,7 @@ class MatchController(object):
     def get_match_teams(self, match_id):
         match = self.match_dao.get_one({"_id": ObjectId(match_id)})
         match_teams = match.teams
-        
+
         if match_teams:
             team_dao = TeamDAOMongo()
             teams = []

@@ -12,6 +12,7 @@ class NotificationDAO(GenericDAO):
     def get_notifications_from_user(self, user_id):
         pass
 
+
 class NotificationDAOMongo(NotificationDAO):
     """Notification Data Access Object implementing Borg Pattern"""
     __shared_state = {}
@@ -41,11 +42,11 @@ class NotificationDAOMongo(NotificationDAO):
         if notifications:
             notifications_list = []
             for n in notifications:
-                new_notification =  Notification(
+                new_notification = Notification(
                     n['user_id'],
                     n['title'],
                     n['message'])
-                new_notification.my_id = n['id']
+                new_notification.id = n['_id']
                 notifications_list.append(new_notification)
             return notifications_list
 
@@ -56,21 +57,11 @@ class NotificationDAOMongo(NotificationDAO):
                 notification['user_id'],
                 notification['title'],
                 notification['message'])
-            new_notification.my_id = notification['id']
+            new_notification.id = notification['_id']
             return new_notification
 
     def get_notifications_from_user(self, user_id):
-        notifications = self.get({"user_id": user_id})
-        if notifications:
-            notifications_list = []
-            for n in notifications:
-                new_notification =  Notification(
-                    n['user_id'],
-                    n['title'],
-                    n['message'])
-                new_notification.my_id = n['id']
-                notifications_list.append(new_notification)
-            return notifications_list
+        return self.get({"user_id": user_id})
 
     def list(self):
         return self.get({})
