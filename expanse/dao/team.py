@@ -22,6 +22,7 @@ class TeamDAOMongo(TeamDAO):
         team_to_insert = {
             "name": team.name,
             "lines": team.lines,
+            "players": team.players,
             "team_manager_id": team.team_manager,
         }
         self.db.teams.insert(team_to_insert)
@@ -43,6 +44,7 @@ class TeamDAOMongo(TeamDAO):
                 team = Team(t['name'], team_manager)
                 team.id = t['_id']
                 team.lines = t['lines']
+                team.players = t['players']
                 teams_list.append(team)
             return teams_list
         return []
@@ -55,6 +57,7 @@ class TeamDAOMongo(TeamDAO):
                 team['team_manager_id'])
             team_obj.id = team['_id']
             team_obj.lines = team['lines']
+            team_obj.players = team['players']
             return team_obj
 
     def list(self):

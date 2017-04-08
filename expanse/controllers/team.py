@@ -1,6 +1,7 @@
 from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
+from ..dao.user import UserDAOMongo
 
 
 class TeamController(object):
@@ -27,7 +28,7 @@ class TeamController(object):
     def get_teams(self):
         return self.team_dao.list()
 
-    def get_user_teams(self, user):
+    def get_managed_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
 
     def append_lines(self, value):
@@ -40,3 +41,12 @@ class TeamController(object):
         query = {'_id': ObjectId(team_id)}
         update = {'$addToSet': {'players': player}}
         self.team_dao.update(query, update)
+
+    def get_players(self, team_id):
+        team = self.team_dao.get_one({"_id": ObjectId(team_id)})
+        players = []
+        if team:
+            user_dao = UserDAOMongo()
+            for p in team.players:
+                players.append(user_dao.get_one({"_id": ObjectId(p)}))
+        return players

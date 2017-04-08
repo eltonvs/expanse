@@ -70,12 +70,15 @@ class TeamViews(object):
     def dashboard(self):
         user_controller = UserController()
         users = user_controller.get_users()
-        _return = {'page_title': 'Team Dashboard'}
 
-        if users:
-            _return['users'] = users
+        team_id = self.request.matchdict['team_id']
+        team_players = self.team_controller.get_players(team_id)
 
-        return _return
+        return {
+            'page_title': 'Team Dashboard',
+            'users': users,
+            'team_players': team_players
+        }
 
     @view_config(
         route_name='dashboard_team',

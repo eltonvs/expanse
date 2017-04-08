@@ -5,6 +5,7 @@ class Team(object):
         self._id = None
         self._name = name
         self._team_manager = user
+        self._players = []
         self._lines = []
 
     def __str__(self):
@@ -33,6 +34,14 @@ class Team(object):
     @team_manager.setter
     def team_manager(self, value):
         self._team_manager = value
+
+    @property
+    def players(self):
+        return self._players
+
+    @players.setter
+    def players(self, value):
+        self._players = value
 
     @property
     def lines(self):
