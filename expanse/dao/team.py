@@ -26,8 +26,6 @@ class TeamDAOMongo(TeamDAO):
         }
         self.db.teams.insert(team_to_insert)
 
-        return{}
-
     def remove(self, user):
         print("Not implemented yet")
         pass

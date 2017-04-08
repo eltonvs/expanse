@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 from ..models.database import MongoDatabase
-from ..models.tournament import Tournament, Match
+from ..models.tournament import Tournament
 from .generic import GenericDAO
 
 
@@ -11,10 +11,6 @@ class TournamentDAO(GenericDAO):
     @abstractmethod
     def add_team(self, team, tournament):
         pass
-
-
-class MatchDAO(GenericDAO):
-    __metaclass__ = ABCMeta
 
 
 class TournamentDAOMongo(TournamentDAO):
@@ -53,14 +49,14 @@ class TournamentDAOMongo(TournamentDAO):
         if tournaments:
             tournament_list = []
             for t in tournaments:
-                tournamant = Tournament(
+                tournament = Tournament(
                     t['name'],
                     t['organizer_id'],
                     t.get('locale', ''))
-                tournamant.id = t['_id']
-                tournamant.teams = t['teams']
-                tournamant.matches = t.get('matches', [])
-                tournament_list.append(tournamant)
+                tournament.id = t['_id']
+                tournament.teams = t['teams']
+                tournament.matches = t.get('matches', [])
+                tournament_list.append(tournament)
             return tournament_list
         return []
 
@@ -75,57 +71,6 @@ class TournamentDAOMongo(TournamentDAO):
             tournament_obj.teams = tournament['teams']
             tournament_obj.matches = tournament.get('matches', [])
             return tournament_obj
-
-    def list(self):
-        return self.get({})
-
-
-class MatchDAOMongo(MatchDAO):
-    __shared_state = {}
-
-    def __init__(self):
-        self.__dict__ = self.__shared_state
-        self.db = MongoDatabase().instance()
-
-    def insert(self, match):
-        match_to_insert = {
-            "teams": match.teams,
-            "score": match.score
-        }
-        self.db.matches.insert(match_to_insert)
-
-        return{}
-
-    def remove(self, user):
-        print("Not implemented yet")
-        pass
-
-    def update(self, query, update):
-        print(query, update, self.db.matches.update(query, update))
-
-    def get(self, query):
-        matches = list(self.db.matches.find(query))
-        if matches:
-            match_list = []
-            for m in matches:
-                match = Match()
-                match.id = m['_id']
-                match.teams = m['teams']
-                match.score = m['score']
-                match.time = m['time']
-                match_list.append(match)
-            return match_list
-        return []
-
-    def get_one(self, query):
-        match = list(self.db.matches.find(query))
-        if match:
-            match_obj = Match()
-            match_obj.id = match['_id']
-            match_obj.teams = match['teams']
-            match_obj.score = match['score']
-            match_obj.time = match['time']
-            return match_obj
 
     def list(self):
         return self.get({})

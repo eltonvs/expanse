@@ -36,8 +36,6 @@ class UserDAOMongo(UserDAO):
         }
         self.db.users.insert(user_to_insert)
 
-        return {}
-
     def remove(self, user):
         print("Not implemented yet")
         pass

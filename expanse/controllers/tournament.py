@@ -1,7 +1,7 @@
 from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
-from ..dao.tournament import TournamentDAOMongo, MatchDAOMongo
+from ..dao.tournament import TournamentDAOMongo
 from ..dao.user import UserDAOMongo
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
@@ -67,9 +67,7 @@ class TournamentController(object):
         return self.tournament_dao.list()
 
     def get_user_tournaments(self, user):
-        tournament = self.tournament_dao.get({"organizer_id": user})
-        _return = tournament if tournament else {}
-        return _return
+        return self.tournament_dao.get({"organizer_id": user})
 
     def get_tournament_teams(self, tournament_id):
         tournament = self.tournament_dao.get_one(
@@ -86,7 +84,7 @@ class TournamentController(object):
                     teams.append(team)
 
             return teams
-        return {}
+        return []
 
     def get_tournament_matches(self, tournament_id):
         tournament = self.tournament_dao.get_one(
@@ -103,48 +101,4 @@ class TournamentController(object):
                     matches.append(match)
 
             return matches
-        return {}
-
-
-class MatchController(object):
-
-    def __init__(self):
-        self.match_dao = MatchDAOMongo()
-
-    def register(self, match):
-        self.match_dao.insert(match)
-
-    def set_match_teams(self, match, team1, team2):
-        query = {'_id': ObjectId(match)}
-        update = {'$addToSet': {'teams': [ObjectId(team1), ObjectId(team2)]}}
-        self.match_dao.update(query, update)
-
-    def get_match_teams(self, match_id):
-        match = self.match_dao.get_one({"_id": ObjectId(match_id)})
-        match_teams = match.teams
-
-        if match_teams:
-            team_dao = TeamDAOMongo()
-            teams = []
-
-            for team_id in match_teams:
-                team = team_dao.get_one({"_id": team_id})
-                if team:
-                    teams.append(team)
-
-            return teams
-        return {}
-
-    def set_score(self, score1, score2, match):
-        query = {'_id': ObjectId(match)}
-        update = {'score': [score1, score2]}
-        self.match_dao.update(query, update)
-
-    def set_time(self, time, match):
-        query = {'_id': ObjectId(match)}
-        update = {'time': time}
-        self.match_dao.update(query, update)
-
-    def get_matches(self):
-        matches = self.match_dao.list()
-        return matches
+        return []
