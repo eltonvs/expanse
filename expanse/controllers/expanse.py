@@ -5,8 +5,7 @@ from ..dao.user import UserDAOMongo
 class ExpanseController(object):
     """Controller Layer for User Object"""
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self):
         self.user_dao = UserDAOMongo()
         self.security_tools = SecurityTools()
 

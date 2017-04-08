@@ -10,7 +10,7 @@ from ..models.tournament import Tournament
 class TournamentViews(object):
 
     def __init__(self, request):
-        self.tournament_controller = TournamentController(request)
+        self.tournament_controller = TournamentController()
         self.request = request
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'TournamentViews'
@@ -74,7 +74,7 @@ class TournamentViews(object):
         _return = {'page_title': 'Home'}
 
         if logged_user:
-            team_controller = TeamController(self.request)
+            team_controller = TeamController()
             teams = team_controller.get_teams()
             _return['teams'] = teams
 
