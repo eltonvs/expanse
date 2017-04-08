@@ -26,21 +26,18 @@ class TournamentController(object):
             err['empty_name'] = True
         if not tournament.organizer:
             err['empty_organizer'] = True
-        elif tournament.organizer != self.request.authenticated_userid:
-            err['invalid_organizer'] = True
         if not tournament.locale:
             err['empty_locale'] = True
 
         return err
 
     def notify_near_users(self, tournament):
-        print("notification")
         user_dao = UserDAOMongo()
         notification_controller = NotificationController()
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
-            usr_id = nu['_id']
-            if usr_id == self.request.authenticated_userid:
+            usr_id = nu.id
+            if usr_id == tournament.organizer:
                 continue
             notification = Notification(
                 usr_id,
