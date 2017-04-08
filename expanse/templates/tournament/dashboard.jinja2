@@ -1,6 +1,11 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
+
+{% if errors %}
+  {{ errors }}
+{% endif %}
+
 <div class="content">
   <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
     <select name="team">
@@ -11,7 +16,7 @@
     <input type="submit" value="Add">
   </form>
 
-  
+
   <h3>Teams in this Tournament:</h3>
 
   {% for team in tournament_teams %}

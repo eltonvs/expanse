@@ -71,7 +71,7 @@ class TournamentViews(object):
         renderer='tournament/dashboard.jinja2')
     def dashboard(self):
         logged_user = self.request.authenticated_userid
-        _return = {'page_title': 'Home'}
+        _return = {'page_title': 'Dashboard'}
 
         if logged_user:
             team_controller = TeamController()
@@ -95,6 +95,6 @@ class TournamentViews(object):
         tournament_id = self.request.matchdict['tournament_id']
         team_id = params.get('team', '')
 
-        self.tournament_controller.add_team(tournament_id, team_id)
+        add_team = self.tournament_controller.add_team(tournament_id, team_id)
 
-        return {'page_title': 'Dashboard'}
+        return {'page_title': 'Dashboard', 'errors': add_team}
