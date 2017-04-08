@@ -48,5 +48,8 @@ class TeamController(object):
         if team:
             user_dao = UserDAOMongo()
             for p in team.players:
-                players.append(user_dao.get_one({"_id": ObjectId(p)}))
+                if (ObjectId.is_valid(p)):
+                    players.append(user_dao.get_one({"_id": ObjectId(p)}))
+                else:
+                    players.append(p)
         return players
