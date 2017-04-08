@@ -1,3 +1,4 @@
+import re
 from abc import ABCMeta, abstractmethod
 
 from ..models.database import MongoDatabase
@@ -82,7 +83,7 @@ class UserDAOMongo(UserDAO):
             return user.id
 
     def get_users_from_locale(self, locale):
-        return self.get({"locale": r"/^{0}$/i".format(locale)})
+        return self.get({"locale": re.compile(locale, re.IGNORECASE)})
 
     def list(self):
         return self.get({})
