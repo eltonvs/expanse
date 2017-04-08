@@ -10,8 +10,7 @@ from ..controllers.notification import NotificationController
 class TournamentController(object):
     """Controller layer for Tournament object"""
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self):
         self.tournament_dao = TournamentDAOMongo()
 
     def register(self, tournament):
@@ -37,7 +36,7 @@ class TournamentController(object):
     def notify_near_users(self, tournament):
         print("notification")
         user_dao = UserDAOMongo()
-        notification_controller = NotificationController(self.request)
+        notification_controller = NotificationController()
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
             usr_id = nu['_id']
@@ -112,8 +111,7 @@ class TournamentController(object):
 
 class MatchController(object):
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self):
         self.match_dao = MatchDAOMongo()
 
     def register(self, match):

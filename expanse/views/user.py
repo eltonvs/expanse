@@ -9,7 +9,7 @@ from ..models.user import User
 class UserViews(object):
 
     def __init__(self, request):
-        self.user_controller = UserController(request)
+        self.user_controller = UserController()
         self.request = request
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'UserViews'

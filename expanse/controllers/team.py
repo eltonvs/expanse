@@ -6,8 +6,7 @@ from ..dao.team import TeamDAOMongo
 class TeamController(object):
     """Controller Layer for Team Object"""
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self):
         self.team_dao = TeamDAOMongo()
 
     def register(self, team):

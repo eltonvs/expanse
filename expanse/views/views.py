@@ -13,7 +13,7 @@ from ..controllers.notification import NotificationController
 class ExpanseViews(object):
 
     def __init__(self, request):
-        self.expanse_controller = ExpanseController(request)
+        self.expanse_controller = ExpanseController()
         self.request = request
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = 'ExpanseViews'
@@ -25,18 +25,18 @@ class ExpanseViews(object):
 
         if logged_user:
             # List user teams
-            team_controller = TeamController(self.request)
+            team_controller = TeamController()
             user_teams = team_controller.get_user_teams(logged_user)
             _return['user_teams'] = user_teams
 
             # List user tournaments
-            tournament_controller = TournamentController(self.request)
+            tournament_controller = TournamentController()
             user_tournaments = tournament_controller.get_user_tournaments(
                 logged_user)
             _return['user_tournaments'] = user_tournaments
 
             # List user notifications
-            notification_controller = NotificationController(self.request)
+            notification_controller = NotificationController()
             user_notifications = notification_controller.get_notifications(
                 logged_user)
             _return['user_notifications'] = user_notifications

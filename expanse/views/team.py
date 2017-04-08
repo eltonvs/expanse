@@ -11,7 +11,7 @@ from ..models.team import Team
 class TeamViews(object):
 
     def __init__(self, request):
-        self.team_controller = TeamController(request)
+        self.team_controller = TeamController()
         self.request = request
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = "TeamViews"
@@ -68,7 +68,7 @@ class TeamViews(object):
         route_name='dashboard_team',
         renderer='team/dashboard.jinja2')
     def dashboard(self):
-        user_controller = UserController(self.request)
+        user_controller = UserController()
         users = user_controller.get_users()
         _return = {'page_title': 'Team Dashboard'}
 

@@ -5,8 +5,7 @@ from ..utils.security import SecurityTools
 class NotificationController(object):
     """Controller Layer for Notification Object"""
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self):
         self.security_tools = SecurityTools()
         self.notification_dao = NotificationDAOMongo()
 
