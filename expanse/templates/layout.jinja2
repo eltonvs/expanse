@@ -30,6 +30,7 @@
       <a href="{{ request.route_url('index') }}">expanse</a>
       {% if view.is_logged_in %}
         <a href="{{ request.application_url }}/logout">Logout</a>
+        <p>Hello, {{ request.logged_user }}</p>
       {% else %}
         <a href="{{ request.application_url }}/login">Log in</a>
       {% endif %}
