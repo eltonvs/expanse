@@ -22,7 +22,7 @@ class TeamDAOMongo(TeamDAO):
         team_to_insert = {
             "name": team.name,
             "lines": team.lines,
-            "team_manager_id": team.team_manager.user_id,
+            "team_manager_id": team.team_manager,
         }
         self.db.teams.insert(team_to_insert)
 

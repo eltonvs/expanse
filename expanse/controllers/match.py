@@ -10,7 +10,21 @@ class MatchController(object):
         self.match_dao = MatchDAOMongo()
 
     def register(self, match):
-        self.match_dao.insert(match)
+        err = self.validate(match)
+        if not err:
+            err = self.match_dao.insert(match)
+        return err
+
+    def validate(self, match):
+        err = {}
+        if not match.tournament:
+            err['empty_tournament'] = True
+        if not match.team1 or not match.team2:
+            err['empty_team'] = True
+        elif match.team1 == match.team2:
+            err['against_himself'] = True
+
+        return err
 
     def set_match_teams(self, match, team1, team2):
         query = {'_id': ObjectId(match)}
