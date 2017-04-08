@@ -29,13 +29,11 @@ class NotificationDAOMongo(NotificationDAO):
         }
         self.db.notifications.insert(notification_to_insert)
 
-    def remove(self, notification):
-        print("Not implemented yet")
-        pass
+    def remove(self, query):
+        self.db.notifications.remove(query)
 
-    def update(self, notification):
-        print("Not implemented yet")
-        pass
+    def update(self, query, update):
+        self.db.notifications.update(query, update)
 
     def get(self, query):
         notifications = list(self.db.notifications.find(query))

@@ -36,13 +36,11 @@ class UserDAOMongo(UserDAO):
         }
         self.db.users.insert(user_to_insert)
 
-    def remove(self, user):
-        print("Not implemented yet")
-        pass
+    def remove(self, query):
+        self.db.users.remove(query)
 
-    def update(self, user):
-        print("Not implemented yet")
-        pass
+    def update(self, query, update):
+        self.db.users.update(query, update)
 
     def get(self, query):
         users = list(self.db.users.find(query))

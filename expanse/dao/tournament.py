@@ -30,12 +30,11 @@ class TournamentDAOMongo(TournamentDAO):
         }
         self.db.tournaments.insert(tournament_to_insert)
 
-    def remove(self, tournament):
-        print("Not implemented yet")
-        pass
+    def remove(self, query):
+        self.db.tournaments.remove(query)
 
     def update(self, query, update):
-        print("update", self.db.tournaments.update(query, update))
+        self.db.tournaments.update(query, update)
 
     def add_team(self, team, tournament):
         # add new team to a tournamet
