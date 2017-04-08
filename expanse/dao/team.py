@@ -47,6 +47,7 @@ class TeamDAOMongo(TeamDAO):
                 team.lines = t['lines']
                 teams_list.append(team)
             return teams_list
+        return []
 
     def get_one(self, query):
         team = self.db.teams.find_one(query)
