@@ -28,11 +28,10 @@ class TeamDAOMongo(TeamDAO):
         self.db.teams.insert(team_to_insert)
 
     def remove(self, user):
-        print("Not implemented yet")
-        pass
+        self.db.teams.remove(query)
 
     def update(self, query, update):
-        print(query, update, self.db.teams.update(query, update))
+        self.db.teams.update(query, update)
 
     def get(self, query):
         teams = list(self.db.teams.find(query))
