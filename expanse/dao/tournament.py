@@ -62,6 +62,7 @@ class TournamentDAOMongo(TournamentDAO):
                 tournamant.matches = t.get('matches', [])
                 tournament_list.append(tournamant)
             return tournament_list
+        return []
 
     def get_one(self, query):
         tournament = self.db.tournaments.find_one(query)
@@ -114,6 +115,7 @@ class MatchDAOMongo(MatchDAO):
                 match.time = m['time']
                 match_list.append(match)
             return match_list
+        return []
 
     def get_one(self, query):
         match = list(self.db.matches.find(query))

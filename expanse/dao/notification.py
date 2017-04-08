@@ -49,6 +49,7 @@ class NotificationDAOMongo(NotificationDAO):
                 new_notification.id = n['_id']
                 notifications_list.append(new_notification)
             return notifications_list
+        return []
 
     def get_one(self, query):
         notification = self.db.teams.find_one(query)

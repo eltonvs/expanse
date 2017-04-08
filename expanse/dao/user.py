@@ -59,6 +59,7 @@ class UserDAOMongo(UserDAO):
                 user.id = u['_id']
                 user_list.append(user)
             return user_list
+        return []
 
     def get_one(self, query):
         user = self.db.users.find_one(query)
