@@ -22,6 +22,12 @@
     <hr>
     <h3> Players in this team: </h3>
 
+    <ul>
+        {% for player in team_players %}
+            <li>{{ player }}</li>
+        {% endfor %}
+    </ul>
+
     {% if not errors %}
         Success!
     {% else %}
