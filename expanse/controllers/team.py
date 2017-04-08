@@ -27,7 +27,7 @@ class TeamController(object):
     def get_teams(self):
         return self.team_dao.list()
 
-    def get_user_teams(self, user):
+    def get_managed_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
 
     def append_lines(self, value):

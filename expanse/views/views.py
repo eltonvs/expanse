@@ -26,12 +26,12 @@ class ExpanseViews(object):
         if logged_user:
             # List user teams
             team_controller = TeamController()
-            user_teams = team_controller.get_user_teams(logged_user)
+            user_teams = team_controller.get_managed_teams(logged_user)
             _return['user_teams'] = user_teams
 
             # List user tournaments
             tournament_controller = TournamentController()
-            user_tournaments = tournament_controller.get_user_tournaments(
+            user_tournaments = tournament_controller.get_organized_tournaments(
                 logged_user)
             _return['user_tournaments'] = user_tournaments
 
