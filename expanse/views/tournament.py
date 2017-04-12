@@ -86,8 +86,19 @@ class TournamentViews(object):
             _return['teams'] = teams
 
             tournament_id = self.request.matchdict['tournament_id']
-            _return['tournament_phases'] = (
-                self.tournament_controller.generate_schedule(tournament_id))
+
+            tournament_phases = self.tournament_controller.generate_schedule(
+                tournament_id)
+
+            for phase in tournament_phases:
+                for round in phase.schedule:
+                    for match in round:
+                        match.team1 = team_controller.get_team_from_id(
+                            match.team1)
+                        match.team2 = team_controller.get_team_from_id(
+                            match.team2)
+            _return['tournament_phases'] = tournament_phases
+
             tournament_teams = self.tournament_controller.get_tournament_teams(
                 tournament_id)
             _return['tournament_teams'] = tournament_teams
