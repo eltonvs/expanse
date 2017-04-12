@@ -23,5 +23,17 @@
   	{{ team.name }} <br>
   {% endfor %}
 
+  <h3>Schedule</h3>
+  {% for phase in tournament_phases %}
+    {% for round in phase.schedule %}
+      <h4>Round {{ loop.index }}</h4>
+      <ul>
+        {% for match in round %}
+          <li>{{ match.team1 }} X {{ match.team2 }}</li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  {% endfor %}
+
 </div>
 {% endblock content %}

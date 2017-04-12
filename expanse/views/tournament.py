@@ -86,7 +86,8 @@ class TournamentViews(object):
             _return['teams'] = teams
 
             tournament_id = self.request.matchdict['tournament_id']
-            self.tournament_controller.generate_schedule(tournament_id)
+            _return['tournament_phases'] = (
+                self.tournament_controller.generate_schedule(tournament_id))
             tournament_teams = self.tournament_controller.get_tournament_teams(
                 tournament_id)
             _return['tournament_teams'] = tournament_teams
