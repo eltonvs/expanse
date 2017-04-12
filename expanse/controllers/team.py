@@ -28,6 +28,9 @@ class TeamController(object):
     def get_teams(self):
         return self.team_dao.list()
 
+    def get_team_from_id(self, team_id):
+        return self.team_dao.get_one({"_id": ObjectId(team_id)})
+
     def get_managed_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
 
@@ -43,7 +46,7 @@ class TeamController(object):
         self.team_dao.update(query, update)
 
     def get_players(self, team_id):
-        team = self.team_dao.get_one({"_id": ObjectId(team_id)})
+        team = self.get_team_from_id(team_id)
         players = []
         if team:
             user_dao = UserDAOMongo()

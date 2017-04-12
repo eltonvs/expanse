@@ -1,10 +1,48 @@
+from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
 from ..dao.tournament import TournamentDAOMongo
 from ..dao.user import UserDAOMongo
 from ..models.notification import Notification
+from ..models.match import Match
+from ..models.tournament import TournamentType
 from ..controllers.notification import NotificationController
+
+
+class AbstractTournamentTypeController(object):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def generate_schedule(self):
+        pass
+
+
+class RoundRobinController(AbstractTournamentTypeController):
+    """Controller to Round Robin Tournaments"""
+
+    def __init__(self, tournament_id, teams):
+        self._tournament_id = tournament_id
+        self._teams = teams
+
+    def generate_schedule(self):
+        if len(self._teams) % 2 != 0:
+            self._teams.append(None)
+
+        matches = []
+        for it in range(len(self._teams) - 1):
+            matches.append([
+                        Match(
+                            self._tournament_id,
+                            self._teams[i],
+                            self._teams[i + len(self._teams) // 2])
+                            for i in range(len(self._teams) // 2)])
+            self._teams.insert(1, self._teams.pop())
+
+        # if away_home:
+        #     return matches + [[a[::-1] for a in m] for m in matches]
+
+        return matches
 
 
 class TournamentController(object):
@@ -102,3 +140,23 @@ class TournamentController(object):
 
             return matches
         return []
+
+    def generate_schedule(self, tournament_id):
+        tournament = self.tournament_dao.get_one(
+            {"_id": ObjectId(tournament_id)})
+
+        for phase in tournament.phases:
+            if phase.type is TournamentType.ROUND_ROBIN:
+                round_robin = RoundRobinController(
+                    tournament_id, tournament.teams)
+                phase.schedule = round_robin.generate_schedule()
+            elif phase.type is TournamentType.KNOCKOUT:
+                # Do what need to be done
+                pass
+            elif phase.type is TournamentType.GROUP:
+                # Do what need to be done
+                pass
+
+        # Need to create on db each match on schedule and update tournament db
+
+        return tournament.phases

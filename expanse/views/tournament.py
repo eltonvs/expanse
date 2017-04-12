@@ -3,7 +3,7 @@ from pyramid.view import view_config, view_defaults
 
 from ..controllers.tournament import TournamentController
 from ..controllers.team import TeamController
-from ..models.tournament import Tournament
+from ..models.tournament import Tournament, TournamentPhase
 
 
 @view_defaults(route_name='list_tournaments')
@@ -52,11 +52,18 @@ class TournamentViews(object):
 
         params = self.request.params
 
-        name = params.get('name', '')
+        tournament_name = params.get('name', '')
+        tournament_type = params.get('type', '')
+        tournament_status = params.get('status', '')
+
+        tournament_phases = [TournamentPhase(tournament_type)]
+
         tournament = Tournament(
-            name,
+            tournament_name,
             self.request.authenticated_userid,
-            self.request.logged_user.locale)
+            self.request.logged_user.locale,
+            tournament_status,
+            tournament_phases)
 
         register_tournament = self.tournament_controller.register(tournament)
 
@@ -79,6 +86,19 @@ class TournamentViews(object):
             _return['teams'] = teams
 
             tournament_id = self.request.matchdict['tournament_id']
+
+            tournament_phases = self.tournament_controller.generate_schedule(
+                tournament_id)
+
+            for phase in tournament_phases:
+                for round in phase.schedule:
+                    for match in round:
+                        match.team1 = team_controller.get_team_from_id(
+                            match.team1)
+                        match.team2 = team_controller.get_team_from_id(
+                            match.team2)
+            _return['tournament_phases'] = tournament_phases
+
             tournament_teams = self.tournament_controller.get_tournament_teams(
                 tournament_id)
             _return['tournament_teams'] = tournament_teams
