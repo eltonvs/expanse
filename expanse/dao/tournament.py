@@ -1,16 +1,12 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
 from ..models.database import MongoDatabase
-from ..models.tournament import Tournament
+from ..models.tournament import Tournament, TournamentPhase
 from .generic import GenericDAO
 
 
 class TournamentDAO(GenericDAO):
     __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def add_team(self, team, tournament):
-        pass
 
 
 class TournamentDAOMongo(TournamentDAO):
@@ -26,7 +22,13 @@ class TournamentDAOMongo(TournamentDAO):
             "teams": [],
             "locale": tournament.locale,
             "organizer_id": tournament.organizer,
-            "matches": []
+            "status": tournament.status,
+            "phases": [
+                {
+                    "type": phase.type,
+                    "teams": phase.teams,
+                    "schedule": phase.schedule
+                } for phase in tournament.phases]
         }
         self.db.tournaments.insert(tournament_to_insert)
 
@@ -36,40 +38,44 @@ class TournamentDAOMongo(TournamentDAO):
     def update(self, query, update):
         self.db.tournaments.update(query, update)
 
-    def add_team(self, team, tournament):
-        # add new team to a tournamet
-        # need to find the _id of the current tournament
-        # insert team_id in the list of teams in db
-        print("Not implented yet")
-        pass
-
     def get(self, query):
         tournaments = list(self.db.tournaments.find(query))
         if tournaments:
             tournament_list = []
             for t in tournaments:
-                tournament = Tournament(
-                    t['name'],
-                    t['organizer_id'],
-                    t.get('locale', ''))
-                tournament.id = t['_id']
-                tournament.teams = t['teams']
-                tournament.matches = t.get('matches', [])
-                tournament_list.append(tournament)
+                tournament_list.append(self._get_object_from_dictionary(t))
             return tournament_list
         return []
 
     def get_one(self, query):
         tournament = self.db.tournaments.find_one(query)
         if tournament:
-            tournament_obj = Tournament(
-                tournament['name'],
-                tournament['organizer_id'],
-                tournament.get('locale', ''))
-            tournament_obj.id = tournament['_id']
-            tournament_obj.teams = tournament['teams']
-            tournament_obj.matches = tournament.get('matches', [])
-            return tournament_obj
+            return self._get_object_from_dictionary(tournament)
 
     def list(self):
         return self.get({})
+
+    def _get_object_from_dictionary(self, tournament):
+        tournament_phases = tournament.get('phases', [])
+        tournament_phases_list = []
+
+        for phase in tournament_phases:
+            tournament_phases_list.append(
+                TournamentPhase(
+                    phase.get('type', ''),
+                    phase.get('teams', ''),
+                    phase.get('schedule', '')
+                )
+            )
+
+        tournament_obj = Tournament(
+            tournament.get('name', ''),
+            tournament.get('organizer_id', ''),
+            tournament.get('locale', ''),
+            tournament.get('status', ''),
+            tournament_phases_list)
+        tournament_obj.id = tournament.get('_id', '')
+        tournament_obj.teams = tournament.get('teams', '')
+        tournament_obj.matches = tournament.get('matches', [])
+
+        return tournament_obj

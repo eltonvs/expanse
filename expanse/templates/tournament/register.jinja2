@@ -4,6 +4,18 @@
 <div class="content">
   <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
     <input type="text" name="name" placeholder="Name" />
+    <select name="type">
+      <option value="-1" disabled selected>Tournament Type</option>
+      <option value="0">Round Robin</option>
+      <option value="1">Knockout</option>
+      <option value="2">Group</option>
+    </select>
+    <select name="status">
+      <option value="-1" disabled selected>Tournament Status</option>
+      <option value="0">Opened</option>
+      <option value="1">Running</option>
+      <option value="2">Finished</option>
+    </select>
     <input type="submit" name="register">
   </form>
 </div>
