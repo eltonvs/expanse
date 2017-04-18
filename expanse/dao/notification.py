@@ -26,6 +26,7 @@ class NotificationDAOMongo(NotificationDAO):
             "user_id": notification.user_id,
             "title": notification.title,
             "message": notification.message,
+            "url": notification.url,
         }
         self.db.notifications.insert(notification_to_insert)
 
@@ -43,7 +44,8 @@ class NotificationDAOMongo(NotificationDAO):
                 new_notification = Notification(
                     n['user_id'],
                     n['title'],
-                    n['message'])
+                    n['message'],
+                    n.get('url',''))
                 new_notification.id = n['_id']
                 notifications_list.append(new_notification)
             return notifications_list
@@ -55,7 +57,8 @@ class NotificationDAOMongo(NotificationDAO):
             new_notification = Notification(
                 notification['user_id'],
                 notification['title'],
-                notification['message'])
+                notification['message'],
+                notification['url'])
             new_notification.id = notification['_id']
             return new_notification
 

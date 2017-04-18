@@ -43,7 +43,7 @@ class TeamDAOMongo(TeamDAO):
                 team = Team(t['name'], team_manager)
                 team.id = t['_id']
                 team.lines = t['lines']
-                team.players = t['players']
+                team.players = t.get('players', '')
                 teams_list.append(team)
             return teams_list
         return []

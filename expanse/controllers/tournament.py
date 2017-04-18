@@ -71,6 +71,8 @@ class TournamentController(object):
 
     def notify_near_users(self, tournament):
         user_dao = UserDAOMongo()
+        obj_tournament = self.tournament_dao.get_one(
+            {"name": tournament.name})
         notification_controller = NotificationController()
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
@@ -80,7 +82,8 @@ class TournamentController(object):
             notification = Notification(
                 usr_id,
                 "Near Tournament",
-                "\"" + tournament.name + "\" is near from you!")
+                "\"" + tournament.name + "\" is near from you!",
+                "/tournaments/dash/" + str(obj_tournament.id))
             notification_controller.add(notification)
 
     def add_team(self, tournament_id, team_id):
