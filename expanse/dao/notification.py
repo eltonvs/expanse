@@ -41,10 +41,11 @@ class NotificationDAOMongo(NotificationDAO):
             notifications_list = []
             for n in notifications:
                 new_notification = Notification(
-                    n['user_id'],
-                    n['title'],
-                    n['message'])
-                new_notification.id = n['_id']
+                    n.get('user_id', ''),
+                    n.get('title', ''),
+                    n.get('message', '')
+                )
+                new_notification.id = n.get('_id', '')
                 notifications_list.append(new_notification)
             return notifications_list
         return []
@@ -53,10 +54,11 @@ class NotificationDAOMongo(NotificationDAO):
         notification = self.db.teams.find_one(query)
         if notification:
             new_notification = Notification(
-                notification['user_id'],
-                notification['title'],
-                notification['message'])
-            new_notification.id = notification['_id']
+                notification.get('user_id', ''),
+                notification.get('title', ''),
+                notification.get('message', '')
+            )
+            new_notification.id = notification.get('_id', '')
             return new_notification
 
     def get_notifications_from_user(self, user_id):
