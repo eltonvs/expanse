@@ -48,12 +48,13 @@ class UserDAOMongo(UserDAO):
             user_list = []
             for u in users:
                 user = User(
-                    u['name'],
-                    u['username'],
-                    u['email'],
-                    u['password'],
-                    u['locale'])
-                user.id = u['_id']
+                    u.get('name', ''),
+                    u.get('username', ''),
+                    u.get('email', ''),
+                    u.get('password', ''),
+                    u.get('locale', '')
+                )
+                user.id = u.get('_id', '')
                 user_list.append(user)
             return user_list
         return []
@@ -62,12 +63,13 @@ class UserDAOMongo(UserDAO):
         user = self.db.users.find_one(query)
         if user:
             user_obj = User(
-                user['name'],
-                user['username'],
-                user['email'],
-                user['password'],
-                user['locale'])
-            user_obj.id = user['_id']
+                user.get('name', ''),
+                user.get('username', ''),
+                user.get('email', ''),
+                user.get('password', ''),
+                user.get('locale', '')
+            )
+            user_obj.id = user.get('_id','')
             return user_obj
 
     def get_user_from_email(self, email):
