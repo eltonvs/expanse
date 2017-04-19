@@ -25,7 +25,8 @@
     <h2>User notifications:</h2>
     <ul>
     {% for notification in user_notifications %}
-        <li>{{ notification.title }}: {{ notification.message }}</li>
+        <li>{{ notification.title }}:  <br>
+        <a href="{{notification.url}}">{{ notification.message }}</a></li>
     {% endfor %}
     </ul>
 {% endif %}

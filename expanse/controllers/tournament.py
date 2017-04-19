@@ -80,7 +80,9 @@ class TournamentController(object):
             notification = Notification(
                 usr_id,
                 "Near Tournament",
-                "\"" + tournament.name + "\" is near from you!")
+                "\"" + tournament.name + "\" is near from you!",
+                "/tournaments/dash/" + str(tournament.id)
+            )
             notification_controller.add(notification)
 
     def add_team(self, tournament_id, team_id):
