@@ -41,9 +41,9 @@ class TeamDAOMongo(TeamDAO):
             for t in teams:
                 team_manager = user_dao.get_one({"_id": t["team_manager_id"]})
                 team = Team(t['name'], team_manager)
-                team.id = t['_id']
-                team.lines = t['lines']
-                team.players = t.get('players', '')
+                team.id = t.get('_id', '')
+                team.lines = t.get('lines', [])
+                team.players = t.get('players', [])
                 teams_list.append(team)
             return teams_list
         return []
@@ -52,11 +52,12 @@ class TeamDAOMongo(TeamDAO):
         team = self.db.teams.find_one(query)
         if team:
             team_obj = Team(
-                team['name'],
-                team['team_manager_id'])
-            team_obj.id = team['_id']
-            team_obj.lines = team['lines']
-            team_obj.players = team['players']
+                team.get('name', ''),
+                team.get('team_manager_id', '')
+            )
+            team_obj.id = team.get('_id', '')
+            team_obj.lines = team.get('lines', [])
+            team_obj.players = team.get('players', [])
             return team_obj
 
     def list(self):

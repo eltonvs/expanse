@@ -73,7 +73,8 @@ class TournamentDAOMongo(TournamentDAO):
             tournament.get('organizer_id', ''),
             tournament.get('locale', ''),
             tournament.get('status', ''),
-            tournament_phases_list)
+            tournament_phases_list
+        )
         tournament_obj.id = tournament.get('_id', '')
         tournament_obj.teams = tournament.get('teams', '')
         tournament_obj.matches = tournament.get('matches', [])
