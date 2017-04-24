@@ -3,6 +3,7 @@ from pyramid.view import view_config, view_defaults
 
 from ..controllers.tournament import TournamentController
 from ..controllers.team import TeamController
+from ..controllers.game import GameController
 from ..models.tournament import Tournament, TournamentPhase
 
 
@@ -36,8 +37,11 @@ class TournamentViews(object):
             url = self.request.route_url('index')
             return HTTPFound(location=url)
 
+        game_controller = GameController()
+        games = game_controller.list()
         return {
-            'page_title': 'Register Tournament'
+            'page_title': 'Register Tournament',
+            'games': games
         }
 
     @view_config(
