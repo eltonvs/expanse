@@ -3,6 +3,11 @@
 {% block content %}
 <div class="content">
   <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
+    <select name="game">
+      {% for game in games %}
+        <option value="{{game['_id']}}">{{ game['name'] }}</option>
+      {% endfor %}
+    </select>
     <input type="text" name="name" placeholder="Name" />
     <select name="type">
       <option value="-1" disabled selected>Tournament Type</option>
