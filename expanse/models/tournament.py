@@ -47,7 +47,7 @@ class TournamentPhase(object):
 class Tournament(object):
     """Tournament model to store tournament data in runtime"""
 
-    def __init__(self, name, organizer, locale, status=0, phases=[]):
+    def __init__(self, name, organizer, locale, status=0, phases=[], game=None):
         self._id = None
         self._name = name
         self._organizer = organizer
@@ -56,6 +56,7 @@ class Tournament(object):
         self._matches = []
         self._status = status
         self._phases = phases
+        self._game = game
 
     def __str__(self):
         return (self._name)
@@ -123,3 +124,11 @@ class Tournament(object):
     @phases.setter
     def phases(self, value):
         self._phases = value
+
+    @property
+    def game(self):
+        return self._game
+
+    @game.setter
+    def game(self, value):
+        self._game = value

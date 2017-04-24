@@ -28,7 +28,8 @@ class TournamentDAOMongo(TournamentDAO):
                     "type": phase.type,
                     "teams": phase.teams,
                     "schedule": phase.schedule
-                } for phase in tournament.phases]
+                } for phase in tournament.phases],
+            "game": tournament.game,
         }
         self.db.tournaments.insert(tournament_to_insert)
 
@@ -73,7 +74,8 @@ class TournamentDAOMongo(TournamentDAO):
             tournament.get('organizer_id', ''),
             tournament.get('locale', ''),
             tournament.get('status', ''),
-            tournament_phases_list
+            tournament_phases_list,
+            tournament.get('game', ''),
         )
         tournament_obj.id = tournament.get('_id', '')
         tournament_obj.teams = tournament.get('teams', '')

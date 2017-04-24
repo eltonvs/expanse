@@ -59,6 +59,7 @@ class TournamentViews(object):
         tournament_name = params.get('name', '')
         tournament_type = params.get('type', '')
         tournament_status = params.get('status', '')
+        tournament_game = params.get('game', '')
 
         tournament_phases = [TournamentPhase(tournament_type)]
 
@@ -67,7 +68,8 @@ class TournamentViews(object):
             self.request.authenticated_userid,
             self.request.logged_user.locale,
             tournament_status,
-            tournament_phases)
+            tournament_phases,
+            tournament_game,)
 
         register_tournament = self.tournament_controller.register(tournament)
 
