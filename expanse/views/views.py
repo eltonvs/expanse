@@ -1,6 +1,8 @@
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember, forget
-from pyramid.view import view_config, view_defaults
+from pyramid.security import forget
+from pyramid.security import remember
+from pyramid.view import view_config
+from pyramid.view import view_defaults
 
 from ..controllers.expanse import ExpanseController
 from ..controllers.team import TeamController
@@ -90,3 +92,28 @@ class ExpanseViews(object):
         url = request.route_url('index')
 
         return HTTPFound(location=url, headers=headers)
+
+
+    @view_config(
+            request_method='POST',
+            renderer='index.jinja2')
+    def accept_invite(self):
+        params = self.request.params
+
+        notification_controller = NotificationController()
+        notification_id = params.get('notification_id')
+
+        print params
+
+        if params.get('accept') == 'Yes':
+            team_controller = TeamController()
+            team_id = params.get('team_id')
+            logged_user = self.request.authenticated_userid
+
+            team_controller.add_player(team_id, logged_user)
+       
+            # notification_controller.remove(notification_id)
+        # elif params.get('accept') == 'No':
+            # notification_controller.remove(notification_id)
+
+        return self.index()

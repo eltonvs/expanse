@@ -1,6 +1,7 @@
-from pyramid.httpexceptions import HTTPFound
-from pyramid.view import view_config, view_defaults
 from bson import ObjectId
+from pyramid.httpexceptions import HTTPFound
+from pyramid.view import view_config
+from pyramid.view import view_defaults
 
 from ..controllers.team import TeamController
 from ..controllers.user import UserController
@@ -76,8 +77,9 @@ class TeamViews(object):
 
         return {
             'page_title': 'Team Dashboard',
+            'team_id': team_id,
             'users': users,
-            'team_players': team_players
+            'team_players': team_players,
         }
 
     @view_config(
@@ -91,10 +93,10 @@ class TeamViews(object):
         if params.get('expanse_users'):
             user = params.get('expanse_users')
             user = ObjectId(user)
-
+            add_player = self.team_controller.invite_player(team_id, user)
         else:
             user = params.get('ne-user')
-
-        add_player = self.team_controller.add_player(team_id, user)
+            add_player = self.team_controller.add_player(team_id, user)
+       
 
         return {'page_title': 'Team Dashboard', 'errors': add_player}

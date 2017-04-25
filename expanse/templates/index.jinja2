@@ -9,33 +9,49 @@
     <li><a href="{{ request.route_url('register_team') }}">Register a new Team</a></li>
     <li><a href="{{ request.route_url('list_tournaments') }}">List Registered Tournaments</a></li>
     <li><a href="{{ request.route_url('register_tournament') }}">Create a new Tournament</a></li>
-  </ul>
+</ul>
 </div>
 
 {% if user_teams %}
-    <h2>User teams:</h2>
-    <ul>
+<h2>User teams:</h2>
+<ul>
     {% for team in user_teams %}
-        <li><a href="{{ request.route_url('dashboard_team', team_id=team.id) }}">{{ team.name }}</a></li>
+    <li><a href="{{ request.route_url('dashboard_team', team_id=team.id) }}">{{ team.name }}</a></li>
     {% endfor %}
-    </ul>
+</ul>
 {% endif %}
 
 {% if user_notifications %}
-    <h2>User notifications:</h2>
-    <ul>
+<h2>User notifications:</h2>
+<ul>
     {% for notification in user_notifications %}
-        <li>{{ notification.title }}:  <br>
-        <a href="{{notification.url}}">{{ notification.message }}</a></li>
+    
+    {%if notification.invitation == True%}
+    <li>{{ notification.title }}:  <br>
+        <form id="new_team_invitation" method="POST" name={{notification.id}}>
+
+            <input type="hidden" name="notification_id" value="{{ notification._id }}">
+            <input type="hidden" name="team_id" value="{{ notification.team_id }}">
+            <a href="{{notification.url}}">{{ notification.message }}</a></li>
+            <input type="submit" name="accept" value="Yes">
+            <input type="submit" name="accept" value="No">
+        </form>
+    </li>
+    {%else%}
+    <li>{{ notification.title }}:  <br>
+        <a href="{{notification.url}}">{{ notification.message }}</a>
+    </li>
+    {%endif%}   
     {% endfor %}
-    </ul>
+
+</ul>
 {% endif %}
 
 {% if user_tournaments %} Tournaments: <br>{%endif%}
 <ul>
-{%for tournament in user_tournaments %}
+    {%for tournament in user_tournaments %}
     <li> <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament.id)}}">{{tournament.name}}</a>
-{%endfor%}
-</ul>
+        {%endfor%}
+    </ul>
 
-{% endblock content %}
+    {% endblock content %}
