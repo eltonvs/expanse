@@ -16,7 +16,7 @@ class TeamController(object):
         err = self.validate(team)
         if not err:
             inserted_id = self.team_dao.insert(team)
-            if not inserted_id.is_valid():
+            if not inserted_id:
                 return {'db_error': True}
             team.id = inserted_id
         return err
@@ -57,7 +57,7 @@ class TeamController(object):
             player_id,
             "Team invitation",
             "\"" + team.name + "\" want you on the team! Do you accept the invitation?",
-            "/teams/dashboard/" + str(team_id), 
+            "/teams/dashboard/" + str(team_id),
             True,
             team_id
         )

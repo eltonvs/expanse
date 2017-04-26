@@ -13,7 +13,7 @@ class MatchController(object):
         err = self.validate(match)
         if not err:
             inserted_id = self.match_dao.insert(match)
-            if not inserted_id.is_valid():
+            if not inserted_id:
                 return {'db_error': True}
             match.id = inserted_id
         return err
