@@ -1,0 +1,28 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content">
+  <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
+    <input type="text" name="steam_username" placeholder="Steam UserName" value="{% if username %}{{ username }}{% endif %}"/>
+    <input type="submit" name="generate stats">
+  </form>
+
+{% if player %}
+Hello, {{ player }}, your steam level is {{ player.level }} and you've been recently played these games:
+<ul>
+  {% for game in player.recently_played %}
+    <li>{{ game }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if results %}
+  <ul>
+    {% for result in results %}
+      <li>{{ result.name }} - {{ result.data }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+</div>
+{% endblock content %}
