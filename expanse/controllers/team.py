@@ -2,6 +2,8 @@ from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
 from ..dao.user import UserDAOMongo
+from ..models.notification import Notification
+from ..controllers.notification import NotificationController
 
 
 class TeamController(object):
@@ -47,6 +49,20 @@ class TeamController(object):
         query = {'_id': ObjectId(team_id)}
         update = {'$addToSet': {'players': player}}
         self.team_dao.update(query, update)
+
+    def invite_player(self, team_id, player_id):
+        notification_controller = NotificationController()
+        team = self.get_team_from_id(team_id)
+        notification = Notification(
+            player_id,
+            "Team invitation",
+            "\"" + team.name + "\" want you on the team! Do you accept the invitation?",
+            "/teams/dashboard/" + str(team_id), 
+            True,
+            team_id
+        )
+        notification_controller.add(notification)
+
 
     def get_players(self, team_id):
         team = self.get_team_from_id(team_id)

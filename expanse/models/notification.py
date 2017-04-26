@@ -1,15 +1,17 @@
 class Notification(object):
     """Notification Model to store notifications data in runtime"""
 
-    def __init__(self, user_id, title, message, url):
+    def __init__(self, user_id, title, message, url, invitation = False, team_id = ''):
         self._id = None
         self._user_id = user_id
         self._title = title
         self._message = message
         self._url = url
+        self._invitation = invitation
+        self.team_id = team_id
 
     def __str__(self):
-        return '[' + self._user_id + '] - ' + self._title + ': ' + self._message
+        return '[' + str(self._user_id) + '] - [' + str(self._id) + '] - ' + self._title + ': ' + self._message
 
     @property
     def id(self):
@@ -50,3 +52,19 @@ class Notification(object):
     @url.setter
     def url(self, value):
         self._url = value
+
+    @property
+    def invitation(self):
+        return self._invitation
+
+    @invitation.setter
+    def invitation(self, value):
+        self._invitation = value
+
+    @property
+    def team_id(self):
+        return self._team_id
+
+    @team_id.setter
+    def team_id(self, value):
+        self._team_id = value
