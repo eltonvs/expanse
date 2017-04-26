@@ -99,8 +99,8 @@ class ExpanseViews(object):
     def accept_invite(self):
         params = self.request.params
 
-        # notification_controller = NotificationController()
-        # notification_id = params.get('notification_id')
+        notification_controller = NotificationController()
+        notification_id = params.get('notification_id')
 
         if params.get('accept') == 'Yes':
             team_controller = TeamController()
@@ -109,9 +109,9 @@ class ExpanseViews(object):
 
             team_controller.add_player(team_id, logged_user)
 
-        #    notification_controller.remove(notification_id)
+        #     notification_controller.remove(notification_id)
         # elif params.get('accept') == 'No':
-        #    notification_controller.remove(notification_id)
+        #     notification_controller.remove(notification_id)
 
         return self.index()
 

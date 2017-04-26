@@ -29,5 +29,8 @@ def includeme(config):
     config.add_route(
         'dashboard_tournament',
         '/tournaments/dash/{tournament_id}')
+    config.add_route(
+        'dashboard_match',
+        '/tournaments/dash/match/{match_id}')
 
     config.scan()

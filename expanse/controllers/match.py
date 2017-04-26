@@ -13,7 +13,7 @@ class MatchController(object):
         err = self.validate(match)
         if not err:
             inserted_id = self.match_dao.insert(match)
-            if not inserted_id.is_valid():
+            if not inserted_id:
                 return {'db_error': True}
             match.id = inserted_id
         return err
@@ -40,15 +40,15 @@ class MatchController(object):
             team_dao = TeamDAOMongo()
 
             teams = []
-            teams.append(team_dao.get_one({"_id", ObjectId(match.team1)}))
-            teams.append(team_dao.get_one({"_id", ObjectId(match.team2)}))
+            teams.append(team_dao.get_one({"_id": ObjectId(match.team1)}))
+            teams.append(team_dao.get_one({"_id": ObjectId(match.team2)}))
 
             return teams
         return []
 
     def set_score(self, match, score1, score2):
         query = {'_id': ObjectId(match)}
-        update = {'score': [score1, score2]}
+        update = {'$set': {'score': [score1, score2]}}
         self.match_dao.update(query, update)
 
     def set_time(self, match, time):
