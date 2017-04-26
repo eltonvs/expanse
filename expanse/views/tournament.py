@@ -4,7 +4,7 @@ from pyramid.view import view_config, view_defaults
 from ..controllers.tournament import TournamentController
 from ..controllers.team import TeamController
 from ..controllers.game import GameController
-from ..models.tournament import Tournament, TournamentPhase
+from ..models.tournament import Tournament, TournamentPhase, TournamentStatus
 
 
 @view_defaults(route_name='list_tournaments')
@@ -58,7 +58,7 @@ class TournamentViews(object):
 
         tournament_name = params.get('name', '')
         tournament_type = params.get('type', '')
-        tournament_status = params.get('status', '')
+        tournament_status = TournamentStatus.OPENED
         tournament_game = params.get('game', '')
 
         tournament_phases = [TournamentPhase(tournament_type)]
@@ -93,7 +93,7 @@ class TournamentViews(object):
 
             tournament_id = self.request.matchdict['tournament_id']
 
-            tournament_phases = self.tournament_controller.generate_schedule(
+            tournament_phases = self.tournament_controller.get_tournament_schedule(
                 tournament_id)
 
             for phase in tournament_phases:
@@ -117,10 +117,14 @@ class TournamentViews(object):
         request_method='POST')
     def dashboard_request(self):
         params = self.request.params
-
         tournament_id = self.request.matchdict['tournament_id']
-        team_id = params.get('team', '')
 
-        add_team = self.tournament_controller.add_team(tournament_id, team_id)
+        if params.get('team'):
+            team_id = params.get('team', '')
+            add_team = self.tournament_controller.add_team(tournament_id, team_id)
 
-        return {'page_title': 'Dashboard', 'errors': add_team}
+        if params.get('btn_generate'):
+            tournament_phases = self.tournament_controller.generate_schedule(
+                tournament_id)
+
+        return {'page_title': 'Dashboard', 'errors': None}

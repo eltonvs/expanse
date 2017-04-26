@@ -4,10 +4,12 @@ from bson import ObjectId
 from ..dao.team import TeamDAOMongo
 from ..dao.tournament import TournamentDAOMongo
 from ..dao.user import UserDAOMongo
+from ..dao.match import MatchDAOMongo
 from ..models.notification import Notification
 from ..models.match import Match
-from ..models.tournament import TournamentType
+from ..models.tournament import TournamentType, TournamentStatus
 from ..controllers.notification import NotificationController
+from ..controllers.match import MatchController
 
 
 class AbstractTournamentTypeController(object):
@@ -55,7 +57,7 @@ class TournamentController(object):
         err = self.validate(tournament)
         if not err:
             inserted_id = self.tournament_dao.insert(tournament)
-            if not inserted_id.is_valid():
+            if not inserted_id:
                 return {'db_error': True}
             # Add new id to tournament object
             tournament.id = inserted_id
@@ -133,13 +135,12 @@ class TournamentController(object):
     def get_tournament_matches(self, tournament_id):
         tournament = self.tournament_dao.get_one(
             {"_id": ObjectId(tournament_id)})
-        tournament_matches = tournament.matches
 
-        if tournament_matches:
+        if tournament.matches:
             match_dao = TeamDAOMongo()
             matches = []
 
-            for match_id in tournament_matches:
+            for match_id in tournament.matches:
                 match = match_dao.get_one({"_id": match_id})
                 if match:
                     matches.append(match)
@@ -147,9 +148,29 @@ class TournamentController(object):
             return matches
         return []
 
+    def get_tournament_schedule(self, tournament_id):
+        # TODO: Improve this code
+        tournament = self.tournament_dao.get_one({'_id': ObjectId(tournament_id)})
+
+        if tournament:
+            schedule = []
+            match_dao = MatchDAOMongo()
+            for phase in tournament.phases:
+                schedule.append([[match_dao.get_one({"_id": match_id}) for match_id in tournament_round] for tournament_round in phase.schedule])
+            for i in range(len(schedule)):
+                tournament.phases[i].schedule = schedule[i]
+                print(tournament.phases[i].schedule)
+
+            return tournament.phases
+
+        return []
+
     def generate_schedule(self, tournament_id):
         tournament = self.tournament_dao.get_one(
             {"_id": ObjectId(tournament_id)})
+
+        update = {'$set': {'status': TournamentStatus.RUNNING}}
+        self.tournament_dao.update({'_id': tournament.id}, update)
 
         for phase in tournament.phases:
             schedule_generator = None
@@ -167,5 +188,25 @@ class TournamentController(object):
                 phase.schedule = schedule_generator.generate_schedule()
 
         # Need to create on db each match on schedule and update tournament db
+        match_controller = MatchController()
+        for phase in tournament.phases:
+            for tournament_round in phase.schedule:
+                for match in tournament_round:
+                    match_controller.register(match)
+
+        self.put_schedule_on_db(tournament)
 
         return tournament.phases
+
+    def put_schedule_on_db(self, tournament):
+        # TODO: Remove idx
+        idx = 0
+        for phase in tournament.phases:
+            update = {
+                'phases.{}.teams'.format(idx): phase.teams,
+                'phases.{}.schedule'.format(idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule],
+            }
+
+            self.tournament_dao.update({'_id': tournament.id}, {'$set': update})
+
+            idx += 1

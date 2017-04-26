@@ -16,7 +16,7 @@ class NotificationController(object):
         err = self.validate(notification)
         if not err:
             inserted_id = self.notification_dao.insert(notification)
-            if not inserted_id.is_valid():
+            if not inserted_id:
                 return {'db_error': True}
             notification.id = inserted_id
         return err
