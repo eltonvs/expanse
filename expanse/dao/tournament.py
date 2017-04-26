@@ -31,7 +31,7 @@ class TournamentDAOMongo(TournamentDAO):
                 } for phase in tournament.phases],
             "game": tournament.game,
         }
-        self.db.tournaments.insert(tournament_to_insert)
+        return self.db.tournaments.insert(tournament_to_insert)
 
     def remove(self, query):
         self.db.tournaments.remove(query)

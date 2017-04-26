@@ -22,7 +22,7 @@ class GameDAOMongo(GameDAO):
             "abbreviation": game.abbreviation,
             "steamid": game.steamid,
         }
-        self.db.games.insert(match_to_insert)
+        return self.db.games.insert(game_to_insert)
 
     def remove(self, query):
         self.db.games.remove(query)

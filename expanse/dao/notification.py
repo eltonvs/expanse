@@ -28,7 +28,7 @@ class NotificationDAOMongo(NotificationDAO):
             "message": notification.message,
             "url": notification.url,
         }
-        self.db.notifications.insert(notification_to_insert)
+        return self.db.notifications.insert(notification_to_insert)
 
     def remove(self, query):
         self.db.notifications.remove(query)

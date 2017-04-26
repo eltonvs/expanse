@@ -13,7 +13,10 @@ class TeamController(object):
     def register(self, team):
         err = self.validate(team)
         if not err:
-            err = self.team_dao.insert(team)
+            inserted_id = self.team_dao.insert(team)
+            if not inserted_id.is_valid():
+                return {'db_error': True}
+            team.id = inserted_id
         return err
 
     def validate(self, team):

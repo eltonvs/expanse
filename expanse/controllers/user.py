@@ -13,7 +13,11 @@ class UserController(object):
         err = self.validate(user)
         if not err:
             user.password = self.security_tools.hash_password(user.password)
-            err = self.user_dao.insert(user)
+            inserted_id = self.user_dao.insert(user)
+            if not inserted_id.is_valid():
+                return {'db_error': True}
+            # Add new id to tournament object
+            user.id = inserted_id
         return err
 
     def validate(self, user):
