@@ -8,10 +8,17 @@
   </form>
 
 {% if player %}
-Hello, {{ player }}, your steam level is {{ player.level }} and you've been recently played these games:
+<img src="{{ player.avatar_full }}"><br>
+Hello, <strong>{{ player.real_name }}</strong> (A.K.A {{ player }}), your steam level is {{ player.level }} and you've been recently played these games:
 <ul>
   {% for game in player.recently_played %}
     <li>{{ game }}</li>
+  {% endfor %}
+</ul>
+Your Owned Games are:
+<ul>
+  {% for og in player.owned_games %}
+    <li>{{ og }}</li>
   {% endfor %}
 </ul>
 {% endif %}
@@ -22,6 +29,8 @@ Hello, {{ player }}, your steam level is {{ player.level }} and you've been rece
       <li>{{ result.name }} - {{ result.data }}</li>
     {% endfor %}
   </ul>
+{% else %}
+No user data
 {% endif %}
 
 </div>
