@@ -7,8 +7,8 @@ from pyramid.view import view_defaults
 from ..controllers.expanse import ExpanseController
 from ..controllers.team import TeamController
 from ..controllers.tournament import TournamentController
-
 from ..controllers.notification import NotificationController
+from ..controllers.steam import SteamController
 
 
 @view_defaults(route_name='index')
@@ -93,17 +93,14 @@ class ExpanseViews(object):
 
         return HTTPFound(location=url, headers=headers)
 
-
     @view_config(
             request_method='POST',
             renderer='index.jinja2')
     def accept_invite(self):
         params = self.request.params
 
-        notification_controller = NotificationController()
-        notification_id = params.get('notification_id')
-
-        print params
+        # notification_controller = NotificationController()
+        # notification_id = params.get('notification_id')
 
         if params.get('accept') == 'Yes':
             team_controller = TeamController()
@@ -111,9 +108,33 @@ class ExpanseViews(object):
             logged_user = self.request.authenticated_userid
 
             team_controller.add_player(team_id, logged_user)
-       
-            # notification_controller.remove(notification_id)
+
+        #    notification_controller.remove(notification_id)
         # elif params.get('accept') == 'No':
-            # notification_controller.remove(notification_id)
+        #    notification_controller.remove(notification_id)
 
         return self.index()
+
+    @view_config(route_name='steam_data', renderer='steam_data.jinja2')
+    def steam_data(self):
+        return {'page_title': "Steam Data"}
+
+    @view_config(
+        route_name='steam_data',
+        request_method='POST',
+        renderer='steam_data.jinja2')
+    def steam_data_request(self):
+        params = self.request.params
+
+        username = params.get('steam_username', '')
+        print("'" + username + "'")
+
+        steam_controller = SteamController()
+
+        player = steam_controller.get_steamuser_from_username(username)
+
+        return {
+            "page_title": "Steam Data - Results",
+            "username": username,
+            "player": player
+        }
