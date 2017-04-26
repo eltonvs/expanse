@@ -25,9 +25,9 @@ class TeamDAOMongo(TeamDAO):
             "players": team.players,
             "team_manager_id": team.team_manager,
         }
-        self.db.teams.insert(team_to_insert)
+        return self.db.teams.insert(team_to_insert)
 
-    def remove(self, user):
+    def remove(self, query):
         self.db.teams.remove(query)
 
     def update(self, query, update):

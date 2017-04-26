@@ -12,7 +12,10 @@ class MatchController(object):
     def register(self, match):
         err = self.validate(match)
         if not err:
-            err = self.match_dao.insert(match)
+            inserted_id = self.match_dao.insert(match)
+            if not inserted_id.is_valid():
+                return {'db_error': True}
+            match.id = inserted_id
         return err
 
     def validate(self, match):

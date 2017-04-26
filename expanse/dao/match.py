@@ -24,7 +24,7 @@ class MatchDAOMongo(MatchDAO):
             "score": match.score,
             "time": match.time
         }
-        self.db.matches.insert(match_to_insert)
+        return self.db.matches.insert(match_to_insert)
 
     def remove(self, query):
         self.db.matches.remove(query)
@@ -42,7 +42,7 @@ class MatchDAOMongo(MatchDAO):
                     m.get('team1', None),
                     m.get('team2', None),
                     m.get('score', []),
-                    m.get('time', 0) #it will change to the type time
+                    m.get('time', 0)  # it will change to the type time
                 )
                 match.id = m.get('_id', '')
                 match_list.append(match)
@@ -57,7 +57,7 @@ class MatchDAOMongo(MatchDAO):
                 match.get('team1', None),
                 match.get('team2', None),
                 match.get('score', []),
-                match.get('time', 0) #it will change to the type time
+                match.get('time', 0)  # it will change to the type time
             )
             match_obj.id = match.get('_id', '')
             return match_obj

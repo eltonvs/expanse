@@ -54,7 +54,11 @@ class TournamentController(object):
     def register(self, tournament):
         err = self.validate(tournament)
         if not err:
-            err = self.tournament_dao.insert(tournament)
+            inserted_id = self.tournament_dao.insert(tournament)
+            if not inserted_id.is_valid():
+                return {'db_error': True}
+            # Add new id to tournament object
+            tournament.id = inserted_id
             self.notify_near_users(tournament)
         return err
 
@@ -148,16 +152,19 @@ class TournamentController(object):
             {"_id": ObjectId(tournament_id)})
 
         for phase in tournament.phases:
+            schedule_generator = None
             if phase.type is TournamentType.ROUND_ROBIN:
-                round_robin = RoundRobinController(
+                schedule_generator = RoundRobinController(
                     tournament_id, tournament.teams)
-                phase.schedule = round_robin.generate_schedule()
             elif phase.type is TournamentType.KNOCKOUT:
                 # Do what need to be done
                 pass
             elif phase.type is TournamentType.GROUP:
                 # Do what need to be done
                 pass
+
+            if schedule_generator:
+                phase.schedule = schedule_generator.generate_schedule()
 
         # Need to create on db each match on schedule and update tournament db
 

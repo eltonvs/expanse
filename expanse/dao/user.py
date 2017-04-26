@@ -34,7 +34,7 @@ class UserDAOMongo(UserDAO):
             "email": user.email,
             "locale": user.locale,
         }
-        self.db.users.insert(user_to_insert)
+        return self.db.users.insert(user_to_insert)
 
     def remove(self, query):
         self.db.users.remove(query)
@@ -69,7 +69,7 @@ class UserDAOMongo(UserDAO):
                 user.get('password', ''),
                 user.get('locale', '')
             )
-            user_obj.id = user.get('_id','')
+            user_obj.id = user.get('_id', '')
             return user_obj
 
     def get_user_from_email(self, email):
