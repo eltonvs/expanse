@@ -7,7 +7,7 @@
 {% endif %}
 
 <div class="content">
-  <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
+  <form name="add_team" accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
     <select name="team">
         {% for team in teams %}
             <option value="{{team._id}}">{{team.name}}</option>
@@ -22,6 +22,10 @@
   {% for team in tournament_teams %}
   	{{ team.name }} <br>
   {% endfor %}
+
+  <form name="generate_schedule" method="POST">
+    <input type="submit" name="btn_generate" value="Generate Schedule">
+  </form>
 
   <h3>Schedule</h3>
   {% for phase in tournament_phases %}
