@@ -159,7 +159,6 @@ class TournamentController(object):
                 schedule.append([[match_dao.get_one({"_id": match_id}) for match_id in tournament_round] for tournament_round in phase.schedule])
             for i in range(len(schedule)):
                 tournament.phases[i].schedule = schedule[i]
-                print(tournament.phases[i].schedule)
 
             return tournament.phases
 

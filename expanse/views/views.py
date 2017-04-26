@@ -103,15 +103,13 @@ class ExpanseViews(object):
         notification_controller = NotificationController()
         notification_id = params.get('notification_id')
 
-        print params
-
         if params.get('accept') == 'Yes':
             team_controller = TeamController()
             team_id = params.get('team_id')
             logged_user = self.request.authenticated_userid
 
             team_controller.add_player(team_id, logged_user)
-       
+
             # notification_controller.remove(notification_id)
         # elif params.get('accept') == 'No':
             # notification_controller.remove(notification_id)
