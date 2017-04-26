@@ -4,6 +4,7 @@ from bson import ObjectId
 from ..dao.team import TeamDAOMongo
 from ..dao.tournament import TournamentDAOMongo
 from ..dao.user import UserDAOMongo
+from ..dao.match import MatchDAOMongo
 from ..models.notification import Notification
 from ..models.match import Match
 from ..models.tournament import TournamentType, TournamentStatus
@@ -134,13 +135,12 @@ class TournamentController(object):
     def get_tournament_matches(self, tournament_id):
         tournament = self.tournament_dao.get_one(
             {"_id": ObjectId(tournament_id)})
-        tournament_matches = tournament.matches
 
-        if tournament_matches:
+        if tournament.matches:
             match_dao = TeamDAOMongo()
             matches = []
 
-            for match_id in tournament_matches:
+            for match_id in tournament.matches:
                 match = match_dao.get_one({"_id": match_id})
                 if match:
                     matches.append(match)
@@ -149,6 +149,20 @@ class TournamentController(object):
         return []
 
     def get_tournament_schedule(self, tournament_id):
+        # TODO: Improve this code
+        tournament = self.tournament_dao.get_one({'_id': ObjectId(tournament_id)})
+
+        if tournament:
+            schedule = []
+            match_dao = MatchDAOMongo()
+            for phase in tournament.phases:
+                schedule.append([[match_dao.get_one({"_id": match_id}) for match_id in tournament_round] for tournament_round in phase.schedule])
+            for i in range(len(schedule)):
+                tournament.phases[i].schedule = schedule[i]
+                print(tournament.phases[i].schedule)
+
+            return tournament.phases
+
         return []
 
     def generate_schedule(self, tournament_id):
@@ -185,10 +199,14 @@ class TournamentController(object):
         return tournament.phases
 
     def put_schedule_on_db(self, tournament):
-        for idx, phase in tournament.phases:
+        # TODO: Remove idx
+        idx = 0
+        for phase in tournament.phases:
             update = {
-                'phases.' + idx + '.teams': phase.teams,
-                'phases.' + idx + '.schedule': [[match.id for match in tournament_round] for tournament_round in phase.schedule]
+                'phases.{}.teams'.format(idx): phase.teams,
+                'phases.{}.schedule'.format(idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule],
             }
 
             self.tournament_dao.update({'_id': tournament.id}, {'$set': update})
+
+            idx += 1

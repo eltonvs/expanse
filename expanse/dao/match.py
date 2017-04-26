@@ -50,7 +50,7 @@ class MatchDAOMongo(MatchDAO):
         return []
 
     def get_one(self, query):
-        match = list(self.db.matches.find(query))
+        match = self.db.matches.find_one(query)
         if match:
             match_obj = Match(
                 match.get('tournament', ''),
