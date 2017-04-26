@@ -1,9 +1,11 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
+from bson import ObjectId
 
 from ..controllers.tournament import TournamentController
 from ..controllers.team import TeamController
 from ..controllers.game import GameController
+from ..controllers.match import MatchController
 from ..models.tournament import Tournament, TournamentPhase, TournamentStatus
 
 
@@ -99,10 +101,11 @@ class TournamentViews(object):
             for phase in tournament_phases:
                 for round in phase.schedule:
                     for match in round:
-                        match.team1 = team_controller.get_team_from_id(
-                            match.team1)
-                        match.team2 = team_controller.get_team_from_id(
-                            match.team2)
+                        if match:
+                            match.team1 = team_controller.get_team_from_id(
+                                match.team1)
+                            match.team2 = team_controller.get_team_from_id(
+                                match.team2)
             _return['tournament_phases'] = tournament_phases
 
             tournament_teams = self.tournament_controller.get_tournament_teams(
@@ -128,3 +131,31 @@ class TournamentViews(object):
                 tournament_id)
 
         return {'page_title': 'Dashboard', 'errors': None}
+
+    @view_config(
+        route_name="dashboard_match",
+        renderer="tournament/match_dashboard.jinja2")
+    def match_dashboard(self):
+        match_id = self.request.matchdict['match_id']
+        match_controller = MatchController()
+        teams = match_controller.get_match_teams(match_id)
+
+        return{'page_title': 'Match Dashboard', 'teams': teams}
+
+    @view_config(
+        route_name="dashboard_match",
+        request_method="POST",
+        renderer="tournament/match_dashboard.jinja2")
+    def match_dashboard_request(self):
+        params = self.request.params
+        match_id = self.request.matchdict['match_id']
+
+        valueTeamA = params.get('result_team_a')
+        valueTeamB = params.get('result_team_b')
+
+        match_controller = MatchController()
+
+        match_controller.set_score(match_id, valueTeamA, valueTeamB)
+        teams = match_controller.get_match_teams(match_id)
+
+        return{'page_title': 'Match Dashboard', 'teams': teams}
