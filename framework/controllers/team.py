@@ -5,9 +5,9 @@ from bson import ObjectId
 class TeamController(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, fabric_dao):
-        self.fabric_dao = fabric_dao
-        self.team_dao = self.fabric_dao.team_DAO()
+    def __init__(self, factory_dao):
+        self.factory_dao = factory_dao
+        self.team_dao = self.factory_dao.team_DAO()
 
     def register(self, team):
         err = self.validate(team)
@@ -36,7 +36,7 @@ class TeamController(object):
         team = self.get_team_from_id(team_id)
         players = []
         if team:
-            user_dao = self.fabric_dao.user_DAO()
+            user_dao = self.factory_dao.user_DAO()
             for p in team.players:
                 if (ObjectId.is_valid(p)):
                     players.append(user_dao.get_one({"_id": ObjectId(p)}))

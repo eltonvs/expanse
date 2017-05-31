@@ -3,7 +3,7 @@ from bson import ObjectId
 
 from framework.models.tournament import TournamentType, TournamentStatus
 
-from ..dao.mongo_fabric import MongoFabricDAO
+from ..dao.mongo_factory import MongoFactoryDAO
 from ..models.notification import Notification
 from ..models.match import MatchCSGO
 from ..controllers.notification import NotificationController
@@ -49,8 +49,8 @@ class TournamentController(object):
     """Controller layer for Tournament object"""
 
     def __init__(self):
-        self.fabric_dao = MongoFabricDAO()
-        self.tournament_dao = self.fabric_dao.tournament_DAO()
+        self.factory_dao = MongoFactoryDAO()
+        self.tournament_dao = self.factory_dao.tournament_DAO()
 
     def register(self, tournament):
         err = self.validate(tournament)
@@ -75,7 +75,7 @@ class TournamentController(object):
         return err
 
     def notify_near_users(self, tournament):
-        user_dao = self.fabric_dao.user_DAO()
+        user_dao = self.factory_dao.user_DAO()
         notification_controller = NotificationController()
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
@@ -120,7 +120,7 @@ class TournamentController(object):
         tournament_teams = tournament.teams
 
         if tournament_teams:
-            team_dao = self.fabric_dao.team_DAO()
+            team_dao = self.factory_dao.team_DAO()
             teams = []
 
             for team_id in tournament_teams:
@@ -136,7 +136,7 @@ class TournamentController(object):
             {"_id": ObjectId(tournament_id)})
 
         if tournament.matches:
-            match_dao = self.fabric_dao.match_DAO()
+            match_dao = self.factory_dao.match_DAO()
             matches = []
 
             for match_id in tournament.matches:
@@ -154,7 +154,7 @@ class TournamentController(object):
 
         if tournament:
             schedule = []
-            match_dao = self.fabric_dao.match_DAO()
+            match_dao = self.factory_dao.match_DAO()
             for phase in tournament.phases:
                 schedule.append(
                     [[match_dao.get_one({"_id": match_id})

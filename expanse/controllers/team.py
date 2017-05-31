@@ -1,6 +1,6 @@
 from framework.controllers.team import TeamController
 
-from ..dao.mongo_fabric import MongoFabricDAO
+from ..dao.mongo_factory import MongoFactoryDAO
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
@@ -9,7 +9,7 @@ class TeamControllerCSGO(TeamController):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-        super(TeamControllerCSGO, self).__init__(MongoFabricDAO())
+        super(TeamControllerCSGO, self).__init__(MongoFactoryDAO())
 
     def validate(self, team):
         err = {}

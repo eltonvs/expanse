@@ -5,9 +5,9 @@ from bson import ObjectId
 class MatchController(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, fabric_dao):
-        self.fabric_dao = fabric_dao
-        self.match_dao = self.fabric_dao.match_DAO()
+    def __init__(self, factory_dao):
+        self.factory_dao = factory_dao
+        self.match_dao = self.factory_dao.match_DAO()
 
     def register(self, match):
         err = self.validate(match)

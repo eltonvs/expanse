@@ -2,13 +2,13 @@ from bson import ObjectId
 
 from framework.controllers.match import MatchController
 
-from ..dao.mongo_fabric import MongoFabricDAO
+from ..dao.mongo_factory import MongoFactoryDAO
 
 
 class MatchControllerCSGO(MatchController):
 
     def __init__(self):
-        super(MatchControllerCSGO, self).__init__(MongoFabricDAO())
+        super(MatchControllerCSGO, self).__init__(MongoFactoryDAO())
 
     def validate(self, match):
         err = {}
@@ -29,7 +29,7 @@ class MatchControllerCSGO(MatchController):
     def get_match_teams(self, match_id):
         match = self.match_dao.get_one({"_id": ObjectId(match_id)})
         if match:
-            team_dao = self.fabric_dao.team_DAO()
+            team_dao = self.factory_dao.team_DAO()
 
             teams = []
             teams.append(team_dao.get_one({"_id": ObjectId(match.team1)}))

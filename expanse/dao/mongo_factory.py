@@ -1,4 +1,4 @@
-from framework.dao.fabric import AbstractFactoryDAO
+from framework.dao.factory import AbstractFactoryDAO
 
 from .match import MatchDAOMongo
 from .notification import NotificationDAOMongo
@@ -7,7 +7,7 @@ from .tournament import TournamentDAOMongo
 from .user import UserDAOMongo
 
 
-class MongoFabricDAO(AbstractFactoryDAO):
+class MongoFactoryDAO(AbstractFactoryDAO):
 
     def match_DAO(self):
         return MatchDAOMongo()
