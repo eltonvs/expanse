@@ -1,8 +1,11 @@
 language: python
 sudo: false
-cache: pip
 
 python: "2.7"
+
+cache: pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 
 # command to install dependencies
 install:
