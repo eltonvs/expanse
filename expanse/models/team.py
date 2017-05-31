@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 
-class FrameworkTeam(object):
+class Team(object):
     """Team Model to store user data in runtime"""
     __metaclass__ = ABCMeta
 
@@ -47,11 +47,11 @@ class FrameworkTeam(object):
         self._players = value
 
 
-class Team(FrameworkTeam):
+class TeamCSGO(Team):
     """Team Model to store user data in runtime"""
 
     def __init__(self, name, manager):
-        super(Team, self).__init__(name, manager)
+        super(TeamCSGO, self).__init__(name, manager)
         self._lines = []
 
     @property

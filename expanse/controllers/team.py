@@ -6,7 +6,7 @@ from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
 
-class FrameworkTeamController(object):
+class TeamController(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, fabric_dao):
@@ -53,11 +53,11 @@ class FrameworkTeamController(object):
         pass
 
 
-class TeamController(FrameworkTeamController):
+class TeamControllerCSGO(TeamController):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-        super(TeamController, self).__init__(MongoFabricDAO())
+        super(TeamControllerCSGO, self).__init__(MongoFabricDAO())
 
     def validate(self, team):
         err = {}

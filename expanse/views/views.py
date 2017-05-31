@@ -5,7 +5,7 @@ from pyramid.view import view_config
 from pyramid.view import view_defaults
 
 from ..controllers.expanse import ExpanseController
-from ..controllers.team import TeamController
+from ..controllers.team import TeamControllerCSGO
 from ..controllers.tournament import TournamentController
 from ..controllers.notification import NotificationController
 
@@ -26,7 +26,7 @@ class ExpanseViews(object):
 
         if logged_user:
             # List user teams
-            team_controller = TeamController()
+            team_controller = TeamControllerCSGO()
             user_teams = team_controller.get_managed_teams(logged_user)
             _return['user_teams'] = user_teams
 
@@ -102,7 +102,7 @@ class ExpanseViews(object):
         # notification_id = params.get('notification_id')
 
         if params.get('accept') == 'Yes':
-            team_controller = TeamController()
+            team_controller = TeamControllerCSGO()
             team_id = params.get('team_id')
             logged_user = self.request.authenticated_userid
 

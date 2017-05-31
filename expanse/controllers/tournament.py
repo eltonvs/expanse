@@ -3,10 +3,10 @@ from bson import ObjectId
 
 from ..dao.mongo_fabric import MongoFabricDAO
 from ..models.notification import Notification
-from ..models.match import Match
+from ..models.match import MatchCSGO
 from ..models.tournament import TournamentType, TournamentStatus
 from ..controllers.notification import NotificationController
-from ..controllers.match import MatchController
+from ..controllers.match import MatchControllerCSGO
 
 
 class AbstractTournamentTypeController(object):
@@ -31,7 +31,7 @@ class RoundRobinController(AbstractTournamentTypeController):
         matches = []
         for it in range(len(self._teams) - 1):
             matches.append([
-                        Match(
+                        MatchCSGO(
                             self._tournament_id,
                             self._teams[i],
                             self._teams[i + len(self._teams) // 2])
@@ -189,7 +189,7 @@ class TournamentController(object):
                 phase.schedule = schedule_generator.generate_schedule()
 
         # Need to create on db each match on schedule and update tournament db
-        match_controller = MatchController()
+        match_controller = MatchControllerCSGO()
         for phase in tournament.phases:
             for tournament_round in phase.schedule:
                 for match in tournament_round:
@@ -204,7 +204,7 @@ class TournamentController(object):
         idx = 0
         for phase in tournament.phases:
             update = {'phases.{}.teams'.format(idx): phase.teams, 'phases.{}.schedule'.format(
-                idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule], }
+                idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule]}
 
             self.tournament_dao.update({'_id': tournament.id}, {'$set': update})
 

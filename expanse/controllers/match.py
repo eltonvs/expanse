@@ -4,7 +4,7 @@ from bson import ObjectId
 from ..dao.mongo_fabric import MongoFabricDAO
 
 
-class FrameworkMatchController(object):
+class MatchController(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, fabric_dao):
@@ -36,10 +36,10 @@ class FrameworkMatchController(object):
         pass
 
 
-class MatchController(FrameworkMatchController):
+class MatchControllerCSGO(MatchController):
 
     def __init__(self):
-        super(MatchController, self).__init__(MongoFabricDAO())
+        super(MatchControllerCSGO, self).__init__(MongoFabricDAO())
 
     def validate(self, match):
         err = {}

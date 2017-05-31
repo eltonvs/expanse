@@ -5,12 +5,12 @@ class Score(object):
     """Team Model to store user data in runtime"""
     __metaclass__ = ABCMeta
 
-    def __init__(self):
+    def __init__(self, points):
         self._id = None
+        self._points = points
 
     def __str__(self):
-        """Real score (int?)"""
-        pass
+        return 'X'.join(str(p) for p in self.points)
 
     @property
     def id(self):
@@ -19,3 +19,16 @@ class Score(object):
     @id.setter
     def id(self, value):
         self._id = value
+
+    @property
+    def points(self):
+        return self._points
+
+    @points.setter
+    def points(self, value):
+        self._points = value
+
+class ScoreCSGO(Score):
+
+    def __init__(self, team1=None, team2=None):
+        super(ScoreCSGO, self).__init__([team1, team2])
