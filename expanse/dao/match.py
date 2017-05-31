@@ -1,12 +1,7 @@
-from abc import ABCMeta
+from framework.dao.match import MatchDAO
 
-from .generic import GenericDAO
 from ..models.database import MongoDatabase
 from ..models.match import MatchCSGO
-
-
-class MatchDAO(GenericDAO):
-    __metaclass__ = ABCMeta
 
 
 class MatchDAOMongo(MatchDAO):

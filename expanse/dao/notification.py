@@ -1,8 +1,9 @@
 from abc import ABCMeta, abstractmethod
 
+from framework.dao.generic import GenericDAO
+
 from ..models.database import MongoDatabase
 from ..models.notification import Notification
-from .generic import GenericDAO
 
 
 class NotificationDAO(GenericDAO):
@@ -28,7 +29,7 @@ class NotificationDAOMongo(NotificationDAO):
             "message": notification.message,
             "url": notification.url,
             "invitation": notification.invitation,
-            "team_id" : notification.team_id
+            "team_id": notification.team_id
         }
         return self.db.notifications.insert(notification_to_insert)
 

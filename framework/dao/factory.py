@@ -19,7 +19,3 @@ class AbstractFactoryDAO(object):
     @abstractmethod
     def tournament_DAO(self):
         pass
-
-    @abstractmethod
-    def user_DAO(self):
-        pass

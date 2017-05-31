@@ -1,4 +1,4 @@
-from ..dao.mongo_fabric import MongoFabricDAO
+from ..dao.mongo_factory import MongoFactoryDAO
 from ..utils.security import SecurityTools
 
 
@@ -7,7 +7,7 @@ class NotificationController(object):
 
     def __init__(self):
         self.security_tools = SecurityTools()
-        self.notification_dao = MongoFabricDAO().notification_DAO()
+        self.notification_dao = MongoFactoryDAO().notification_DAO()
 
     def remove(self, notification_id):
         self.notification_dao.remove({'_id': notification_id})

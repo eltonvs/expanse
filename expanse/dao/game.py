@@ -1,6 +1,7 @@
 from abc import ABCMeta
 
-from .generic import GenericDAO
+from framework.dao.generic import GenericDAO
+
 from ..models.database import MongoDatabase
 from ..models.game import Game
 

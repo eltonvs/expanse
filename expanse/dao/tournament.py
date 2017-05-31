@@ -1,12 +1,7 @@
-from abc import ABCMeta
+from framework.models.tournament import Tournament, TournamentPhase
+from framework.dao.tournament import TournamentDAO
 
 from ..models.database import MongoDatabase
-from ..models.tournament import Tournament, TournamentPhase
-from .generic import GenericDAO
-
-
-class TournamentDAO(GenericDAO):
-    __metaclass__ = ABCMeta
 
 
 class TournamentDAOMongo(TournamentDAO):

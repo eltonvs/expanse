@@ -1,45 +1,14 @@
-from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from ..dao.mongo_fabric import MongoFabricDAO
+from framework.controllers.match import MatchController
 
-
-class MatchController(object):
-    __metaclass__ = ABCMeta
-
-    def __init__(self, fabric_dao):
-        self.fabric_dao = fabric_dao
-        self.match_dao = self.fabric_dao.match_DAO()
-
-    def register(self, match):
-        err = self.validate(match)
-        if not err:
-            inserted_id = self.match_dao.insert(match)
-            if not inserted_id:
-                return {'db_error': True}
-            match.id = inserted_id
-        return err
-
-    def set_score(self, match, score1, score2):
-        query = {'_id': ObjectId(match)}
-        update = {'$set': {'score': [score1, score2]}}
-        self.match_dao.update(query, update)
-
-    def get_matches_from_tournament(self, tournament):
-        return self.match_dao.get({"tournament": ObjectId(tournament)})
-
-    def get_matches(self):
-        return self.match_dao.list()
-
-    @abstractmethod
-    def validate(self, match):
-        pass
+from ..dao.mongo_factory import MongoFactoryDAO
 
 
 class MatchControllerCSGO(MatchController):
 
     def __init__(self):
-        super(MatchControllerCSGO, self).__init__(MongoFabricDAO())
+        super(MatchControllerCSGO, self).__init__(MongoFactoryDAO())
 
     def validate(self, match):
         err = {}
@@ -60,7 +29,7 @@ class MatchControllerCSGO(MatchController):
     def get_match_teams(self, match_id):
         match = self.match_dao.get_one({"_id": ObjectId(match_id)})
         if match:
-            team_dao = self.fabric_dao.team_DAO()
+            team_dao = self.factory_dao.team_DAO()
 
             teams = []
             teams.append(team_dao.get_one({"_id": ObjectId(match.team1)}))
