@@ -12,7 +12,6 @@ def includeme(config):
     config.add_route('index', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
-    config.add_route('steam_data', '/steam')
 
     # UserViews Routes
     config.add_route('list_users', '/users')
