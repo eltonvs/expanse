@@ -1,12 +1,12 @@
 from abc import ABCMeta
-from ..models.score import Score
+from ..models.score import ScoreCSGO
 
 
-class FrameworkMatch(object):
+class Match(object):
     """Mach Model to store user data in runtime"""
     __metaclass__ = ABCMeta
 
-    def __init__(self, tournament, score=Score()):
+    def __init__(self, tournament, score):
         self._id = None
         self._tournament = tournament
         self._score = score
@@ -39,11 +39,11 @@ class FrameworkMatch(object):
         self._score = score
 
 
-class Match(FrameworkMatch):
+class MatchCSGO(Match):
     """Mach Model to store user data in runtime"""
 
-    def __init__(self, tournament, team1, team2, score=Score(), time=None):
-        super(Match, self).__init__(tournament, score)
+    def __init__(self, tournament, team1, team2, score=ScoreCSGO(), time=None):
+        super(MatchCSGO, self).__init__(tournament, score)
         self._team1 = team1
         self._team2 = team2
         self._time = time

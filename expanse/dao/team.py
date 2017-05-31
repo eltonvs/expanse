@@ -3,7 +3,7 @@ from abc import ABCMeta
 from .generic import GenericDAO
 from .user import UserDAOMongo
 from ..models.database import MongoDatabase
-from ..models.team import Team
+from ..models.team import TeamCSGO
 
 
 class TeamDAO(GenericDAO):
@@ -40,7 +40,7 @@ class TeamDAOMongo(TeamDAO):
             user_dao = UserDAOMongo()
             for t in teams:
                 team_manager = user_dao.get_one({"_id": t["team_manager_id"]})
-                team = Team(t['name'], team_manager)
+                team = TeamCSGO(t['name'], team_manager)
                 team.id = t.get('_id', '')
                 team.lines = t.get('lines', [])
                 team.players = t.get('players', [])
@@ -51,7 +51,7 @@ class TeamDAOMongo(TeamDAO):
     def get_one(self, query):
         team = self.db.teams.find_one(query)
         if team:
-            team_obj = Team(
+            team_obj = TeamCSGO(
                 team.get('name', ''),
                 team.get('team_manager_id', '')
             )
