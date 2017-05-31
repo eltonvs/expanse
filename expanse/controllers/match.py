@@ -1,10 +1,12 @@
+from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
 from ..dao.match import MatchDAOMongo
 from ..dao.team import TeamDAOMongo
 
 
-class MatchController(object):
+class FrameworkMatchController(object):
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.match_dao = MatchDAOMongo()
@@ -17,6 +19,27 @@ class MatchController(object):
                 return {'db_error': True}
             match.id = inserted_id
         return err
+
+    def set_score(self, match, score1, score2):
+        query = {'_id': ObjectId(match)}
+        update = {'$set': {'score': [score1, score2]}}
+        self.match_dao.update(query, update)
+
+    def get_matches_from_tournament(self, tournament):
+        return self.match_dao.get({"tournament": ObjectId(tournament)})
+
+    def get_matches(self):
+        return self.match_dao.list()
+
+    @abstractmethod
+    def validate(self, match):
+        pass
+
+
+class MatchController(FrameworkMatchController):
+
+    def __init__(self):
+        super(MatchController, self).__init__()
 
     def validate(self, match):
         err = {}
@@ -46,18 +69,7 @@ class MatchController(object):
             return teams
         return []
 
-    def set_score(self, match, score1, score2):
-        query = {'_id': ObjectId(match)}
-        update = {'$set': {'score': [score1, score2]}}
-        self.match_dao.update(query, update)
-
     def set_time(self, match, time):
         query = {'_id': ObjectId(match)}
         update = {'time': time}
         self.match_dao.update(query, update)
-
-    def get_matches(self):
-        return self.match_dao.list()
-
-    def get_matches_from_tournament(self, tournament):
-        return self.match_dao.get({"tournament": ObjectId(tournament)})
