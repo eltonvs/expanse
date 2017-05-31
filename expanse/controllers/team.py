@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
 from ..dao.team import TeamDAOMongo
@@ -6,8 +7,8 @@ from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
 
-class TeamController(object):
-    """Controller Layer for Team Object"""
+class FrameworkTeamController(object):
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.team_dao = TeamDAOMongo()
@@ -21,15 +22,6 @@ class TeamController(object):
             team.id = inserted_id
         return err
 
-    def validate(self, team):
-        err = {}
-        if not team.name:
-            err['empty_name'] = True
-        if not team.team_manager:
-            err['empty_team_manager'] = True
-
-        return err
-
     def get_teams(self):
         return self.team_dao.list()
 
@@ -39,30 +31,10 @@ class TeamController(object):
     def get_managed_teams(self, user):
         return self.team_dao.get({"team_manager_id": user})
 
-    def append_lines(self, value):
-        self.team_dao.lines.append(value)
-
-    def extend_lines(self, value):
-        self.team_dao.lines.extend(value)
-
     def add_player(self, team_id, player):
         query = {'_id': ObjectId(team_id)}
         update = {'$addToSet': {'players': player}}
         self.team_dao.update(query, update)
-
-    def invite_player(self, team_id, player_id):
-        notification_controller = NotificationController()
-        team = self.get_team_from_id(team_id)
-        notification = Notification(
-            player_id,
-            "Team invitation",
-            "\"" + team.name + "\" want you on the team! Do you accept the invitation?",
-            "/teams/dashboard/" + str(team_id),
-            True,
-            team_id
-        )
-        notification_controller.add(notification)
-
 
     def get_players(self, team_id):
         team = self.get_team_from_id(team_id)
@@ -75,3 +47,39 @@ class TeamController(object):
                 else:
                     players.append(p)
         return players
+
+    @abstractmethod
+    def validate(self, match):
+        pass
+
+
+class TeamController(FrameworkTeamController):
+    """Controller Layer for Team Object"""
+
+    def __init__(self):
+        super(TeamController, self).__init__()
+
+    def validate(self, team):
+        err = {}
+        if not team.name:
+            err['empty_name'] = True
+        if not team.team_manager:
+            err['empty_team_manager'] = True
+
+        return err
+
+    def append_lines(self, value):
+        self.team_dao.lines.append(value)
+
+    def extend_lines(self, value):
+        self.team_dao.lines.extend(value)
+
+    def invite_player(self, team_id, player_id):
+        notification_controller = NotificationController()
+        team = self.get_team_from_id(team_id)
+        notification = Notification(
+            player_id, "Team invitation", "\"" + team.name +
+            "\" want you on the team! Do you accept the invitation?",
+            "/teams/dashboard/" + str(team_id),
+            True, team_id)
+        notification_controller.add(notification)
