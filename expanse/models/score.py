@@ -1,4 +1,6 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
+
+
 class Score(object):
     """Team Model to store user data in runtime"""
     __metaclass__ = ABCMeta
@@ -8,6 +10,8 @@ class Score(object):
 
     def __str__(self):
         """Real score (int?)"""
+        pass
+
     @property
     def id(self):
         return self._id
