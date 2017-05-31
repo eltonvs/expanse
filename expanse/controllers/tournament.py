@@ -1,10 +1,11 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
+from framework.models.tournament import TournamentType, TournamentStatus
+
 from ..dao.mongo_fabric import MongoFabricDAO
 from ..models.notification import Notification
 from ..models.match import MatchCSGO
-from ..models.tournament import TournamentType, TournamentStatus
 from ..controllers.notification import NotificationController
 from ..controllers.match import MatchControllerCSGO
 
