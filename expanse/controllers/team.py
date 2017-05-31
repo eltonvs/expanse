@@ -1,8 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from ..dao.team import TeamDAOMongo
-from ..dao.user import UserDAOMongo
+from ..dao.mongo_fabric import MongoFabricDAO
 from ..models.notification import Notification
 from ..controllers.notification import NotificationController
 
@@ -10,8 +9,9 @@ from ..controllers.notification import NotificationController
 class FrameworkTeamController(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self):
-        self.team_dao = TeamDAOMongo()
+    def __init__(self, fabric_dao):
+        self.fabric_dao = fabric_dao
+        self.team_dao = self.fabric_dao.team_DAO()
 
     def register(self, team):
         err = self.validate(team)
@@ -40,7 +40,7 @@ class FrameworkTeamController(object):
         team = self.get_team_from_id(team_id)
         players = []
         if team:
-            user_dao = UserDAOMongo()
+            user_dao = self.fabric_dao.user_DAO()
             for p in team.players:
                 if (ObjectId.is_valid(p)):
                     players.append(user_dao.get_one({"_id": ObjectId(p)}))
@@ -57,7 +57,7 @@ class TeamController(FrameworkTeamController):
     """Controller Layer for Team Object"""
 
     def __init__(self):
-        super(TeamController, self).__init__()
+        super(TeamController, self).__init__(MongoFabricDAO())
 
     def validate(self, team):
         err = {}

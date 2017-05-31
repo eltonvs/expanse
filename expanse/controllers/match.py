@@ -1,15 +1,15 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from ..dao.match import MatchDAOMongo
-from ..dao.team import TeamDAOMongo
+from ..dao.mongo_fabric import MongoFabricDAO
 
 
 class FrameworkMatchController(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self):
-        self.match_dao = MatchDAOMongo()
+    def __init__(self, fabric_dao):
+        self.fabric_dao = fabric_dao
+        self.match_dao = self.fabric_dao.match_DAO()
 
     def register(self, match):
         err = self.validate(match)
@@ -39,7 +39,7 @@ class FrameworkMatchController(object):
 class MatchController(FrameworkMatchController):
 
     def __init__(self):
-        super(MatchController, self).__init__()
+        super(MatchController, self).__init__(MongoFabricDAO())
 
     def validate(self, match):
         err = {}
@@ -60,7 +60,7 @@ class MatchController(FrameworkMatchController):
     def get_match_teams(self, match_id):
         match = self.match_dao.get_one({"_id": ObjectId(match_id)})
         if match:
-            team_dao = TeamDAOMongo()
+            team_dao = self.fabric_dao.team_DAO()
 
             teams = []
             teams.append(team_dao.get_one({"_id": ObjectId(match.team1)}))

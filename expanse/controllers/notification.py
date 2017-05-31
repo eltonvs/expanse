@@ -1,4 +1,4 @@
-from ..dao.notification import NotificationDAOMongo
+from ..dao.mongo_fabric import MongoFabricDAO
 from ..utils.security import SecurityTools
 
 
@@ -7,7 +7,7 @@ class NotificationController(object):
 
     def __init__(self):
         self.security_tools = SecurityTools()
-        self.notification_dao = NotificationDAOMongo()
+        self.notification_dao = MongoFabricDAO().notification_DAO()
 
     def remove(self, notification_id):
         self.notification_dao.remove({'_id': notification_id})
@@ -30,9 +30,10 @@ class NotificationController(object):
         if not notification.message:
             err['empty_message'] = True
         # see if there is any repeated ivitation
-        if notification.invitation == True:
-            my_notifications = self.notification_dao.get_notifications_from_user(notification.user_id)
-            if  my_notifications != []:
+        if notification.invitation:
+            my_notifications = self.notification_dao.get_notifications_from_user(
+                notification.user_id)
+            if my_notifications:
                 for my_notification in my_notifications:
                     if my_notification.team_id == notification.team_id:
                         err['repeated_invitation'] = True

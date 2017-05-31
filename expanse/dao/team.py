@@ -1,9 +1,9 @@
 from abc import ABCMeta
 
 from .generic import GenericDAO
+from .user import UserDAOMongo
 from ..models.database import MongoDatabase
 from ..models.team import Team
-from ..dao.user import UserDAOMongo
 
 
 class TeamDAO(GenericDAO):
