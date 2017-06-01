@@ -1,6 +1,6 @@
 from framework import Tournament, TournamentPhase, TournamentDAO
 
-from ..models.database import MongoDatabase
+from ..models import MongoDatabase
 
 
 class TournamentDAOMongo(TournamentDAO):

@@ -1,7 +1,6 @@
 from framework import MatchDAO
 
-from ..models.database import MongoDatabase
-from ..models.match import MatchCSGO
+from ..models import MongoDatabase, MatchCSGO
 
 
 class MatchDAOMongo(MatchDAO):

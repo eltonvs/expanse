@@ -2,7 +2,7 @@ from bson import ObjectId
 
 from framework import MatchController
 
-from ..dao.mongo_factory import MongoFactoryDAO
+from ..dao import MongoFactoryDAO
 
 
 class MatchControllerCSGO(MatchController):

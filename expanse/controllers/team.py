@@ -1,8 +1,8 @@
 from framework import TeamController
 
-from ..dao.mongo_factory import MongoFactoryDAO
-from ..models.notification import Notification
-from ..controllers.notification import NotificationController
+from ..dao import MongoFactoryDAO
+from ..models import Notification
+from ..controllers import NotificationController
 
 
 class TeamControllerCSGO(TeamController):

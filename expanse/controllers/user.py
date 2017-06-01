@@ -1,4 +1,4 @@
-from ..dao.mongo_factory import MongoFactoryDAO
+from ..dao import MongoFactoryDAO
 from ..utils.security import SecurityTools
 
 

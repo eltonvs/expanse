@@ -1,5 +1,5 @@
 from ..utils.security import SecurityTools
-from ..dao.mongo_factory import MongoFactoryDAO
+from ..dao import MongoFactoryDAO
 
 
 class ExpanseController(object):

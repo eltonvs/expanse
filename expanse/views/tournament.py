@@ -3,10 +3,8 @@ from pyramid.view import view_config, view_defaults
 
 from framework import Tournament, TournamentPhase, TournamentStatus
 
-from ..controllers.tournament import TournamentController
-from ..controllers.team import TeamControllerCSGO
-from ..controllers.game import GameController
-from ..controllers.match import MatchControllerCSGO
+from ..controllers import TournamentController, TeamControllerCSGO, \
+    GameController, MatchControllerCSGO
 
 
 @view_defaults(route_name='list_tournaments')

@@ -3,11 +3,9 @@ from bson import ObjectId
 
 from framework import TournamentType, TournamentStatus
 
-from ..dao.mongo_factory import MongoFactoryDAO
-from ..models.notification import Notification
-from ..models.match import MatchCSGO
-from ..controllers.notification import NotificationController
-from ..controllers.match import MatchControllerCSGO
+from ..dao import MongoFactoryDAO
+from ..models import Notification, MatchCSGO
+from ..controllers import NotificationController, MatchControllerCSGO
 
 
 class AbstractTournamentTypeController(object):
