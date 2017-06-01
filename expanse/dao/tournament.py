@@ -1,5 +1,4 @@
-from framework.models.tournament import Tournament, TournamentPhase
-from framework.dao.tournament import TournamentDAO
+from framework import Tournament, TournamentPhase, TournamentDAO
 
 from ..models.database import MongoDatabase
 

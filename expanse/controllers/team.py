@@ -1,4 +1,4 @@
-from framework.controllers.team import TeamController
+from framework import TeamController
 
 from ..dao.mongo_factory import MongoFactoryDAO
 from ..models.notification import Notification

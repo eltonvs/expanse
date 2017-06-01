@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
-from framework.models.tournament import Tournament, TournamentPhase, TournamentStatus
+from framework import Tournament, TournamentPhase, TournamentStatus
 
 from ..controllers.tournament import TournamentController
 from ..controllers.team import TeamControllerCSGO

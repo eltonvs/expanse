@@ -1,4 +1,4 @@
-from framework.dao.match import MatchDAO
+from framework import MatchDAO
 
 from ..models.database import MongoDatabase
 from ..models.match import MatchCSGO

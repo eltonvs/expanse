@@ -1,4 +1,4 @@
-from framework.dao.team import TeamDAO
+from framework import TeamDAO
 
 from .user import UserDAOMongo
 from ..models.database import MongoDatabase

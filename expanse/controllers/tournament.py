@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from framework.models.tournament import TournamentType, TournamentStatus
+from framework import TournamentType, TournamentStatus
 
 from ..dao.mongo_factory import MongoFactoryDAO
 from ..models.notification import Notification

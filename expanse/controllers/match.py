@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from framework.controllers.match import MatchController
+from framework import MatchController
 
 from ..dao.mongo_factory import MongoFactoryDAO
 
