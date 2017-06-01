@@ -1,4 +1,4 @@
-from framework.dao.factory import AbstractFactoryDAO
+from framework import AbstractFactoryDAO
 
 from .match import MatchDAOMongo
 from .notification import NotificationDAOMongo

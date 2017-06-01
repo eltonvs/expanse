@@ -1,4 +1,4 @@
-from framework.models.score import Score
+from framework import Score
 
 
 class ScoreCSGO(Score):

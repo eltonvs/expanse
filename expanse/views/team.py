@@ -1,11 +1,9 @@
 from bson import ObjectId
 from pyramid.httpexceptions import HTTPFound
-from pyramid.view import view_config
-from pyramid.view import view_defaults
+from pyramid.view import view_config, view_defaults
 
-from ..controllers.team import TeamControllerCSGO
-from ..controllers.user import UserController
-from ..models.team import TeamCSGO
+from ..controllers import TeamControllerCSGO, UserController
+from ..models import TeamCSGO
 
 
 @view_defaults(route_name='list_teams')

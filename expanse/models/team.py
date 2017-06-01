@@ -1,4 +1,4 @@
-from framework.models.team import Team
+from framework import Team
 
 
 class TeamCSGO(Team):

@@ -1,6 +1,6 @@
-from framework.models.match import Match
+from framework import Match
 
-from ..models.score import ScoreCSGO
+from .score import ScoreCSGO
 
 
 class MatchCSGO(Match):

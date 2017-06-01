@@ -1,8 +1,8 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
-from ..controllers.user import UserController
-from ..models.user import User
+from ..controllers import UserController
+from ..models import User
 
 
 @view_defaults(route_name='list_users')

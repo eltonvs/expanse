@@ -1,13 +1,9 @@
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import forget
-from pyramid.security import remember
-from pyramid.view import view_config
-from pyramid.view import view_defaults
+from pyramid.security import forget, remember
+from pyramid.view import view_config, view_defaults
 
-from ..controllers.expanse import ExpanseController
-from ..controllers.team import TeamControllerCSGO
-from ..controllers.tournament import TournamentController
-from ..controllers.notification import NotificationController
+from ..controllers import ExpanseController, TeamControllerCSGO, \
+    TournamentController, NotificationController
 
 
 @view_defaults(route_name='index')

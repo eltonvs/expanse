@@ -1,9 +1,8 @@
 from abc import ABCMeta, abstractmethod
 
-from framework.dao.generic import GenericDAO
+from framework import GenericDAO
 
-from ..models.database import MongoDatabase
-from ..models.notification import Notification
+from ..models import MongoDatabase, Notification
 
 
 class NotificationDAO(GenericDAO):

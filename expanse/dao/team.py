@@ -1,8 +1,7 @@
-from framework.dao.team import TeamDAO
+from framework import TeamDAO
 
 from .user import UserDAOMongo
-from ..models.database import MongoDatabase
-from ..models.team import TeamCSGO
+from ..models import MongoDatabase, TeamCSGO
 
 
 class TeamDAOMongo(TeamDAO):
