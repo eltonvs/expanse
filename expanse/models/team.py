@@ -15,3 +15,10 @@ class TeamCSGO(Team):
     @lines.setter
     def lines(self, value):
         self._lines = value
+
+
+class TeamFutebol(Team):
+    """Team Model to store user data in runtime"""
+
+    def __init__(self, name, manager):
+        super(TeamFutebol, self).__init__(name, manager)
