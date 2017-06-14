@@ -27,6 +27,30 @@
     <input type="submit" name="btn_generate" value="Generate Schedule">
   </form>
 
+  <h3>Results Table</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>Points</th>
+        <th>Wins</th>
+        <th>Ties</th>
+        <th>Losses</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team, results in results_table %}
+        <tr>
+          <td>{{ team }}</td>
+          <td>{{ results.points }}</td>
+          <td>{{ results.wins }}</td>
+          <td>{{ results.ties }}</td>
+          <td>{{ results.losses }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
   <h3>Schedule</h3>
   {% for phase in tournament_phases %}
     {% for round in phase.schedule %}
@@ -35,7 +59,9 @@
         {% for match in round %}
           <li>
             <a href="{{ request.route_url('dashboard_match', match_id=match.id) }}">{{ match.team1 }} X {{ match.team2 }}</a>
-            {% if match.score %} -- Winner: {{ match.winner }} ({{ match.score.team1 }} x {{ match.score.team2 }}){% endif %}
+            {% if match.winner is iterable %} -- Tie! ({{ match.score.team1 }} x {{ match.score.team2 }})
+            {% elif match.winner %} -- Winner: {{ match.winner }} ({{ match.score.team1 }} x {{ match.score.team2 }})
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
