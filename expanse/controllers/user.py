@@ -1,4 +1,4 @@
-from ..dao.user import UserDAOMongo
+from ..dao import MongoFactoryDAO
 from ..utils.security import SecurityTools
 
 
@@ -7,7 +7,8 @@ class UserController(object):
 
     def __init__(self):
         self.security_tools = SecurityTools()
-        self.user_dao = UserDAOMongo()
+        self.factory_dao = MongoFactoryDAO()
+        self.user_dao = self.factory_dao.user_DAO()
 
     def register(self, user):
         err = self.validate(user)

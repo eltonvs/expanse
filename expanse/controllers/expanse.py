@@ -1,12 +1,12 @@
 from ..utils.security import SecurityTools
-from ..dao.user import UserDAOMongo
+from ..dao import MongoFactoryDAO
 
 
 class ExpanseController(object):
     """Controller Layer for User Object"""
 
     def __init__(self):
-        self.user_dao = UserDAOMongo()
+        self.user_dao = MongoFactoryDAO().user_DAO()
         self.security_tools = SecurityTools()
 
     def login(self, email, password):

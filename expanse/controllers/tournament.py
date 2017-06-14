@@ -1,15 +1,11 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from ..dao.team import TeamDAOMongo
-from ..dao.tournament import TournamentDAOMongo
-from ..dao.user import UserDAOMongo
-from ..dao.match import MatchDAOMongo
-from ..models.notification import Notification
-from ..models.match import Match
-from ..models.tournament import TournamentType, TournamentStatus
-from ..controllers.notification import NotificationController
-from ..controllers.match import MatchController
+from framework import TournamentType, TournamentStatus
+
+from ..dao import MongoFactoryDAO
+from ..models import Notification, MatchCSGO
+from ..controllers import NotificationController, MatchControllerCSGO
 
 
 class AbstractTournamentTypeController(object):
@@ -34,7 +30,7 @@ class RoundRobinController(AbstractTournamentTypeController):
         matches = []
         for it in range(len(self._teams) - 1):
             matches.append([
-                        Match(
+                        MatchCSGO(
                             self._tournament_id,
                             self._teams[i],
                             self._teams[i + len(self._teams) // 2])
@@ -51,7 +47,8 @@ class TournamentController(object):
     """Controller layer for Tournament object"""
 
     def __init__(self):
-        self.tournament_dao = TournamentDAOMongo()
+        self.factory_dao = MongoFactoryDAO()
+        self.tournament_dao = self.factory_dao.tournament_DAO()
 
     def register(self, tournament):
         err = self.validate(tournament)
@@ -76,7 +73,7 @@ class TournamentController(object):
         return err
 
     def notify_near_users(self, tournament):
-        user_dao = UserDAOMongo()
+        user_dao = self.factory_dao.user_DAO()
         notification_controller = NotificationController()
         nearest_users = user_dao.get_users_from_locale(tournament.locale)
         for nu in nearest_users:
@@ -121,7 +118,7 @@ class TournamentController(object):
         tournament_teams = tournament.teams
 
         if tournament_teams:
-            team_dao = TeamDAOMongo()
+            team_dao = self.factory_dao.team_DAO()
             teams = []
 
             for team_id in tournament_teams:
@@ -137,7 +134,7 @@ class TournamentController(object):
             {"_id": ObjectId(tournament_id)})
 
         if tournament.matches:
-            match_dao = TeamDAOMongo()
+            match_dao = self.factory_dao.match_DAO()
             matches = []
 
             for match_id in tournament.matches:
@@ -150,13 +147,17 @@ class TournamentController(object):
 
     def get_tournament_schedule(self, tournament_id):
         # TODO: Improve this code
-        tournament = self.tournament_dao.get_one({'_id': ObjectId(tournament_id)})
+        tournament = self.tournament_dao.get_one(
+            {'_id': ObjectId(tournament_id)})
 
         if tournament:
             schedule = []
-            match_dao = MatchDAOMongo()
+            match_dao = self.factory_dao.match_DAO()
             for phase in tournament.phases:
-                schedule.append([[match_dao.get_one({"_id": match_id}) for match_id in tournament_round] for tournament_round in phase.schedule])
+                schedule.append(
+                    [[match_dao.get_one({"_id": match_id})
+                      for match_id in tournament_round]
+                     for tournament_round in phase.schedule])
             for i in range(len(schedule)):
                 tournament.phases[i].schedule = schedule[i]
 
@@ -187,7 +188,7 @@ class TournamentController(object):
                 phase.schedule = schedule_generator.generate_schedule()
 
         # Need to create on db each match on schedule and update tournament db
-        match_controller = MatchController()
+        match_controller = MatchControllerCSGO()
         for phase in tournament.phases:
             for tournament_round in phase.schedule:
                 for match in tournament_round:
@@ -201,10 +202,8 @@ class TournamentController(object):
         # TODO: Remove idx
         idx = 0
         for phase in tournament.phases:
-            update = {
-                'phases.{}.teams'.format(idx): phase.teams,
-                'phases.{}.schedule'.format(idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule],
-            }
+            update = {'phases.{}.teams'.format(idx): phase.teams, 'phases.{}.schedule'.format(
+                idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule]}
 
             self.tournament_dao.update({'_id': tournament.id}, {'$set': update})
 

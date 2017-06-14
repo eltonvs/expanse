@@ -1,8 +1,8 @@
 from abc import ABCMeta
 
-from .generic import GenericDAO
-from ..models.database import MongoDatabase
-from ..models.game import Game
+from framework import GenericDAO
+
+from ..models import MongoDatabase, Game
 
 
 class GameDAO(GenericDAO):

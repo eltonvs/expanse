@@ -1,12 +1,10 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
-from bson import ObjectId
 
-from ..controllers.tournament import TournamentController
-from ..controllers.team import TeamController
-from ..controllers.game import GameController
-from ..controllers.match import MatchController
-from ..models.tournament import Tournament, TournamentPhase, TournamentStatus
+from framework import Tournament, TournamentPhase, TournamentStatus
+
+from ..controllers import TournamentController, TeamControllerCSGO, \
+    GameController, MatchControllerCSGO
 
 
 @view_defaults(route_name='list_tournaments')
@@ -89,7 +87,7 @@ class TournamentViews(object):
         _return = {'page_title': 'Dashboard'}
 
         if logged_user:
-            team_controller = TeamController()
+            team_controller = TeamControllerCSGO()
             teams = team_controller.get_teams()
             _return['teams'] = teams
 
@@ -124,11 +122,10 @@ class TournamentViews(object):
 
         if params.get('team'):
             team_id = params.get('team', '')
-            add_team = self.tournament_controller.add_team(tournament_id, team_id)
+            self.tournament_controller.add_team(tournament_id, team_id)
 
         if params.get('btn_generate'):
-            tournament_phases = self.tournament_controller.generate_schedule(
-                tournament_id)
+            self.tournament_controller.generate_schedule(tournament_id)
 
         return {'page_title': 'Dashboard', 'errors': None}
 
@@ -137,7 +134,7 @@ class TournamentViews(object):
         renderer="tournament/match_dashboard.jinja2")
     def match_dashboard(self):
         match_id = self.request.matchdict['match_id']
-        match_controller = MatchController()
+        match_controller = MatchControllerCSGO()
         teams = match_controller.get_match_teams(match_id)
 
         return{'page_title': 'Match Dashboard', 'teams': teams}
@@ -153,7 +150,7 @@ class TournamentViews(object):
         valueTeamA = params.get('result_team_a')
         valueTeamB = params.get('result_team_b')
 
-        match_controller = MatchController()
+        match_controller = MatchControllerCSGO()
 
         match_controller.set_score(match_id, valueTeamA, valueTeamB)
         teams = match_controller.get_match_teams(match_id)

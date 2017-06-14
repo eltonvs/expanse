@@ -1,32 +1,16 @@
-class Match(object):
+from framework import Match
+
+from .score import ScoreCSGO
+
+
+class MatchCSGO(Match):
     """Mach Model to store user data in runtime"""
 
-    def __init__(self, tournament, team1, team2, score=[], time=None):
-        self._id = None
-        self._tournament = tournament
+    def __init__(self, tournament, team1, team2, score=ScoreCSGO(), time=None):
+        super(MatchCSGO, self).__init__(tournament, score)
         self._team1 = team1
         self._team2 = team2
-        self._score = score
         self._time = time
-
-    def __str__(self):
-        return self._name
-
-    @property
-    def id(self):
-        return self._id
-
-    @id.setter
-    def id(self, value):
-        self._id = value
-
-    @property
-    def tournament(self):
-        return self._tournament
-
-    @tournament.setter
-    def tournament(self, tournament):
-        self._tournament = tournament
 
     @property
     def team1(self):
@@ -43,14 +27,6 @@ class Match(object):
     @team2.setter
     def team2(self, team2):
         self._team2 = team2
-
-    @property
-    def score(self):
-        return self._score
-
-    @score.setter
-    def score(self, score):
-        self._score = score
 
     @property
     def time(self):

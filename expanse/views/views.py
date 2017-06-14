@@ -1,14 +1,9 @@
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import forget
-from pyramid.security import remember
-from pyramid.view import view_config
-from pyramid.view import view_defaults
+from pyramid.security import forget, remember
+from pyramid.view import view_config, view_defaults
 
-from ..controllers.expanse import ExpanseController
-from ..controllers.team import TeamController
-from ..controllers.tournament import TournamentController
-from ..controllers.notification import NotificationController
-from ..controllers.steam import SteamController
+from ..controllers import ExpanseController, TeamControllerCSGO, \
+    TournamentController, NotificationController
 
 
 @view_defaults(route_name='index')
@@ -27,7 +22,7 @@ class ExpanseViews(object):
 
         if logged_user:
             # List user teams
-            team_controller = TeamController()
+            team_controller = TeamControllerCSGO()
             user_teams = team_controller.get_managed_teams(logged_user)
             _return['user_teams'] = user_teams
 
@@ -99,11 +94,11 @@ class ExpanseViews(object):
     def accept_invite(self):
         params = self.request.params
 
-        notification_controller = NotificationController()
-        notification_id = params.get('notification_id')
+        # notification_controller = NotificationController()
+        # notification_id = params.get('notification_id')
 
         if params.get('accept') == 'Yes':
-            team_controller = TeamController()
+            team_controller = TeamControllerCSGO()
             team_id = params.get('team_id')
             logged_user = self.request.authenticated_userid
 
@@ -114,27 +109,3 @@ class ExpanseViews(object):
         #     notification_controller.remove(notification_id)
 
         return self.index()
-
-    @view_config(route_name='steam_data', renderer='steam_data.jinja2')
-    def steam_data(self):
-        return {'page_title': "Steam Data"}
-
-    @view_config(
-        route_name='steam_data',
-        request_method='POST',
-        renderer='steam_data.jinja2')
-    def steam_data_request(self):
-        params = self.request.params
-
-        username = params.get('steam_username', '')
-        print("'" + username + "'")
-
-        steam_controller = SteamController()
-
-        player = steam_controller.get_steamuser_from_username(username)
-
-        return {
-            "page_title": "Steam Data - Results",
-            "username": username,
-            "player": player
-        }

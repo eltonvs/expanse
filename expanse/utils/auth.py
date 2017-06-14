@@ -1,7 +1,7 @@
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
-from ..controllers.user import UserController
+from ..controllers import UserController
 
 
 class MyAuthenticationPolicy(AuthTktAuthenticationPolicy):

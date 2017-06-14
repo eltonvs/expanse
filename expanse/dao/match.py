@@ -1,12 +1,6 @@
-from abc import ABCMeta
+from framework import MatchDAO
 
-from .generic import GenericDAO
-from ..models.database import MongoDatabase
-from ..models.match import Match
-
-
-class MatchDAO(GenericDAO):
-    __metaclass__ = ABCMeta
+from ..models import MongoDatabase, MatchCSGO
 
 
 class MatchDAOMongo(MatchDAO):
@@ -21,7 +15,7 @@ class MatchDAOMongo(MatchDAO):
             "tournament": match.tournament,
             "team1": match.team1,
             "team2": match.team2,
-            "score": match.score,
+            "score": match.score.points,
             "time": match.time
         }
         return self.db.matches.insert(match_to_insert)
@@ -37,7 +31,7 @@ class MatchDAOMongo(MatchDAO):
         if matches:
             match_list = []
             for m in matches:
-                match = Match(
+                match = MatchCSGO(
                     m.get('tournament', ''),
                     m.get('team1', None),
                     m.get('team2', None),
@@ -52,7 +46,7 @@ class MatchDAOMongo(MatchDAO):
     def get_one(self, query):
         match = self.db.matches.find_one(query)
         if match:
-            match_obj = Match(
+            match_obj = MatchCSGO(
                 match.get('tournament', ''),
                 match.get('team1', None),
                 match.get('team2', None),

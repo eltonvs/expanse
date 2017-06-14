@@ -1,9 +1,9 @@
 import re
 from abc import ABCMeta, abstractmethod
 
-from ..models.database import MongoDatabase
-from ..models.user import User
-from .generic import GenericDAO
+from framework import GenericDAO
+
+from ..models import MongoDatabase, User
 
 
 class UserDAO(GenericDAO):
