@@ -20,12 +20,6 @@ class TeamControllerSoccer(TeamController):
 
         return err
 
-    def append_lines(self, value):
-        self.team_dao.lines.append(value)
-
-    def extend_lines(self, value):
-        self.team_dao.lines.extend(value)
-
     def invite_player(self, team_id, player_id):
         notification_controller = NotificationController()
         team = self.get_team_from_id(team_id)

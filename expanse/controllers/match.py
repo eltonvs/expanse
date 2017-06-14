@@ -38,6 +38,11 @@ class MatchControllerSoccer(MatchController):
             return teams
         return []
 
+    def set_score(self, match, score1, score2):
+        query = {'_id': ObjectId(match)}
+        update = {'$set': {'score': [score1, score2]}}
+        self.match_dao.update(query, update)
+
     def set_time(self, match, time):
         query = {'_id': ObjectId(match)}
         update = {'time': time}

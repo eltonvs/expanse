@@ -1,19 +1,11 @@
 from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from framework import TournamentType, TournamentStatus
+from framework import TournamentType, TournamentStatus, AbstractTournamentTypeController
 
 from ..dao import MongoFactoryDAO
 from ..models import Notification, MatchSoccer
 from ..controllers import NotificationController, MatchControllerSoccer
-
-
-class AbstractTournamentTypeController(object):
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def generate_schedule(self):
-        pass
 
 
 class RoundRobinController(AbstractTournamentTypeController):

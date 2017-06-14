@@ -18,11 +18,6 @@ class MatchController(object):
             match.id = inserted_id
         return err
 
-    def set_score(self, match, score1, score2):
-        query = {'_id': ObjectId(match)}
-        update = {'$set': {'score': [score1, score2]}}
-        self.match_dao.update(query, update)
-
     def get_matches_from_tournament(self, tournament):
         return self.match_dao.get({"tournament": ObjectId(tournament)})
 

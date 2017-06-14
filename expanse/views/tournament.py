@@ -57,7 +57,7 @@ class TournamentViews(object):
         params = self.request.params
 
         tournament_name = params.get('name', '')
-        tournament_type = params.get('type', '')
+        tournament_type = params.get('type', 0)
         tournament_status = TournamentStatus.OPENED
         tournament_game = params.get('game', '')
 
