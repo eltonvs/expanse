@@ -213,8 +213,10 @@ class TournamentController(object):
                     winner = match.winner
                     if type(winner) is list:
                         for team in winner:
-                            results_table[str(team)]['ties'] += 1
-                            results_table[str(team)]['points'] += 1
+
+                            print(team)
+                            results_table[memo[team]]['ties'] += 1
+                            results_table[memo[team]]['points'] += 1
                     elif winner:
                         if winner is match.team1:
                             results_table[memo[match.team1]]['points'] += 3

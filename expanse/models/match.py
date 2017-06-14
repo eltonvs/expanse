@@ -46,4 +46,4 @@ class MatchSoccer(Match):
             return self.team1
         elif self.score.team2 > self.score.team1:
             return self.team2
-        return [self.score.team1, self.score.team2]
+        return [self.team1, self.team2]
