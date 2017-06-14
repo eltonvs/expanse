@@ -27,3 +27,7 @@ class MatchController(object):
     @abstractmethod
     def validate(self, match):
         pass
+
+    @abstractmethod
+    def get_winner(self, match):
+        pass 

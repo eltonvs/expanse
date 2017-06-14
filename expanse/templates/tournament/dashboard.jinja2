@@ -33,7 +33,7 @@
       <h4>Round {{ loop.index }}</h4>
       <ul>
         {% for match in round %}
-          <li><a href="{{ request.route_url('dashboard_match', match_id=match.id) }}">{{ match.team1 }} X {{ match.team2 }}</a> {% if match.score[0] %} -- {{ match.score[0] }} x {{ match.score[1] }} {% endif %}</li>
+          <li><a href="{{ request.route_url('dashboard_match', match_id=match.id) }}">{{ match.team1 }} X {{ match.team2 }}</a> {% if match.score[0] %} -- Winner: ({{ match.score[0] }} x {{ match.score[1] }}){% endif %}</li>
         {% endfor %}
       </ul>
     {% endfor %}

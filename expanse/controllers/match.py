@@ -47,3 +47,14 @@ class MatchControllerSoccer(MatchController):
         query = {'_id': ObjectId(match)}
         update = {'time': time}
         self.match_dao.update(query, update)
+
+    def get_winner(self, match):
+        query = {'_id': ObjectId(match)}
+        match = match_dao.get_one(query)
+        scores = match.score()
+        if(scores[0] > scores[1]):
+            return match.team1
+        elif(scores[0] == scores[1]):
+            return "It's a Tie!"
+        else:
+            return match.team2 
