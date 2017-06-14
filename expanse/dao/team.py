@@ -1,7 +1,7 @@
 from framework import TeamDAO
 
 from .user import UserDAOMongo
-from ..models import MongoDatabase, TeamCSGO
+from ..models import MongoDatabase, TeamSoccer
 
 
 class TeamDAOMongo(TeamDAO):
@@ -34,7 +34,7 @@ class TeamDAOMongo(TeamDAO):
             user_dao = UserDAOMongo()
             for t in teams:
                 team_manager = user_dao.get_one({"_id": t["team_manager_id"]})
-                team = TeamCSGO(t['name'], team_manager)
+                team = TeamSoccer(t['name'], team_manager)
                 team.id = t.get('_id', '')
                 team.lines = t.get('lines', [])
                 team.players = t.get('players', [])
@@ -45,7 +45,7 @@ class TeamDAOMongo(TeamDAO):
     def get_one(self, query):
         team = self.db.teams.find_one(query)
         if team:
-            team_obj = TeamCSGO(
+            team_obj = TeamSoccer(
                 team.get('name', ''),
                 team.get('team_manager_id', '')
             )

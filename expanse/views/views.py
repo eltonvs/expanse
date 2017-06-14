@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.security import forget, remember
 from pyramid.view import view_config, view_defaults
 
-from ..controllers import ExpanseController, TeamControllerCSGO, \
+from ..controllers import ExpanseController, TeamControllerSoccer, \
     TournamentController, NotificationController
 
 
@@ -22,7 +22,7 @@ class ExpanseViews(object):
 
         if logged_user:
             # List user teams
-            team_controller = TeamControllerCSGO()
+            team_controller = TeamControllerSoccer()
             user_teams = team_controller.get_managed_teams(logged_user)
             _return['user_teams'] = user_teams
 
@@ -98,7 +98,7 @@ class ExpanseViews(object):
         # notification_id = params.get('notification_id')
 
         if params.get('accept') == 'Yes':
-            team_controller = TeamControllerCSGO()
+            team_controller = TeamControllerSoccer()
             team_id = params.get('team_id')
             logged_user = self.request.authenticated_userid
 

@@ -2,15 +2,15 @@ from bson import ObjectId
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults
 
-from ..controllers import TeamControllerCSGO, UserController
-from ..models import TeamCSGO
+from ..controllers import TeamControllerSoccer, UserController
+from ..models import TeamSoccer
 
 
 @view_defaults(route_name='list_teams')
 class TeamViews(object):
 
     def __init__(self, request):
-        self.team_controller = TeamControllerCSGO()
+        self.team_controller = TeamControllerSoccer()
         self.request = request
         self.is_logged_in = request.authenticated_userid is not None
         self.view_name = "TeamViews"
@@ -53,7 +53,7 @@ class TeamViews(object):
         in_name = params.get('name', '')
         logged_user = self.request.authenticated_userid
 
-        team = TeamCSGO(in_name, logged_user)
+        team = TeamSoccer(in_name, logged_user)
 
         register_team = self.team_controller.register(team)
 

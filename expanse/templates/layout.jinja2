@@ -8,7 +8,7 @@
     <meta name="author" content="expanse">
     <link rel="shortcut icon" href="{{request.static_url('expanse:static/img/pyramid-16x16.png')}}">
 
-    <title>{% if page_title %}{{ page_title }} - {% endif %}expanse</title>
+    <title>{% if page_title %}{{ page_title }} - {% endif %}expanse-Soccer</title>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -27,7 +27,7 @@
 
   <body>
     <nav>
-      <a href="{{ request.route_url('index') }}">expanse</a>
+      <a href="{{ request.route_url('index') }}">expanse-Soccer</a>
       {% if view.is_logged_in %}
         <a href="{{ request.application_url }}/logout">Logout</a>
         <p>Hello, {{ request.logged_user }}</p>

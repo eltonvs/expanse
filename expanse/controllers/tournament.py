@@ -4,8 +4,8 @@ from bson import ObjectId
 from framework import TournamentType, TournamentStatus
 
 from ..dao import MongoFactoryDAO
-from ..models import Notification, MatchCSGO
-from ..controllers import NotificationController, MatchControllerCSGO
+from ..models import Notification, MatchSoccer
+from ..controllers import NotificationController, MatchControllerSoccer
 
 
 class AbstractTournamentTypeController(object):
@@ -30,7 +30,7 @@ class RoundRobinController(AbstractTournamentTypeController):
         matches = []
         for it in range(len(self._teams) - 1):
             matches.append([
-                        MatchCSGO(
+                        MatchSoccer(
                             self._tournament_id,
                             self._teams[i],
                             self._teams[i + len(self._teams) // 2])
@@ -188,7 +188,7 @@ class TournamentController(object):
                 phase.schedule = schedule_generator.generate_schedule()
 
         # Need to create on db each match on schedule and update tournament db
-        match_controller = MatchControllerCSGO()
+        match_controller = MatchControllerSoccer()
         for phase in tournament.phases:
             for tournament_round in phase.schedule:
                 for match in tournament_round:

@@ -3,8 +3,8 @@ from pyramid.view import view_config, view_defaults
 
 from framework import Tournament, TournamentPhase, TournamentStatus
 
-from ..controllers import TournamentController, TeamControllerCSGO, \
-    GameController, MatchControllerCSGO
+from ..controllers import TournamentController, TeamControllerSoccer, \
+    GameController, MatchControllerSoccer
 
 
 @view_defaults(route_name='list_tournaments')
@@ -87,7 +87,7 @@ class TournamentViews(object):
         _return = {'page_title': 'Dashboard'}
 
         if logged_user:
-            team_controller = TeamControllerCSGO()
+            team_controller = TeamControllerSoccer()
             teams = team_controller.get_teams()
             _return['teams'] = teams
 
@@ -134,7 +134,7 @@ class TournamentViews(object):
         renderer="tournament/match_dashboard.jinja2")
     def match_dashboard(self):
         match_id = self.request.matchdict['match_id']
-        match_controller = MatchControllerCSGO()
+        match_controller = MatchControllerSoccer()
         teams = match_controller.get_match_teams(match_id)
 
         return{'page_title': 'Match Dashboard', 'teams': teams}
@@ -150,7 +150,7 @@ class TournamentViews(object):
         valueTeamA = params.get('result_team_a')
         valueTeamB = params.get('result_team_b')
 
-        match_controller = MatchControllerCSGO()
+        match_controller = MatchControllerSoccer()
 
         match_controller.set_score(match_id, valueTeamA, valueTeamB)
         teams = match_controller.get_match_teams(match_id)
