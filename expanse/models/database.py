@@ -10,4 +10,4 @@ class MongoDatabase:
         self._database = MongoClient()
 
     def instance(self):
-        return self._database.expanse
+        return self._database.expanse_soccer

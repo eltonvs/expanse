@@ -35,3 +35,12 @@ class MatchSoccer(Match):
     @time.setter
     def time(self, time):
         self._time = time
+
+    @property
+    def winner(self):
+        if self.score.team1 > self.score.team2:
+            return self.team1
+        elif self.score.team2 > self.score.team1:
+            return self.team2
+        # Tie
+        return None

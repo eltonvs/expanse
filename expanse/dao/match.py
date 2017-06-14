@@ -1,6 +1,6 @@
 from framework import MatchDAO
 
-from ..models import MongoDatabase, MatchSoccer
+from ..models import MongoDatabase, MatchSoccer, ScoreSoccer
 
 
 class MatchDAOMongo(MatchDAO):
@@ -31,12 +31,13 @@ class MatchDAOMongo(MatchDAO):
         if matches:
             match_list = []
             for m in matches:
+                score = m.get('score', [None, None])
                 match = MatchSoccer(
                     m.get('tournament', ''),
                     m.get('team1', None),
                     m.get('team2', None),
-                    m.get('score', []),
-                    m.get('time', 0)  # it will change to the type time
+                    ScoreSoccer(score[0], score[1]),
+                    m.get('time', 0)  # it'll be changed to a datetime type
                 )
                 match.id = m.get('_id', '')
                 match_list.append(match)
@@ -46,12 +47,13 @@ class MatchDAOMongo(MatchDAO):
     def get_one(self, query):
         match = self.db.matches.find_one(query)
         if match:
+            score = match.get('score', [None, None])
             match_obj = MatchSoccer(
                 match.get('tournament', ''),
                 match.get('team1', None),
                 match.get('team2', None),
-                match.get('score', []),
-                match.get('time', 0)  # it will change to the type time
+                ScoreSoccer(score[0], score[1]),
+                match.get('time', 0)  # it'll be changed to a datetime type
             )
             match_obj.id = match.get('_id', '')
             return match_obj

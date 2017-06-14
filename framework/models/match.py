@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 
 
 class Match(object):
@@ -36,3 +36,7 @@ class Match(object):
     @score.setter
     def score(self, score):
         self._score = score
+
+    @abstractmethod
+    def winner(self):
+        pass
