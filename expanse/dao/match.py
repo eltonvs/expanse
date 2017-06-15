@@ -1,6 +1,6 @@
 from framework import MatchDAO
 
-from ..models import MongoDatabase, MatchCSGO
+from ..models import MongoDatabase, MatchCSGO, ScoreCSGO
 
 
 class MatchDAOMongo(MatchDAO):
@@ -31,11 +31,12 @@ class MatchDAOMongo(MatchDAO):
         if matches:
             match_list = []
             for m in matches:
+                score = m.get('score', [None, None])
                 match = MatchCSGO(
                     m.get('tournament', ''),
                     m.get('team1', None),
                     m.get('team2', None),
-                    m.get('score', []),
+                    ScoreCSGO(score[0], score[1]),
                     m.get('time', 0)  # it will change to the type time
                 )
                 match.id = m.get('_id', '')
@@ -46,11 +47,12 @@ class MatchDAOMongo(MatchDAO):
     def get_one(self, query):
         match = self.db.matches.find_one(query)
         if match:
+            score = match.get('score', [None, None])
             match_obj = MatchCSGO(
                 match.get('tournament', ''),
                 match.get('team1', None),
                 match.get('team2', None),
-                match.get('score', []),
+                ScoreCSGO(score[0], score[1]),
                 match.get('time', 0)  # it will change to the type time
             )
             match_obj.id = match.get('_id', '')
