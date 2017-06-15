@@ -110,6 +110,10 @@ class TournamentViews(object):
                 tournament_id)
             _return['tournament_teams'] = tournament_teams
 
+            results_table = self.tournament_controller.generate_results_table(
+                tournament_id)
+            _return['results_table'] = results_table
+
         return _return
 
     @view_config(

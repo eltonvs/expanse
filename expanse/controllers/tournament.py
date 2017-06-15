@@ -1,7 +1,7 @@
-from abc import ABCMeta, abstractmethod
 from bson import ObjectId
 
-from framework import TournamentType, TournamentStatus, AbstractTournamentTypeController
+from framework import TournamentType, TournamentStatus, \
+    AbstractTournamentTypeController
 
 from ..dao import MongoFactoryDAO
 from ..models import Notification, MatchSoccer
@@ -15,22 +15,29 @@ class RoundRobinController(AbstractTournamentTypeController):
         self._tournament_id = tournament_id
         self._teams = teams
 
-    def generate_schedule(self):
+    def generate_schedule(self, away_home=False):
         if len(self._teams) % 2 != 0:
             self._teams.append(None)
 
         matches = []
         for it in range(len(self._teams) - 1):
             matches.append([
-                        MatchSoccer(
-                            self._tournament_id,
-                            self._teams[i],
-                            self._teams[i + len(self._teams) // 2])
+                            MatchSoccer(
+                                self._tournament_id,
+                                self._teams[i],
+                                self._teams[i + len(self._teams) // 2])
                             for i in range(len(self._teams) // 2)])
             self._teams.insert(1, self._teams.pop())
 
-        # if away_home:
-        #     return matches + [[a[::-1] for a in m] for m in matches]
+        if away_home:
+            for it in range(len(self._teams) - 1):
+                matches.append([
+                                MatchSoccer(
+                                    self._tournament_id,
+                                    self._teams[i + len(self._teams) // 2],
+                                    self._teams[i])
+                                for i in range(len(self._teams) // 2)])
+                self._teams.insert(1, self._teams.pop())
 
         return matches
 
@@ -177,7 +184,7 @@ class TournamentController(object):
                 pass
 
             if schedule_generator:
-                phase.schedule = schedule_generator.generate_schedule()
+                phase.schedule = schedule_generator.generate_schedule(True)
 
         # Need to create on db each match on schedule and update tournament db
         match_controller = MatchControllerSoccer()
@@ -190,12 +197,51 @@ class TournamentController(object):
 
         return tournament.phases
 
+    def generate_results_table(self, tournament_id):
+        results_table = {}
+        memo = {}
+        tournament_teams = self.get_tournament_teams(tournament_id)
+        for team in tournament_teams:
+            memo[team.id] = team
+            results_table[team] = {'points': 0, 'wins': 0, 'losses': 0, 'ties': 0}
+
+        tournament_schedule = self.get_tournament_schedule(tournament_id)
+
+        for phase in tournament_schedule:
+            for round in phase.schedule:
+                for match in round:
+                    winner = match.winner
+                    if type(winner) is list:
+                        for team in winner:
+
+                            print(team)
+                            results_table[memo[team]]['ties'] += 1
+                            results_table[memo[team]]['points'] += 1
+                    elif winner:
+                        if winner is match.team1:
+                            results_table[memo[match.team1]]['points'] += 3
+                            results_table[memo[match.team1]]['wins'] += 1
+                            results_table[memo[match.team2]]['losses'] += 1
+                        else:
+                            results_table[memo[match.team2]]['points'] += 3
+                            results_table[memo[match.team2]]['wins'] += 1
+                            results_table[memo[match.team1]]['losses'] += 1
+
+        rt_list = []
+        for item in results_table.items():
+            rt_list.append(item)
+
+        return sorted(rt_list, reverse=True, key=lambda x: x[1]['points'])
+
     def put_schedule_on_db(self, tournament):
         # TODO: Remove idx
         idx = 0
         for phase in tournament.phases:
-            update = {'phases.{}.teams'.format(idx): phase.teams, 'phases.{}.schedule'.format(
-                idx): [[match.id for match in tournament_round] for tournament_round in phase.schedule]}
+            update = {
+                'phases.{}.teams'.format(idx): phase.teams,
+                'phases.{}.schedule'.format(idx):
+                    [[match.id for match in tournament_round]
+                        for tournament_round in phase.schedule]}
 
             self.tournament_dao.update({'_id': tournament.id}, {'$set': update})
 
