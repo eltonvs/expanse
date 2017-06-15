@@ -4,10 +4,11 @@ from expanse.utils.security import SecurityTools
 
 security_tools = SecurityTools()
 client = MongoClient()
-db = client.expanse
+client.drop_database('expanse_csgo')
+
+db = client.expanse_csgo
 
 users = db.users
-users.drop()
 users.insert_many([
     {
         "name": "Administrator",
@@ -24,19 +25,10 @@ users.insert_many([
         "locale": "Locale"
     }
 ])
-print(users.inserted_ids)
 
-# Insert games:
 games = db.games
-games.drop()
-games.insert_many([
-    {
-        "name": "Counter Strike Global Offensive",
-        "abbreviation": "CSGO",
-        "steamid": "730",
-    },
-    {
-        "name": "League of Legends",
-        "abbreviation": "LOL",
-    }
-])
+games.insert({
+    "name": "Counter Strike Global Offensive",
+    "abbreviation": "CSGO",
+    "steamid": "730",
+})
