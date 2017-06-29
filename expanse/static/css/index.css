@@ -1,0 +1,37 @@
+ul{
+    list-style: none;
+}
+
+.content{
+    margin: 25px;
+}
+
+.logos{
+    max-width: 100px;
+    border-radius: 50%;
+}
+
+.parent-list a{
+    text-decoration: none;
+    color: #212121;
+}
+
+.list{
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    box-shadow: 2px 2px 10px #888888;
+    padding: 1.5em 0;
+    transition: 0.3s;
+    margin-left: 5px;
+}
+
+.list p{
+    padding-top: 15px;
+}
+
+.list:hover{
+    border-top: 6px solid #0087ED;
+    border-bottom: 6px solid #0087ED;
+    background-color: #0f213f;
+    color: #FAFAFA;
+}

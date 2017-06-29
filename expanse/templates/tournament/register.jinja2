@@ -1,33 +1,95 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<div class="content">
-  <form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
-    <select name="game">
-      {% for game in games %}
-        <option value="{{game['_id']}}">{{ game['name'] }}</option>
-      {% endfor %}
-    </select>
-    <input type="text" name="name" placeholder="Name" />
-    <select name="type">
-      <option value="-1" disabled selected>Tournament Type</option>
-      <option value="0">Round Robin</option>
-      <option value="1">Knockout</option>
-      <option value="2">Group</option>
-    </select>
-    <select name="match_type">
-      <option value="-1" disabled selected>Best of ...</option>
-      <option value="0">Best of 1</option>
-      <option value="1">Best of 3</option>
-      <option value="2">Best of 5</option>
-    </select>
-    {# <select name="status">
-      <option value="-1" disabled selected>Tournament Status</option>
-      <option value="0">Opened</option>
-      <option value="1">Running</option>
-      <option value="2">Finished</option>
-    </select> #}
-    <input type="submit" name="register">
-  </form>
+<style type="text/css">
+  .btn-confirm{
+    background-color: #0f213f;
+    color: #FAFAFA;
+    transition: 0.5s;
+  }
+
+  .btn-confirm:hover{
+    background-color: #040e1e;
+    color: #c5c5c5;
+  }
+</style>
+
+<div class="container-fluid">
+   <h1> Create a new Tournament </h1>
 </div>
+
+<form accept-charset="utf-8" method="POST" action="{{ request.current_route_url() }}">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <select class="form-control" name="game">
+          {% for game in games %}
+            <option value="{{game['_id']}}">{{ game['name'] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <input type="text" class="form-control" name="name" placeholder="Tournament name">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <select class="form-control" name="type">
+          <option value="-1" disabled selected>Tournament Type</option>
+          <option value="0">Round Robin</option>
+          <option value="1">Knockout</option>
+          <option value="2">Group</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <select class="form-control" name="match_type">
+          <option value="-1" disabled selected>Best of ...</option>
+          <option value="0">Best of 1</option>
+          <option value="1">Best of 3</option>
+          <option value="2">Best of 5</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-group">
+      <h3>Tournament Image</h3>
+      <input type="file" class="form-control-file" aria-describedby="fileHelp">
+      <small id="fileHelp" class="form-text text-muted">Detalhes sobre a imagem do torneio.</small>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="example-datetime-local-input" class="col-2 col-form-label">Start datetime</label>
+        <div class="col-10">
+          <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group row">
+      <label for="example-datetime-local-input" class="col-2 col-form-label">End datetime</label>
+      <div class="col-10">
+        <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00">
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <button type="submit" class="btn btn-confirm">Register Tournament</button>
+    </div>
+  </div>
+
+</form>
+
 {% endblock content %}

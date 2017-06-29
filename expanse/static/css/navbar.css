@@ -1,0 +1,63 @@
+nav{
+    padding: 2px;
+    background-color: #0f213f;
+    /*margin-bottom: 20px;*/
+}
+
+.user-infos{
+    margin-top: 4px;
+}
+
+.logged_user{
+    margin-top: 15px;
+}
+
+.user-photo{
+    border-radius: 50%;
+    max-width: 50px;
+}
+
+.logo{
+    max-width: 120px;
+}
+
+.login{
+    padding: 1em;
+    margin-top: 1000px;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: #FAFAFA;
+    font-size: 15px;
+}
+
+.searchbar{
+    margin-top: 22px;
+}
+
+.username{
+    margin-left: 10px;
+    font-size: 1.5em;
+    color: #FAFAFA;
+}
+
+.submenu, .submenu-main{
+    padding: 20px;
+    transition: 0.3s;
+    text-decoration: none;
+    color: #0f213f;
+}
+
+.submenu:hover{
+    background-color: #0f213f;
+    color: #FAFAFA;
+}
+
+.submenu-main:hover{
+    background-color: green;
+    color: #FAFAFA;
+}
+
+.site-body{
+    background-color: #FAFAFA;
+    padding: 20px;
+}

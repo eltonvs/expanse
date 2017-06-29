@@ -1,38 +1,142 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<div class="content">
-    Add player:<br>
-    <form id="new_player" method="POST">
-        <input class="user_type" type="radio" name="user_type" value="user" checked> expanse User<br>
-        <input class="user_type" type="radio" name="user_type" value="not_user"> Not user<br>
+<style type="text/css">
+    .item-cover{
+        height: 200px;
+        background-image: url("https://assets.papodehomem.com.br/2016/09/03/00/33/29/2f152251-89b1-4224-811d-7babcbe1572f/esports.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
-        <select id='expanse_users' name="expanse_users">
-            {% for user in users %}
-                <option value="{{user._id}}">{{ user.name }}</option>
-            {% endfor %}
-        </select>
+    .site-body{
+        padding-top: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 
-        <br>
+    .team-image{
+        height: 150px;
+        width: 150px;
+        background-image: url("http://tudosobrecachorros.com.br/wp-content/uploads/cachorro-independente.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-left: 50px;
+        border-radius: 50%;
+        margin-top: -90px;
+    }
 
-        <input id="player_name" type="text" name="ne-user" placeholder="Player Name" disabled=""><br>
-        <input type="submit" name="submit" value="Adicionar">
-    </form>
+    .team-name{
+        margin-top: -50px;
+        margin-left: 200px;
+        font-size: 30px;
+    }
 
-    <hr>
-    <h3> Players in this team: </h3>
+    .content{
+        margin-top: 50px;
+    }
 
-    <ul>
+    .team-main{
+        margin-bottom: 20px;
+    }
+
+    .team-players{
+        padding: 1.5em;
+    }
+
+    .team-player{
+        text-align: center;
+    }
+
+    .player-photo{
+        border-radius: 50%;
+        max-width: 100px;
+    }
+
+    .player-info{
+        padding: 1em;
+    }
+
+    /*TODO PEDRO ARTHUR FAZER MOBILE*/
+    @media screen and (max-width: 480px) {
+        .team-image{
+            height: 70px;
+            width: 70px;
+            margin-top: -30px;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="item-cover"></div>
+    <div class="team-image"></div>
+    <div class="team-name">Nome do time</div>
+</div>
+
+
+<div class="container content">
+    <div class="col-md-12 team-main">
+        <div class="col-md-6">
+            <div class="team-infos">
+                <p><strong>Jogo:</strong> NOME DO JOGO</p>
+                <p><strong>Localização:</strong> NOME DO JOGO</p>
+                <p><strong>Data de criação:</strong> NOME DO JOGO</p>
+                <p><strong>Recebido em premiações:</strong> NOME DO JOGO</p>
+                <p><strong>Porcentagem de vitórias:</strong> NOME DO JOGO</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-lg btn-primary pull-right" data-toggle="modal" data-target="#manage_team">Manage Team</button>
+        </div>
+    </div>
+
+    {# MODAL #}
+    <div class="modal fade" id="manage_team" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Manage your team</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Add player:<br>
+            <form id="new_player" method="POST">
+                <input class="user_type" type="radio" name="user_type" value="user" checked> expanse User<br>
+                <input class="user_type" type="radio" name="user_type" value="not_user"> Not user<br>
+
+                <select id='expanse_users' name="expanse_users">
+                    {% for user in users %}
+                        <option value="{{user._id}}">{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <br>
+
+                <input id="player_name" type="text" name="ne-user" placeholder="Player Name" disabled=""><br>
+                <input type="submit" name="submit" value="Adicionar">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {# MODAL #}
+
+    <div class="team-players">
         {% for player in team_players %}
-            <li>{{ player }}</li>
+            <div class="team-player col-md-2">
+                <img class="player-photo" src="https://www.surfmappers.com/static/images/shadow-avatar.png">
+                <p class="player-info">{{ player }}</p>
+            </div>
         {% endfor %}
-    </ul>
-
-    {% if not errors %}
-        Success!
-    {% else %}
-        {{ errors }}
-    {% endif %}
+    </div>
 </div>
 
 <script type="text/javascript">

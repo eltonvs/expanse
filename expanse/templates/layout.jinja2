@@ -6,47 +6,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="expanse web application">
     <meta name="author" content="expanse">
-    <link rel="shortcut icon" href="{{request.static_url('expanse:static/img/pyramid-16x16.png')}}">
+    <link rel="shortcut icon" href="{{request.static_url('expanse:static/img/web-icon32.png')}}">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{request.static_url('expanse:static/css/navbar.css')}}">
 
     <title>{% if page_title %}{{ page_title }} - {% endif %}expanse</title>
 
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
-
-    <!-- Custom styles for this scaffold -->
-    <!-- <link href="{{request.static_url('expanse:static/css/theme.css')}}" rel="stylesheet"> -->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <style type="text/css">
+      /*TEMPORARIO*/
+      body{
+          background-color: #c5c5c5;
+      }
+    </style>
   </head>
 
   <body>
     <nav>
-      <a href="{{ request.route_url('index') }}">expanse</a>
-      {% if view.is_logged_in %}
-        <a href="{{ request.application_url }}/logout">Logout</a>
-        <p>Hello, {{ request.logged_user }}</p>
-      {% else %}
-        <a href="{{ request.application_url }}/login">Log in</a>
-      {% endif %}
+      <!-- Para desktop -->
+      <div class="container-fluid hidden-xs hidden-sm">
+        <div class="row">
+          <!-- <div class="col-md-12"> -->
+            <div class="col-md-4 text-center">
+              <a href="{{ request.route_url('index') }}">
+                <img class="logo" src="{{ request.static_url('expanse:static/img/logo.png')}}">
+              </a>
+            </div>
+            <div class="col-md-4 searchbar form-inline text-center">
+              <!-- <div class="input-group mb-2 mr-sm-2 mb-sm-0"> -->
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button"><i class="fa fa-search" aria-hidden="true"></i> </button>
+                  </span>
+                </div>
+              <!-- </div> -->
+            </div>
+              {% if view.is_logged_in %}
+            <div class="col-md-4">
+              <div>
+                <div class="col-md-8 logged_user">
+                  <img class="user-photo" src="https://www.surfmappers.com/static/images/shadow-avatar.png">
+                  <span class="username">{{ request.logged_user }}</span>
+                </div>
+                <div class="col-md-4">
+                  <a class="login" href="{{ request.application_url }}/logout">Logout</a>
+                </div>
+              </div>
+              {% else %}
+              <div class="user-infos">
+                  <a class="login" href="{{ request.application_url }}/login">Log in</a>
+                  <a class="login" href="{{ request.application_url }}/users/register">Get Started</a>
+              </div>
+              {% endif %}
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <!-- Para tablet e celular -->
+      <div class="container-fluid hidden-md hidden-lg">
+        <div class="text-center">
+          <a href="{{ request.route_url('index') }}">
+            <img class="logo" src="{{ request.static_url('expanse:static/img/logo.png')}}">
+          </a>
+        </div>
+      </div>
     </nav>
 
-    {% block content %}
-        <p>No content</p>
-    {% endblock content %}
+    <div class="container">
+      <div class="row">
+        <!-- <div class="container-fluid"> -->
+          <div class="col-md-12 text-center">
+            <a href="{{ request.route_url('list_teams') }}">
+              <div class="col-md-3 submenu">
+                List Teams
+              </div>
+            </a>
+            <a href="{{ request.route_url('register_team') }}">
+              <div class="col-md-3 submenu">
+                Register a new Team
+              </div>
+            </a>
+            <a href="{{ request.route_url('list_tournaments') }}">
+              <div class="col-md-3 submenu">
+                List Registered Tournaments
+              </div>
+            </a>
+            <a href="{{ request.route_url('register_tournament') }}">
+              <div class="col-md-3 submenu-main">
+                Create a new Tournament
+              </div>
+            </a>
+          </div>
+        <!-- </div> -->
+      </div>
+    </div>
 
-    <footer>
-      expanse @ 2017
+    <div class="container">
+      <div class="row site-body">
+        {% block content %}
+            <p>No content</p>
+        {% endblock content %}
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted"> expanse @ 2017</span>
+      </div>
     </footer>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <!-- <script src="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script> -->
+
   </body>
 </html>

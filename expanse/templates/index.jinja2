@@ -1,57 +1,60 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-<div class="content">
-  <ul>
-    <li><a href="{{ request.route_url('list_users') }}">List Registered Users</a></li>
-    <li><a href="{{ request.route_url('register_user') }}">Register a new User</a></li>
-    <li><a href="{{ request.route_url('list_teams') }}">List Registered Teams</a></li>
-    <li><a href="{{ request.route_url('register_team') }}">Register a new Team</a></li>
-    <li><a href="{{ request.route_url('list_tournaments') }}">List Registered Tournaments</a></li>
-    <li><a href="{{ request.route_url('register_tournament') }}">Create a new Tournament</a></li>
-</ul>
-</div>
-
-{% if user_teams %}
-<h2>User teams:</h2>
-<ul>
-    {% for team in user_teams %}
-    <li><a href="{{ request.route_url('dashboard_team', team_id=team.id) }}">{{ team.name }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+<link rel="stylesheet" href="{{request.static_url('expanse:static/css/index.css')}}">
 
 {% if user_notifications %}
-<h2>User notifications:</h2>
-<ul>
-    {% for notification in user_notifications %}
-
-    {%if notification.invitation == True%}
-    <li>{{ notification.title }}:  <br>
-        <form id="new_team_invitation" method="POST" name={{notification.id}}>
-
-            <input type="hidden" name="notification_id" value="{{ notification._id }}">
-            <input type="hidden" name="team_id" value="{{ notification.team_id }}">
-            <a href="{{notification.url}}">{{ notification.message }}</a></li>
-            <input type="submit" name="accept" value="Yes">
-            <input type="submit" name="accept" value="No">
-        </form>
-    </li>
-    {%else%}
-    <li>{{ notification.title }}:  <br>
-        <a href="{{notification.url}}">{{ notification.message }}</a>
-    </li>
-    {%endif%}
-    {% endfor %}
-
-</ul>
+    <h2>User notifications:</h2>
+    <ul>
+        {% for notification in user_notifications %}
+            {%if notification.invitation == True %}
+                <li>{{ notification.title }}:  <br>
+                    <form id="new_team_invitation" method="POST" name={{notification.id}}>
+                        <input type="hidden" name="notification_id" value="{{ notification._id }}">
+                        <input type="hidden" name="team_id" value="{{ notification.team_id }}">
+                        <a href="{{notification.url}}">{{ notification.message }}</a></li>
+                        <input type="submit" name="accept" value="Yes">
+                        <input type="submit" name="accept" value="No">
+                    </form>
+                </li>
+            {%else%}
+                <li>{{ notification.title }}:  <br>
+                    <a href="{{notification.url}}">{{ notification.message }}</a>
+                </li>
+            {%endif%}
+        {% endfor %}
+    </ul>
 {% endif %}
 
-{% if user_tournaments %} Tournaments: <br>{%endif%}
-<ul>
-    {%for tournament in user_tournaments %}
-    <li> <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament.id)}}">{{tournament.name}}</a>
-        {%endfor%}
-    </ul>
+<div class="content">
+    {% if user_teams %}
+        <h2>Your teams</h2>
+        <div class="row parent-list">
+            {% for team in user_teams %}
+                <a href="{{ request.route_url('dashboard_team', team_id=team.id) }}">
+                    <div class="col-md-2 text-center list">
+                        <img class="logos" src="https://www.lily-bearing.com/wp-content/themes/theme/front/dist/images/default.png">
+                        <p><img src="http://www.karoongas.com.au/images/basin_brazil.png"> {{ team.name }}</p>
+                        <p>RANK</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <br>
+    {% if user_tournaments %}
+        <h2>Tournaments managed by you</h2> <br>
+        <div class="row parent-list">
+            {%for tournament in user_tournaments %}
+                <a href="{{request.route_url('dashboard_tournament', tournament_id=tournament.id)}}">
+                    <div class="col-md-2 text-center list">
+                        <img class="logos" src="https://www.lily-bearing.com/wp-content/themes/theme/front/dist/images/default.png">
+                        <p>{{tournament.name}}</p>
+                    </div>
+                </a>
+            {%endfor%}
+        </div>
+    {% endif %}
+</div>
 
-    {% endblock content %}
+{% endblock content %}
