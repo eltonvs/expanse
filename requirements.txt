@@ -1,2 +1,2 @@
 pyramid==1.8.3
-pymongo==3.4.0
+pymongo==3.9.0
